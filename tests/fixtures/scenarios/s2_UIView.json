@@ -1,0 +1,270 @@
+{
+  "schema_version": "1.0.0",
+  "company_id": "U_T2",
+  "profile_id": "U_T2-p1",
+  "as_of_date": "2026-10-20",
+  "banner": {
+    "usability": "limited",
+    "text": "Профиль построен по неполным данным"
+  },
+  "sections": [
+    {
+      "kind": "facts",
+      "items": [
+        {
+          "id": "F-d3d876c1",
+          "label": "Факт из данных",
+          "title": "Компания входит в группу G_77.",
+          "text": "Компания входит в группу G_77.",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "GROUP_ID",
+              "label": "GROUP_ID",
+              "value_text": "G_77",
+              "role": "supports"
+            }
+          ]
+        },
+        {
+          "id": "F-f88e5ff6",
+          "label": "Факт из данных",
+          "title": "Основной ОКВЭД по коду: 47.11; название в данных не согласуется с кодом.",
+          "text": "Основной ОКВЭД по коду: 47.11; название в данных не согласуется с кодом.",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "MAINOKVED_CODE",
+              "label": "MAINOKVED_CODE",
+              "value_text": "47.11",
+              "role": "supports"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "derived",
+      "items": [
+        {
+          "id": "D-a28cf621",
+          "label": "Расчёт",
+          "title": "group_size",
+          "text": "group_size = 4",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "GROUP_ID",
+              "label": "GROUP_ID",
+              "value_text": "G_77",
+              "role": "supports"
+            }
+          ]
+        },
+        {
+          "id": "D-014da9a0",
+          "label": "Расчёт",
+          "title": "counterparty_count_out",
+          "text": "counterparty_count_out = 12",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "payments",
+              "ref": "BENEFICIARY",
+              "label": "BENEFICIARY",
+              "value_text": "None",
+              "role": "supports"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "hypotheses",
+      "items": [
+        {
+          "id": "H-c7e69cc0",
+          "label": "Гипотеза AI",
+          "title": "Принадлежность к группе из 4 компаний может означать распределение функций внутри группы.",
+          "text": "Принадлежность к группе из 4 компаний может означать распределение функций внутри группы.",
+          "confidence": "low",
+          "uncertainty_note": "counterparty_identity_unknown, magnitude_unknown",
+          "evidence": [
+            {
+              "source": "derived",
+              "ref": "D-a28cf621",
+              "label": "D-a28cf621",
+              "value_text": "4",
+              "role": "supports"
+            },
+            {
+              "source": "df_Uid",
+              "ref": "GROUP_ID",
+              "label": "GROUP_ID",
+              "value_text": "G_77",
+              "role": "supports"
+            },
+            {
+              "source": "df_Uid",
+              "ref": "MAINOKVED_CODE",
+              "label": "MAINOKVED_CODE",
+              "value_text": "47.11",
+              "role": "limits"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "conflicts",
+      "items": [
+        {
+          "id": "C-80dc952a",
+          "label": "Противоречие в данных",
+          "title": "CONF-OKVED-NAME-MISMATCH",
+          "text": "Название не соответствует коду по классификатору.",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "MAINOKVED_CODE",
+              "label": "MAINOKVED_CODE",
+              "value_text": "47.11",
+              "role": "supports"
+            },
+            {
+              "source": "df_Uid",
+              "ref": "MAINOKVED_NAME",
+              "label": "MAINOKVED_NAME",
+              "value_text": "Производство цемента",
+              "role": "supports"
+            }
+          ]
+        },
+        {
+          "id": "C-01514aa0",
+          "label": "Противоречие в данных",
+          "title": "CONF-FTS-FLAG-COUNTRY",
+          "text": "Нет записи в ФТС, но страна ФТС заполнена.",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "FTS_FLAG",
+              "label": "FTS_FLAG",
+              "value_text": "0",
+              "role": "supports"
+            },
+            {
+              "source": "df_Uid",
+              "ref": "FTS_COUNTRY_NAME",
+              "label": "FTS_COUNTRY_NAME",
+              "value_text": "COUNTRY_X",
+              "role": "supports"
+            }
+          ]
+        },
+        {
+          "id": "C-98abbbb4",
+          "label": "Противоречие в данных",
+          "title": "CONF-CLTYPE-PRODUCT",
+          "text": "Потенциальный клиент, но отмечен кредитный продукт.",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "CL_TYPE",
+              "label": "CL_TYPE",
+              "value_text": "potential",
+              "role": "supports"
+            },
+            {
+              "source": "df_Uid",
+              "ref": "CL_PRODUCT_LOA_MARK",
+              "label": "CL_PRODUCT_LOA_MARK",
+              "value_text": "1",
+              "role": "supports"
+            }
+          ]
+        },
+        {
+          "id": "C-629cc9c5",
+          "label": "Противоречие в данных",
+          "title": "CONF-PAY-SELF",
+          "text": "Платежи, где плательщик равен получателю, исключены из агрегатов.",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "payments",
+              "ref": "self_payment_rows_count",
+              "label": "self_payment_rows_count",
+              "value_text": "3",
+              "role": "supports"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "missing",
+      "items": [
+        {
+          "id": "M-85fc52f8",
+          "label": "Нет данных",
+          "title": "CL_PRODUCT_RKO_MARK",
+          "text": "uninformative",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля CL_PRODUCT_RKO_MARK у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-fa58ce9e",
+          "label": "Нет данных",
+          "title": "CL_PRODUCT_LOA_MARK",
+          "text": "uninformative",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля CL_PRODUCT_LOA_MARK у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-985306b8",
+          "label": "Нет данных",
+          "title": "FTS_FLAG",
+          "text": "sentinel",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля FTS_FLAG у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-63ef3839",
+          "label": "Нет данных",
+          "title": "FTS_COUNTRY_NAME",
+          "text": "sentinel",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля FTS_COUNTRY_NAME у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-813df108",
+          "label": "Нет данных",
+          "title": "NEGATIVEMARK",
+          "text": "semantics_unknown",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "version": "catalog-test-0",
+  "status": "TEST_ONLY_NOT_AGREED_WITH_TEAM",
+  "factors": [
+    {"slug": "key_rate_up", "factor_class": "monetary_policy", "description": "повышение ключевой ставки"},
+    {"slug": "key_rate_down", "factor_class": "monetary_policy", "description": "снижение ключевой ставки"},
+    {"slug": "rub_depreciation", "factor_class": "fx", "description": "ослабление рубля"},
+    {"slug": "steel_input_price_up", "factor_class": "commodity_price", "description": "рост цен на сырьё и энергию для чёрной металлургии"},
+    {"slug": "fuel_price_change", "factor_class": "commodity_price", "description": "изменение цен на топливо"},
+    {"slug": "consumer_demand_drop", "factor_class": "industry_demand", "description": "снижение потребительского спроса"},
+    {"slug": "it_demand_slowdown", "factor_class": "industry_demand", "description": "замедление спроса на ИТ-услуги"},
+    {"slug": "wage_cost_inflation", "factor_class": "labor_market", "description": "рост расходов на оплату труда"},
+    {"slug": "sanctions_tightening", "factor_class": "sanctions_trade", "description": "ужесточение санкционных и торговых ограничений"},
+    {"slug": "it_regulation_change", "factor_class": "industry_regulation", "description": "изменение регулирования и мер поддержки ИТ-отрасли"}
+  ]
+}

@@ -1,0 +1,443 @@
+{
+  "meta": {
+    "schema_version": "1.0.0",
+    "company_id": "U_T2",
+    "group_id": "G_77",
+    "as_of_date": "2026-10-20",
+    "profile_id": "U_T2-p1",
+    "input_hash": "f8669d5b6e51e8a7a63e63124840340e13cdebd1692ed90b38f0e81ac29046f1",
+    "kb_version": null,
+    "prompt_version": "bce.hypo.v2",
+    "pipeline_mode": "llm_validated",
+    "degradation_reasons": [],
+    "models_used": [
+      {
+        "role": "hypothesis_generation",
+        "model": "Qwen3.6 35B A3B",
+        "prompt_version": "bce.hypo.v2",
+        "tokens_in": 2100,
+        "tokens_out": 900
+      }
+    ],
+    "customer_status": "potential",
+    "ttl_hours": 168
+  },
+  "input_quality": {
+    "usability": "limited",
+    "industry_identification": {
+      "status": "ambiguous",
+      "okved_code_used": "47.11"
+    },
+    "signal_groups": {
+      "scale": false,
+      "payments": true,
+      "bank_products": false,
+      "foreign_trade": false,
+      "group_structure": true
+    },
+    "revenue_semantics_status": "unknown",
+    "payments_semantics_status": "unknown",
+    "target_segment_applicability": "unknown",
+    "completeness_score": 0.45,
+    "consistency_score": 0.4,
+    "field_states": {
+      "SYNTHETIC_U": {
+        "state": "value",
+        "scope": null
+      },
+      "ORG_TYPE": {
+        "state": "value",
+        "scope": null
+      },
+      "OKFS_NAME": {
+        "state": "missing",
+        "scope": null
+      },
+      "COMPANY_AGE_YEARS_GRADATION": {
+        "state": "missing",
+        "scope": null
+      },
+      "ECO_MARK_LABEL": {
+        "state": "missing",
+        "scope": null
+      },
+      "MAINOKVED_CODE": {
+        "state": "value",
+        "scope": null
+      },
+      "MAINOKVED_NAME": {
+        "state": "value",
+        "scope": null
+      },
+      "NEGATIVEMARK": {
+        "state": "missing",
+        "scope": null
+      },
+      "AMOUNT_WORKERS_FNS_GRADATION": {
+        "state": "missing",
+        "scope": null
+      },
+      "AMOUNT_WORKERS_SPARK_GRADATION": {
+        "state": "missing",
+        "scope": null
+      },
+      "CL_TYPE": {
+        "state": "value",
+        "scope": null
+      },
+      "CL_PRODUCT_RKO_MARK": {
+        "state": "uninformative",
+        "scope": "bank"
+      },
+      "CL_PRODUCT_GAR_MARK": {
+        "state": "missing",
+        "scope": null
+      },
+      "CL_PRODUCT_LOA_MARK": {
+        "state": "uninformative",
+        "scope": "bank"
+      },
+      "CL_PRODUCT_LEA_MARK": {
+        "state": "missing",
+        "scope": null
+      },
+      "CL_PRODUCT_DEP_MARK": {
+        "state": "missing",
+        "scope": null
+      },
+      "CL_PRODUCT_ZPP_MARK": {
+        "state": "missing",
+        "scope": null
+      },
+      "FTS_FLAG": {
+        "state": "suspect",
+        "scope": "fts_base"
+      },
+      "FTS_COUNTRY_NAME": {
+        "state": "suspect",
+        "scope": null
+      },
+      "FACTORING_MARK": {
+        "state": "missing",
+        "scope": null
+      },
+      "REVENUE_COMPANY": {
+        "state": "value",
+        "scope": null
+      },
+      "GROUP_ID": {
+        "state": "value",
+        "scope": null
+      },
+      "CITY": {
+        "state": "missing",
+        "scope": null
+      },
+      "REGION": {
+        "state": "value",
+        "scope": null
+      }
+    },
+    "notes": []
+  },
+  "facts": [
+    {
+      "id": "F-d3d876c1",
+      "epistemic_status": "FACT",
+      "category": "group",
+      "statement": "Компания входит в группу G_77.",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "GROUP_ID",
+          "value": "G_77",
+          "role": "supports"
+        }
+      ],
+      "data_reliability": "high",
+      "caveats": []
+    },
+    {
+      "id": "F-f88e5ff6",
+      "epistemic_status": "FACT",
+      "category": "industry",
+      "statement": "Основной ОКВЭД по коду: 47.11; название в данных не согласуется с кодом.",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "47.11",
+          "role": "supports"
+        }
+      ],
+      "data_reliability": "low",
+      "caveats": [
+        "См. конфликт CONF-OKVED-NAME-MISMATCH"
+      ]
+    }
+  ],
+  "derived_metrics": [
+    {
+      "id": "D-a28cf621",
+      "epistemic_status": "DERIVED",
+      "name": "group_size",
+      "value": 4,
+      "unit": "count",
+      "unit_dependency": "unit_free",
+      "formula": "count(distinct SYNTHETIC_U where GROUP_ID=G_77)",
+      "inputs": [
+        {
+          "source": "df_Uid",
+          "ref": "GROUP_ID",
+          "value": "G_77",
+          "role": "supports"
+        }
+      ],
+      "coverage": 1.0,
+      "data_reliability": "high",
+      "caveats": []
+    },
+    {
+      "id": "D-014da9a0",
+      "epistemic_status": "DERIVED",
+      "name": "counterparty_count_out",
+      "value": 12,
+      "unit": "count",
+      "unit_dependency": "unit_free",
+      "formula": "count(distinct BENEFICIARY), строки PAYER==BENEFICIARY исключены",
+      "inputs": [
+        {
+          "source": "payments",
+          "ref": "BENEFICIARY",
+          "value": null,
+          "role": "supports"
+        }
+      ],
+      "coverage": 1.0,
+      "data_reliability": "high",
+      "caveats": []
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "H-c7e69cc0",
+      "epistemic_status": "HYPOTHESIS",
+      "generated_by": "llm",
+      "topic": "group_structure",
+      "statement": "Принадлежность к группе из 4 компаний может означать распределение функций внутри группы.",
+      "evidence": [
+        {
+          "source": "derived",
+          "ref": "D-a28cf621",
+          "value": 4,
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "GROUP_ID",
+          "value": "G_77",
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "47.11",
+          "role": "limits"
+        }
+      ],
+      "data_reliability": "high",
+      "inference_support": "weak",
+      "uncertainty_sources": [
+        "counterparty_identity_unknown",
+        "magnitude_unknown"
+      ],
+      "overall_confidence": "low",
+      "open_questions": [],
+      "how_to_verify": "Структура платежей внутри группы и отраслевой состав группы",
+      "would_be_refuted_by": "Группа не связана операционно",
+      "caveats": [],
+      "affected_by_conflict_ids": []
+    }
+  ],
+  "sensitivities": [],
+  "data_conflicts": [
+    {
+      "id": "C-80dc952a",
+      "rule_id": "CONF-OKVED-NAME-MISMATCH",
+      "kind": "hard_contradiction",
+      "severity": "critical",
+      "fields": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "47.11",
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_NAME",
+          "value": "Производство цемента",
+          "role": "supports"
+        }
+      ],
+      "description": "Название не соответствует коду по классификатору.",
+      "resolution": "preferred_primary_field",
+      "plausible_explanations": [
+        "Код устарел или введён с ошибкой",
+        "Название заполнено из другого источника"
+      ]
+    },
+    {
+      "id": "C-01514aa0",
+      "rule_id": "CONF-FTS-FLAG-COUNTRY",
+      "kind": "hard_contradiction",
+      "severity": "warning",
+      "fields": [
+        {
+          "source": "df_Uid",
+          "ref": "FTS_FLAG",
+          "value": 0,
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "FTS_COUNTRY_NAME",
+          "value": "COUNTRY_X",
+          "role": "supports"
+        }
+      ],
+      "description": "Нет записи в ФТС, но страна ФТС заполнена.",
+      "resolution": "kept_both_flagged",
+      "plausible_explanations": []
+    },
+    {
+      "id": "C-98abbbb4",
+      "rule_id": "CONF-CLTYPE-PRODUCT",
+      "kind": "source_disagreement",
+      "severity": "warning",
+      "fields": [
+        {
+          "source": "df_Uid",
+          "ref": "CL_TYPE",
+          "value": "potential",
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LOA_MARK",
+          "value": 1,
+          "role": "supports"
+        }
+      ],
+      "description": "Потенциальный клиент, но отмечен кредитный продукт.",
+      "resolution": "kept_both_flagged",
+      "plausible_explanations": []
+    },
+    {
+      "id": "C-629cc9c5",
+      "rule_id": "CONF-PAY-SELF",
+      "kind": "anomaly",
+      "severity": "warning",
+      "fields": [
+        {
+          "source": "payments",
+          "ref": "self_payment_rows_count",
+          "value": 3,
+          "role": "supports"
+        }
+      ],
+      "description": "Платежи, где плательщик равен получателю, исключены из агрегатов.",
+      "resolution": "excluded_from_analysis",
+      "plausible_explanations": []
+    }
+  ],
+  "missing_data": [
+    {
+      "id": "M-85fc52f8",
+      "feature": "CL_PRODUCT_RKO_MARK",
+      "kind": "uninformative",
+      "impact": "minor",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля CL_PRODUCT_RKO_MARK у менеджера клиента"
+    },
+    {
+      "id": "M-fa58ce9e",
+      "feature": "CL_PRODUCT_LOA_MARK",
+      "kind": "uninformative",
+      "impact": "minor",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля CL_PRODUCT_LOA_MARK у менеджера клиента"
+    },
+    {
+      "id": "M-985306b8",
+      "feature": "FTS_FLAG",
+      "kind": "sentinel",
+      "impact": "minor",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля FTS_FLAG у менеджера клиента"
+    },
+    {
+      "id": "M-63ef3839",
+      "feature": "FTS_COUNTRY_NAME",
+      "kind": "sentinel",
+      "impact": "minor",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля FTS_COUNTRY_NAME у менеджера клиента"
+    },
+    {
+      "id": "M-813df108",
+      "feature": "NEGATIVEMARK",
+      "kind": "semantics_unknown",
+      "impact": "none",
+      "limits_conclusions_about": [
+        "ownership"
+      ],
+      "request_suggestion": null
+    }
+  ],
+  "downstream_hooks": {
+    "matching_profile": {
+      "okved_codes": [
+        "47.11"
+      ],
+      "regions": [
+        "REGION_1"
+      ],
+      "countries": [],
+      "factor_classes_weighted": {},
+      "keywords": [],
+      "negative_keywords": []
+    },
+    "relevance_priors": [],
+    "interpretation_constraints": [
+      {
+        "id": "IC-BANK-FLAG-SCOPE",
+        "text": "Значение 0 у CL_PRODUCT_* означает отсутствие продукта только в этом банке; не выводить отсутствие долга, лизинга или гарантий.",
+        "origin": "static_rule"
+      },
+      {
+        "id": "IC-ABSENCE-IS-UNKNOWN",
+        "text": "Пропущенное значение — это неизвестно, а не отсутствие признака.",
+        "origin": "static_rule"
+      },
+      {
+        "id": "IC-NO-INVENTED-ENTITIES",
+        "text": "Не называть поставщиков, покупателей, долги, ставки и суммы, которых нет в evidence.",
+        "origin": "static_rule"
+      }
+    ]
+  },
+  "provenance": {
+    "trace_id": "trace-U_T2",
+    "validation": {
+      "schema_valid": true,
+      "evidence_refs_verified": true,
+      "dropped_statements": [],
+      "retries": 0
+    },
+    "kb_entries_used": [],
+    "local_id_map": {
+      "h1": "H-c7e69cc0"
+    }
+  }
+}

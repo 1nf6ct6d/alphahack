@@ -1,0 +1,193 @@
+{
+  "hypotheses": [
+    {
+      "local_id": "h1",
+      "topic": "financing",
+      "statement": "Подтверждённая кредитная связь с банком и лизинг могут означать чувствительность стоимости финансирования к ключевой ставке.",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "CL_TYPE",
+          "value": "existing",
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LOA_MARK",
+          "value": 1,
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LEA_MARK",
+          "value": 1,
+          "role": "supports"
+        }
+      ],
+      "inference_support": "strong",
+      "uncertainty_sources": [
+        "magnitude_unknown",
+        "contract_terms_unknown"
+      ],
+      "open_questions": [
+        "Какая доля долга с плавающей ставкой?"
+      ],
+      "how_to_verify": "Условия и объём заимствований (ставка, плавающая или фиксированная)",
+      "would_be_refuted_by": "Условия кредитов с фиксированной ставкой на весь срок",
+      "caveats": []
+    },
+    {
+      "local_id": "h2",
+      "topic": "business_model",
+      "statement": "Для производства стали по коду 24.10 типична чувствительность к ценам на сырьё и энергию и к спросу смежных отраслей.",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "24.10",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-24.10-01",
+          "value": null,
+          "role": "supports"
+        }
+      ],
+      "inference_support": "moderate",
+      "uncertainty_sources": [
+        "sector_generalization",
+        "magnitude_unknown"
+      ],
+      "open_questions": [],
+      "how_to_verify": "Структура затрат и долей контрагентов по отраслям",
+      "would_be_refuted_by": "Преобладание давальческого сырья",
+      "caveats": []
+    },
+    {
+      "local_id": "h3",
+      "topic": "fx_exposure",
+      "statement": "Запись в базе ФТС со страной может указывать на внешнеторговые связи, но валюта и направление потоков неизвестны.",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "FTS_FLAG",
+          "value": 1,
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "FTS_COUNTRY_NAME",
+          "value": "COUNTRY_X",
+          "role": "supports"
+        }
+      ],
+      "inference_support": "weak",
+      "uncertainty_sources": [
+        "currency_unknown",
+        "magnitude_unknown",
+        "absence_scope_limited"
+      ],
+      "open_questions": [],
+      "how_to_verify": "Данные о валютных операциях и направлении внешней торговли",
+      "would_be_refuted_by": "Операции ФТС относятся к разовым или нерелевантным поставкам",
+      "caveats": []
+    }
+  ],
+  "sensitivities": [
+    {
+      "local_id": "s1",
+      "factor_class": "monetary_policy",
+      "factor": "key_rate_up",
+      "transmission_channel": "Рост ключевой ставки удорожает обслуживание кредитов и лизинга.",
+      "direction": "risk_if_adverse",
+      "strength": "medium",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LOA_MARK",
+          "value": 1,
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LEA_MARK",
+          "value": 1,
+          "role": "supports"
+        }
+      ],
+      "basis_hypothesis_ids": [
+        "h1"
+      ],
+      "uncertainty_sources": [
+        "magnitude_unknown",
+        "contract_terms_unknown"
+      ],
+      "keywords_for_matching": [
+        "ключевая ставка",
+        "стоимость кредита"
+      ]
+    },
+    {
+      "local_id": "s2",
+      "factor_class": "commodity_price",
+      "factor": "steel_input_price_up",
+      "transmission_channel": "Изменение цен на сырьё и энергию влияет на себестоимость.",
+      "direction": "two_sided",
+      "strength": "high",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "24.10",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-24.10-01",
+          "value": null,
+          "role": "supports"
+        }
+      ],
+      "basis_hypothesis_ids": [
+        "h2"
+      ],
+      "uncertainty_sources": [
+        "sector_generalization",
+        "magnitude_unknown"
+      ],
+      "keywords_for_matching": [
+        "сталь",
+        "железная руда",
+        "энергоносители"
+      ]
+    },
+    {
+      "local_id": "s3",
+      "factor_class": "fx",
+      "factor": "rub_depreciation",
+      "transmission_channel": "Если есть валютные потоки, курс влияет на выручку и расходы.",
+      "direction": "two_sided",
+      "strength": "medium",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "FTS_FLAG",
+          "value": 1,
+          "role": "supports"
+        }
+      ],
+      "basis_hypothesis_ids": [
+        "h3"
+      ],
+      "uncertainty_sources": [
+        "currency_unknown",
+        "magnitude_unknown"
+      ],
+      "keywords_for_matching": [
+        "курс рубля"
+      ]
+    }
+  ],
+  "conflict_notes": []
+}

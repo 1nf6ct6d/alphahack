@@ -1,0 +1,473 @@
+{
+  "meta": {
+    "schema_version": "1.0.0",
+    "company_id": "U_T3",
+    "group_id": null,
+    "as_of_date": "2026-10-20",
+    "profile_id": "U_T3-p1",
+    "input_hash": "7162f2e4e3ae88cd6a4aa9393542534e0df903761fcd9ae7748c46dbbeac4cdf",
+    "kb_version": "kb-draft-0",
+    "prompt_version": "bce.hypo.v2",
+    "pipeline_mode": "llm_validated",
+    "degradation_reasons": [],
+    "models_used": [
+      {
+        "role": "hypothesis_generation",
+        "model": "Qwen3.6 35B A3B",
+        "prompt_version": "bce.hypo.v2",
+        "tokens_in": 2100,
+        "tokens_out": 900
+      }
+    ],
+    "customer_status": "potential",
+    "ttl_hours": 168
+  },
+  "input_quality": {
+    "usability": "sector_only",
+    "industry_identification": {
+      "status": "code_only_unverified",
+      "okved_code_used": "62.01"
+    },
+    "signal_groups": {
+      "scale": false,
+      "payments": false,
+      "bank_products": false,
+      "foreign_trade": false,
+      "group_structure": false
+    },
+    "revenue_semantics_status": "unknown",
+    "payments_semantics_status": "unknown",
+    "target_segment_applicability": "unknown",
+    "completeness_score": 0.15,
+    "consistency_score": 1.0,
+    "field_states": {
+      "SYNTHETIC_U": {
+        "state": "value",
+        "scope": null
+      },
+      "ORG_TYPE": {
+        "state": "value",
+        "scope": null
+      },
+      "OKFS_NAME": {
+        "state": "missing",
+        "scope": null
+      },
+      "COMPANY_AGE_YEARS_GRADATION": {
+        "state": "missing",
+        "scope": null
+      },
+      "ECO_MARK_LABEL": {
+        "state": "missing",
+        "scope": null
+      },
+      "MAINOKVED_CODE": {
+        "state": "value",
+        "scope": null
+      },
+      "MAINOKVED_NAME": {
+        "state": "missing",
+        "scope": null
+      },
+      "NEGATIVEMARK": {
+        "state": "missing",
+        "scope": null
+      },
+      "AMOUNT_WORKERS_FNS_GRADATION": {
+        "state": "missing",
+        "scope": null
+      },
+      "AMOUNT_WORKERS_SPARK_GRADATION": {
+        "state": "missing",
+        "scope": null
+      },
+      "CL_TYPE": {
+        "state": "value",
+        "scope": null
+      },
+      "CL_PRODUCT_RKO_MARK": {
+        "state": "uninformative",
+        "scope": "bank"
+      },
+      "CL_PRODUCT_GAR_MARK": {
+        "state": "uninformative",
+        "scope": "bank"
+      },
+      "CL_PRODUCT_LOA_MARK": {
+        "state": "uninformative",
+        "scope": "bank"
+      },
+      "CL_PRODUCT_LEA_MARK": {
+        "state": "uninformative",
+        "scope": "bank"
+      },
+      "CL_PRODUCT_DEP_MARK": {
+        "state": "uninformative",
+        "scope": "bank"
+      },
+      "CL_PRODUCT_ZPP_MARK": {
+        "state": "uninformative",
+        "scope": "bank"
+      },
+      "FTS_FLAG": {
+        "state": "missing",
+        "scope": null
+      },
+      "FTS_COUNTRY_NAME": {
+        "state": "missing",
+        "scope": null
+      },
+      "FACTORING_MARK": {
+        "state": "missing",
+        "scope": null
+      },
+      "REVENUE_COMPANY": {
+        "state": "missing",
+        "scope": null
+      },
+      "GROUP_ID": {
+        "state": "missing",
+        "scope": null
+      },
+      "CITY": {
+        "state": "missing",
+        "scope": null
+      },
+      "REGION": {
+        "state": "value",
+        "scope": null
+      }
+    },
+    "notes": []
+  },
+  "facts": [
+    {
+      "id": "F-ae5ef11a",
+      "epistemic_status": "FACT",
+      "category": "industry",
+      "statement": "Основной ОКВЭД: 62.01 (название в данных отсутствует).",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "62.01",
+          "role": "supports"
+        }
+      ],
+      "data_reliability": "medium",
+      "caveats": []
+    }
+  ],
+  "derived_metrics": [],
+  "hypotheses": [
+    {
+      "id": "H-dcff9c71",
+      "epistemic_status": "HYPOTHESIS",
+      "generated_by": "llm",
+      "topic": "financing",
+      "statement": "Спрос на услуги разработки ПО по коду 62.01 может зависеть от инвестиционных бюджетов заказчиков.",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "62.01",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-62.01-01",
+          "value": null,
+          "role": "supports"
+        }
+      ],
+      "data_reliability": "medium",
+      "inference_support": "moderate",
+      "uncertainty_sources": [
+        "sector_generalization",
+        "dictionary_unconfirmed",
+        "magnitude_unknown"
+      ],
+      "overall_confidence": "medium",
+      "open_questions": [],
+      "how_to_verify": "Данные о структуре заказчиков и выручке",
+      "would_be_refuted_by": "Преимущественно внутригрупповые заказчики",
+      "caveats": [],
+      "affected_by_conflict_ids": []
+    },
+    {
+      "id": "H-90f39acc",
+      "epistemic_status": "HYPOTHESIS",
+      "generated_by": "llm",
+      "topic": "regulation_exposure",
+      "statement": "Отрасль может быть чувствительна к изменению мер поддержки ИТ-компаний.",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "62.01",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-62.01-01",
+          "value": null,
+          "role": "supports"
+        }
+      ],
+      "data_reliability": "medium",
+      "inference_support": "weak",
+      "uncertainty_sources": [
+        "sector_generalization",
+        "magnitude_unknown"
+      ],
+      "overall_confidence": "low",
+      "open_questions": [],
+      "how_to_verify": "Статус аккредитации и применяемые меры поддержки",
+      "would_be_refuted_by": "Отсутствие применяемых мер поддержки",
+      "caveats": [],
+      "affected_by_conflict_ids": []
+    }
+  ],
+  "sensitivities": [
+    {
+      "id": "S-357cd076",
+      "epistemic_status": "HYPOTHESIS",
+      "generated_by": "llm",
+      "factor_class": "industry_demand",
+      "factor": "it_demand_slowdown",
+      "transmission_channel": "Замедление ИТ-бюджетов заказчиков снижает спрос на разработку.",
+      "direction": "risk_if_adverse",
+      "strength": "medium",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "62.01",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-62.01-01",
+          "value": null,
+          "role": "supports"
+        }
+      ],
+      "basis_hypothesis_ids": [
+        "H-dcff9c71"
+      ],
+      "data_reliability": "medium",
+      "uncertainty_sources": [
+        "sector_generalization",
+        "dictionary_unconfirmed"
+      ],
+      "overall_confidence": "medium",
+      "keywords_for_matching": [
+        "ИТ-бюджеты",
+        "разработка ПО"
+      ]
+    },
+    {
+      "id": "S-a4c7678f",
+      "epistemic_status": "HYPOTHESIS",
+      "generated_by": "llm",
+      "factor_class": "industry_regulation",
+      "factor": "it_regulation_change",
+      "transmission_channel": "Изменение условий поддержки ИТ-отрасли может влиять на налоговую нагрузку.",
+      "direction": "two_sided",
+      "strength": "low",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "62.01",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-62.01-01",
+          "value": null,
+          "role": "supports"
+        }
+      ],
+      "basis_hypothesis_ids": [
+        "H-90f39acc"
+      ],
+      "data_reliability": "medium",
+      "uncertainty_sources": [
+        "sector_generalization",
+        "magnitude_unknown"
+      ],
+      "overall_confidence": "low",
+      "keywords_for_matching": [
+        "поддержка ИТ",
+        "аккредитация"
+      ]
+    }
+  ],
+  "data_conflicts": [],
+  "missing_data": [
+    {
+      "id": "M-178d9eee",
+      "feature": "CL_PRODUCT_RKO_MARK",
+      "kind": "uninformative",
+      "impact": "minor",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля CL_PRODUCT_RKO_MARK у менеджера клиента"
+    },
+    {
+      "id": "M-1edcee6e",
+      "feature": "CL_PRODUCT_GAR_MARK",
+      "kind": "uninformative",
+      "impact": "minor",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля CL_PRODUCT_GAR_MARK у менеджера клиента"
+    },
+    {
+      "id": "M-c81798a5",
+      "feature": "CL_PRODUCT_LOA_MARK",
+      "kind": "uninformative",
+      "impact": "minor",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля CL_PRODUCT_LOA_MARK у менеджера клиента"
+    },
+    {
+      "id": "M-bc89e172",
+      "feature": "CL_PRODUCT_LEA_MARK",
+      "kind": "uninformative",
+      "impact": "minor",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля CL_PRODUCT_LEA_MARK у менеджера клиента"
+    },
+    {
+      "id": "M-5661c17c",
+      "feature": "CL_PRODUCT_DEP_MARK",
+      "kind": "uninformative",
+      "impact": "minor",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля CL_PRODUCT_DEP_MARK у менеджера клиента"
+    },
+    {
+      "id": "M-55fd73df",
+      "feature": "CL_PRODUCT_ZPP_MARK",
+      "kind": "uninformative",
+      "impact": "minor",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля CL_PRODUCT_ZPP_MARK у менеджера клиента"
+    },
+    {
+      "id": "M-819081c0",
+      "feature": "FTS_FLAG",
+      "kind": "null",
+      "impact": "minor",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля FTS_FLAG у менеджера клиента"
+    },
+    {
+      "id": "M-f01cb549",
+      "feature": "REVENUE_COMPANY",
+      "kind": "null",
+      "impact": "major",
+      "limits_conclusions_about": [
+        "scale_position",
+        "financing"
+      ],
+      "request_suggestion": "Уточнить значение поля REVENUE_COMPANY у менеджера клиента"
+    },
+    {
+      "id": "M-61153ac7",
+      "feature": "GROUP_ID",
+      "kind": "null",
+      "impact": "minor",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля GROUP_ID у менеджера клиента"
+    },
+    {
+      "id": "M-ca30b7f9",
+      "feature": "NEGATIVEMARK",
+      "kind": "semantics_unknown",
+      "impact": "none",
+      "limits_conclusions_about": [
+        "ownership"
+      ],
+      "request_suggestion": null
+    }
+  ],
+  "downstream_hooks": {
+    "matching_profile": {
+      "okved_codes": [
+        "62.01"
+      ],
+      "regions": [
+        "REGION_2"
+      ],
+      "countries": [],
+      "factor_classes_weighted": {
+        "industry_demand": 0.36,
+        "industry_regulation": 0.08
+      },
+      "keywords": [
+        "ИТ-бюджеты",
+        "аккредитация",
+        "поддержка ИТ",
+        "разработка ПО"
+      ],
+      "negative_keywords": []
+    },
+    "relevance_priors": [
+      {
+        "sensitivity_id": "S-357cd076",
+        "factor_class": "industry_demand",
+        "factor": "it_demand_slowdown",
+        "weight": 0.36,
+        "overall_confidence": "medium"
+      },
+      {
+        "sensitivity_id": "S-a4c7678f",
+        "factor_class": "industry_regulation",
+        "factor": "it_regulation_change",
+        "weight": 0.08,
+        "overall_confidence": "low"
+      }
+    ],
+    "interpretation_constraints": [
+      {
+        "id": "IC-BANK-FLAG-SCOPE",
+        "text": "Значение 0 у CL_PRODUCT_* означает отсутствие продукта только в этом банке; не выводить отсутствие долга, лизинга или гарантий.",
+        "origin": "static_rule"
+      },
+      {
+        "id": "IC-ABSENCE-IS-UNKNOWN",
+        "text": "Пропущенное значение — это неизвестно, а не отсутствие признака.",
+        "origin": "static_rule"
+      },
+      {
+        "id": "IC-NO-INVENTED-ENTITIES",
+        "text": "Не называть поставщиков, покупателей, долги, ставки и суммы, которых нет в evidence.",
+        "origin": "static_rule"
+      },
+      {
+        "id": "IC-POTENTIAL-CLIENT-FLAGS",
+        "text": "Для потенциального клиента продуктовые флаги неинформативны.",
+        "origin": "semantics"
+      }
+    ]
+  },
+  "provenance": {
+    "trace_id": "trace-U_T3",
+    "validation": {
+      "schema_valid": true,
+      "evidence_refs_verified": true,
+      "dropped_statements": [],
+      "retries": 0
+    },
+    "kb_entries_used": [
+      "KB-62.01-01"
+    ],
+    "local_id_map": {
+      "h1": "H-dcff9c71",
+      "h2": "H-90f39acc",
+      "s1": "S-357cd076",
+      "s2": "S-a4c7678f"
+    }
+  }
+}

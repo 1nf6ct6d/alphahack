@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0.0",
+  "company_id": "U_T1",
+  "profile_id": "U_T1-p1",
+  "as_of_date": "2026-10-20",
+  "banner": {
+    "usability": "full",
+    "text": null
+  },
+  "sections": [
+    {
+      "kind": "facts",
+      "items": [
+        {
+          "id": "F-307d7dbf",
+          "label": "Факт из данных",
+          "title": "Основной ОКВЭД: 24.10.",
+          "text": "Основной ОКВЭД: 24.10.",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "MAINOKVED_CODE",
+              "label": "MAINOKVED_CODE",
+              "value_text": "24.10",
+              "role": "supports"
+            }
+          ]
+        },
+        {
+          "id": "F-aad1630f",
+          "label": "Факт из данных",
+          "title": "В банке подтверждены кредитный и лизинговый продукты.",
+          "text": "В банке подтверждены кредитный и лизинговый продукты.",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "CL_PRODUCT_LOA_MARK",
+              "label": "CL_PRODUCT_LOA_MARK",
+              "value_text": "1",
+              "role": "supports"
+            },
+            {
+              "source": "df_Uid",
+              "ref": "CL_PRODUCT_LEA_MARK",
+              "label": "CL_PRODUCT_LEA_MARK",
+              "value_text": "1",
+              "role": "supports"
+            }
+          ]
+        },
+        {
+          "id": "F-9ee51770",
+          "label": "Факт из данных",
+          "title": "Годовая выручка по данным: 48000000000 (единицы подтверждены).",
+          "text": "Годовая выручка по данным: 48000000000 (единицы подтверждены).",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "REVENUE_COMPANY",
+              "label": "REVENUE_COMPANY",
+              "value_text": "48000000000",
+              "role": "supports"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "derived",
+      "items": [
+        {
+          "id": "D-012a9247",
+          "label": "Расчёт",
+          "title": "top5_counterparty_share_out",
+          "text": "top5_counterparty_share_out = 0.55",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "payments",
+              "ref": "PAY_AMT",
+              "label": "PAY_AMT",
+              "value_text": "None",
+              "role": "supports"
+            }
+          ]
+        },
+        {
+          "id": "D-45df7a25",
+          "label": "Расчёт",
+          "title": "counterparty_count_out",
+          "text": "counterparty_count_out = 40",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "payments",
+              "ref": "BENEFICIARY",
+              "label": "BENEFICIARY",
+              "value_text": "None",
+              "role": "supports"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "hypotheses",
+      "items": [
+        {
+          "id": "H-2827439b",
+          "label": "Гипотеза AI",
+          "title": "Подтверждённая кредитная связь с банком и лизинг могут означать чувствительность стоимости финансирования к ключевой ста",
+          "text": "Подтверждённая кредитная связь с банком и лизинг могут означать чувствительность стоимости финансирования к ключевой ставке.",
+          "confidence": "high",
+          "uncertainty_note": "magnitude_unknown, contract_terms_unknown",
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "CL_TYPE",
+              "label": "CL_TYPE",
+              "value_text": "existing",
+              "role": "supports"
+            },
+            {
+              "source": "df_Uid",
+              "ref": "CL_PRODUCT_LOA_MARK",
+              "label": "CL_PRODUCT_LOA_MARK",
+              "value_text": "1",
+              "role": "supports"
+            },
+            {
+              "source": "df_Uid",
+              "ref": "CL_PRODUCT_LEA_MARK",
+              "label": "CL_PRODUCT_LEA_MARK",
+              "value_text": "1",
+              "role": "supports"
+            }
+          ]
+        },
+        {
+          "id": "H-7357c62c",
+          "label": "Гипотеза AI",
+          "title": "Для производства стали по коду 24.10 типична чувствительность к ценам на сырьё и энергию и к спросу смежных отраслей.",
+          "text": "Для производства стали по коду 24.10 типична чувствительность к ценам на сырьё и энергию и к спросу смежных отраслей.",
+          "confidence": "medium",
+          "uncertainty_note": "sector_generalization, magnitude_unknown",
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "MAINOKVED_CODE",
+              "label": "MAINOKVED_CODE",
+              "value_text": "24.10",
+              "role": "supports"
+            },
+            {
+              "source": "kb",
+              "ref": "KB-24.10-01",
+              "label": "KB-24.10-01",
+              "value_text": "None",
+              "role": "supports"
+            }
+          ]
+        },
+        {
+          "id": "H-b202475b",
+          "label": "Гипотеза AI",
+          "title": "Запись в базе ФТС со страной может указывать на внешнеторговые связи, но валюта и направление потоков неизвестны.",
+          "text": "Запись в базе ФТС со страной может указывать на внешнеторговые связи, но валюта и направление потоков неизвестны.",
+          "confidence": "low",
+          "uncertainty_note": "currency_unknown, magnitude_unknown, absence_scope_limited",
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "FTS_FLAG",
+              "label": "FTS_FLAG",
+              "value_text": "1",
+              "role": "supports"
+            },
+            {
+              "source": "df_Uid",
+              "ref": "FTS_COUNTRY_NAME",
+              "label": "FTS_COUNTRY_NAME",
+              "value_text": "COUNTRY_X",
+              "role": "supports"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "conflicts",
+      "items": []
+    },
+    {
+      "kind": "missing",
+      "items": [
+        {
+          "id": "M-4e64cddc",
+          "label": "Нет данных",
+          "title": "GROUP_ID",
+          "text": "null",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля GROUP_ID у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-4f92deba",
+          "label": "Нет данных",
+          "title": "NEGATIVEMARK",
+          "text": "semantics_unknown",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": []
+        }
+      ]
+    }
+  ]
+}

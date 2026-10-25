@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bce.local/schemas/profile_views.v1.json",
+  "title": "Profile views",
+  "description": "Проекции полного профиля для потребителей. Строятся кодом (Backend) из CompanyBusinessProfile, не LLM. Собственное архитектурное предложение.",
+  "$defs": {
+    "AnyStatementId": { "type": "string", "pattern": "^(F|D|H|S)-[0-9a-f]{8}$" },
+    "MLView": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "company_id", "profile_id", "as_of_date", "usability", "weight_semantics", "hooks", "numeric_features"],
+      "properties": {
+        "schema_version": { "const": "1.0.0" },
+        "company_id": { "type": "string", "minLength": 1 },
+        "profile_id": { "type": "string", "minLength": 1 },
+        "as_of_date": { "type": "string", "format": "date" },
+        "usability": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Usability" },
+        "weight_semantics": { "const": "ordinal_prior_not_probability" },
+        "hooks": { "$ref": "https://bce.local/schemas/company_business_profile.v1.json#/$defs/DownstreamHooks" },
+        "numeric_features": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["derived_id", "name", "value", "coverage", "data_reliability"],
+            "properties": {
+              "derived_id": { "$ref": "https://bce.local/schemas/company_business_profile.v1.json#/$defs/DerivedId" },
+              "name": { "type": "string" },
+              "value": { "type": ["number", "null"] },
+              "coverage": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+              "data_reliability": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Level3" }
+            }
+          }
+        }
+      }
+    },
+    "InterpreterView": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "company_id", "profile_id", "usability", "statements", "constraints"],
+      "properties": {
+        "schema_version": { "const": "1.0.0" },
+        "company_id": { "type": "string", "minLength": 1 },
+        "profile_id": { "type": "string", "minLength": 1 },
+        "usability": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Usability" },
+        "statements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "epistemic_status", "text", "data_reliability", "overall_confidence", "uncertainty_sources", "evidence"],
+            "properties": {
+              "id": { "$ref": "#/$defs/AnyStatementId" },
+              "epistemic_status": { "enum": ["FACT", "DERIVED", "HYPOTHESIS"] },
+              "text": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/ShortText" },
+              "data_reliability": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Level3" },
+              "overall_confidence": { "oneOf": [ { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Level3" }, { "type": "null" } ] },
+              "uncertainty_sources": { "type": "array", "items": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/UncertaintySource" } },
+              "evidence": { "type": "array", "items": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/EvidenceRef" } }
+            }
+          }
+        },
+        "constraints": {
+          "type": "array",
+          "items": { "$ref": "https://bce.local/schemas/company_business_profile.v1.json#/$defs/DownstreamHooks/properties/interpretation_constraints/items" }
+        }
+      }
+    },
+    "UIView": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "company_id", "profile_id", "as_of_date", "banner", "sections"],
+      "properties": {
+        "schema_version": { "const": "1.0.0" },
+        "company_id": { "type": "string", "minLength": 1 },
+        "profile_id": { "type": "string", "minLength": 1 },
+        "as_of_date": { "type": "string", "format": "date" },
+        "banner": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["usability", "text"],
+          "properties": {
+            "usability": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Usability" },
+            "text": { "type": ["string", "null"], "maxLength": 300 }
+          }
+        },
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind", "items"],
+            "properties": {
+              "kind": { "enum": ["facts", "derived", "hypotheses", "sensitivities", "conflicts", "missing"] },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["id", "label", "title", "text", "confidence", "uncertainty_note", "evidence"],
+                  "properties": {
+                    "id": { "type": "string" },
+                    "label": { "enum": ["Факт из данных", "Расчёт", "Гипотеза AI", "Противоречие в данных", "Нет данных"] },
+                    "title": { "type": "string", "maxLength": 120 },
+                    "text": { "type": "string", "maxLength": 400 },
+                    "confidence": { "oneOf": [ { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Level3" }, { "type": "null" } ] },
+                    "uncertainty_note": { "type": ["string", "null"], "maxLength": 300 },
+                    "evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["source", "ref", "label", "value_text", "role"],
+                        "properties": {
+                          "source": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/EvidenceSource" },
+                          "ref": { "type": "string" },
+                          "label": { "type": "string" },
+                          "value_text": { "type": "string" },
+                          "role": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/EvidenceRole" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

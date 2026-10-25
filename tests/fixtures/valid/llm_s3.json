@@ -1,0 +1,134 @@
+{
+  "hypotheses": [
+    {
+      "local_id": "h1",
+      "topic": "demand_side",
+      "statement": "Спрос на услуги разработки ПО по коду 62.01 может зависеть от инвестиционных бюджетов заказчиков.",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "62.01",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-62.01-01",
+          "value": null,
+          "role": "supports"
+        }
+      ],
+      "inference_support": "moderate",
+      "uncertainty_sources": [
+        "sector_generalization",
+        "dictionary_unconfirmed",
+        "magnitude_unknown"
+      ],
+      "open_questions": [],
+      "how_to_verify": "Данные о структуре заказчиков и выручке",
+      "would_be_refuted_by": "Преимущественно внутригрупповые заказчики",
+      "caveats": []
+    },
+    {
+      "local_id": "h2",
+      "topic": "regulation_exposure",
+      "statement": "Отрасль может быть чувствительна к изменению мер поддержки ИТ-компаний.",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "62.01",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-62.01-01",
+          "value": null,
+          "role": "supports"
+        }
+      ],
+      "inference_support": "weak",
+      "uncertainty_sources": [
+        "sector_generalization",
+        "magnitude_unknown"
+      ],
+      "open_questions": [],
+      "how_to_verify": "Статус аккредитации и применяемые меры поддержки",
+      "would_be_refuted_by": "Отсутствие применяемых мер поддержки",
+      "caveats": []
+    }
+  ],
+  "sensitivities": [
+    {
+      "local_id": "s1",
+      "factor_class": "industry_demand",
+      "factor": "it_demand_slowdown",
+      "transmission_channel": "Замедление ИТ-бюджетов заказчиков снижает спрос на разработку.",
+      "direction": "risk_if_adverse",
+      "strength": "medium",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "62.01",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-62.01-01",
+          "value": null,
+          "role": "supports"
+        }
+      ],
+      "basis_hypothesis_ids": [
+        "h1"
+      ],
+      "uncertainty_sources": [
+        "sector_generalization",
+        "dictionary_unconfirmed"
+      ],
+      "keywords_for_matching": [
+        "ИТ-бюджеты",
+        "разработка ПО"
+      ]
+    },
+    {
+      "local_id": "s2",
+      "factor_class": "industry_regulation",
+      "factor": "it_regulation_change",
+      "transmission_channel": "Изменение условий поддержки ИТ-отрасли может влиять на налоговую нагрузку.",
+      "direction": "two_sided",
+      "strength": "low",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "62.01",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-62.01-01",
+          "value": null,
+          "role": "supports"
+        }
+      ],
+      "basis_hypothesis_ids": [
+        "h2"
+      ],
+      "uncertainty_sources": [
+        "sector_generalization",
+        "magnitude_unknown"
+      ],
+      "keywords_for_matching": [
+        "поддержка ИТ",
+        "аккредитация"
+      ]
+    }
+  ],
+  "conflict_notes": [],
+  "self_check": {
+    "instruction_like_text_in_data": false,
+    "notes": []
+  }
+}

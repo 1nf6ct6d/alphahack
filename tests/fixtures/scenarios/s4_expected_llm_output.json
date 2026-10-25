@@ -1,0 +1,179 @@
+{
+  "hypotheses": [
+    {
+      "local_id": "h1",
+      "topic": "financing",
+      "statement": "Кредитный продукт и факторинг в банке могут означать зависимость стоимости оборотного финансирования от ключевой ставки.",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "CL_TYPE",
+          "value": "existing",
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LOA_MARK",
+          "value": 1,
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "FACTORING_MARK",
+          "value": 1,
+          "role": "supports"
+        }
+      ],
+      "inference_support": "strong",
+      "uncertainty_sources": [
+        "magnitude_unknown",
+        "contract_terms_unknown"
+      ],
+      "open_questions": [],
+      "how_to_verify": "Условия кредитов и объём факторинга",
+      "would_be_refuted_by": "Фиксированная ставка по всем обязательствам",
+      "caveats": []
+    },
+    {
+      "local_id": "h2",
+      "topic": "group_structure",
+      "statement": "Высокая доля внутригрупповых платежей может указывать на вертикально интегрированную группу.",
+      "evidence": [
+        {
+          "source": "derived",
+          "ref": "D-73c36e6a",
+          "value": 0.93,
+          "role": "supports"
+        },
+        {
+          "source": "derived",
+          "ref": "D-c9bd8e5c",
+          "value": 0.88,
+          "role": "supports"
+        },
+        {
+          "source": "derived",
+          "ref": "D-cadafc6b",
+          "value": 6,
+          "role": "supports"
+        },
+        {
+          "source": "derived",
+          "ref": "D-daa27f21",
+          "value": 0.4,
+          "role": "limits"
+        }
+      ],
+      "inference_support": "moderate",
+      "uncertainty_sources": [
+        "counterparty_identity_unknown",
+        "unit_unknown",
+        "magnitude_unknown"
+      ],
+      "open_questions": [],
+      "how_to_verify": "Отраслевой состав компаний группы и внешние платежи",
+      "would_be_refuted_by": "Внутригрупповые платежи — транзитные или учётные",
+      "caveats": []
+    },
+    {
+      "local_id": "h3",
+      "topic": "business_model",
+      "statement": "Для оптовой торговли топливом по коду 46.71 типична чувствительность к ценам на топливо и маржинальности.",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "46.71",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-46.71-01",
+          "value": null,
+          "role": "supports"
+        }
+      ],
+      "inference_support": "moderate",
+      "uncertainty_sources": [
+        "sector_generalization",
+        "magnitude_unknown"
+      ],
+      "open_questions": [],
+      "how_to_verify": "Структура закупок и продаж",
+      "would_be_refuted_by": "Контракты с фиксированной ценой",
+      "caveats": []
+    }
+  ],
+  "sensitivities": [
+    {
+      "local_id": "s1",
+      "factor_class": "monetary_policy",
+      "factor": "key_rate_up",
+      "transmission_channel": "Рост ставки удорожает кредиты и факторинг.",
+      "direction": "risk_if_adverse",
+      "strength": "medium",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LOA_MARK",
+          "value": 1,
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "FACTORING_MARK",
+          "value": 1,
+          "role": "supports"
+        }
+      ],
+      "basis_hypothesis_ids": [
+        "h1"
+      ],
+      "uncertainty_sources": [
+        "magnitude_unknown",
+        "contract_terms_unknown"
+      ],
+      "keywords_for_matching": [
+        "ключевая ставка",
+        "факторинг"
+      ]
+    },
+    {
+      "local_id": "s2",
+      "factor_class": "commodity_price",
+      "factor": "fuel_price_change",
+      "transmission_channel": "Изменение цен на топливо влияет на оборот и маржу.",
+      "direction": "two_sided",
+      "strength": "medium",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "46.71",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-46.71-01",
+          "value": null,
+          "role": "supports"
+        }
+      ],
+      "basis_hypothesis_ids": [
+        "h3"
+      ],
+      "uncertainty_sources": [
+        "sector_generalization",
+        "magnitude_unknown"
+      ],
+      "keywords_for_matching": [
+        "цены на топливо"
+      ]
+    }
+  ],
+  "conflict_notes": [],
+  "self_check": {
+    "instruction_like_text_in_data": false,
+    "notes": []
+  }
+}

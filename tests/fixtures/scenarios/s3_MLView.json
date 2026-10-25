@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "company_id": "U_T3",
+  "profile_id": "U_T3-p1",
+  "as_of_date": "2026-10-20",
+  "usability": "sector_only",
+  "weight_semantics": "ordinal_prior_not_probability",
+  "hooks": {
+    "matching_profile": {
+      "okved_codes": [
+        "62.01"
+      ],
+      "regions": [
+        "REGION_2"
+      ],
+      "countries": [],
+      "factor_classes_weighted": {
+        "industry_demand": 0.36,
+        "industry_regulation": 0.08
+      },
+      "keywords": [
+        "ИТ-бюджеты",
+        "аккредитация",
+        "поддержка ИТ",
+        "разработка ПО"
+      ],
+      "negative_keywords": []
+    },
+    "relevance_priors": [
+      {
+        "sensitivity_id": "S-357cd076",
+        "factor_class": "industry_demand",
+        "factor": "it_demand_slowdown",
+        "weight": 0.36,
+        "overall_confidence": "medium"
+      },
+      {
+        "sensitivity_id": "S-a4c7678f",
+        "factor_class": "industry_regulation",
+        "factor": "it_regulation_change",
+        "weight": 0.08,
+        "overall_confidence": "low"
+      }
+    ],
+    "interpretation_constraints": [
+      {
+        "id": "IC-BANK-FLAG-SCOPE",
+        "text": "Значение 0 у CL_PRODUCT_* означает отсутствие продукта только в этом банке; не выводить отсутствие долга, лизинга или гарантий.",
+        "origin": "static_rule"
+      },
+      {
+        "id": "IC-ABSENCE-IS-UNKNOWN",
+        "text": "Пропущенное значение — это неизвестно, а не отсутствие признака.",
+        "origin": "static_rule"
+      },
+      {
+        "id": "IC-NO-INVENTED-ENTITIES",
+        "text": "Не называть поставщиков, покупателей, долги, ставки и суммы, которых нет в evidence.",
+        "origin": "static_rule"
+      },
+      {
+        "id": "IC-POTENTIAL-CLIENT-FLAGS",
+        "text": "Для потенциального клиента продуктовые флаги неинформативны.",
+        "origin": "semantics"
+      }
+    ]
+  },
+  "numeric_features": []
+}

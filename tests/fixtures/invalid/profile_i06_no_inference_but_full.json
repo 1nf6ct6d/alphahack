@@ -1,0 +1,277 @@
+{
+  "meta": {
+    "schema_version": "1.0.0",
+    "company_id": "U_T5",
+    "group_id": null,
+    "as_of_date": "2026-10-20",
+    "profile_id": "U_T5-p1",
+    "input_hash": "8e72f7ba384d28975d0a43fe7858fbdb6e0329eff08566309a04a23053d043fe",
+    "kb_version": null,
+    "prompt_version": null,
+    "pipeline_mode": "no_inference",
+    "degradation_reasons": [
+      "unusable_input"
+    ],
+    "models_used": [],
+    "customer_status": "existing",
+    "ttl_hours": 168
+  },
+  "input_quality": {
+    "usability": "full",
+    "industry_identification": {
+      "status": "invalid",
+      "okved_code_used": null
+    },
+    "signal_groups": {
+      "scale": false,
+      "payments": false,
+      "bank_products": false,
+      "foreign_trade": false,
+      "group_structure": false
+    },
+    "revenue_semantics_status": "unknown",
+    "payments_semantics_status": "unknown",
+    "target_segment_applicability": "unknown",
+    "completeness_score": 0.1,
+    "consistency_score": 0.5,
+    "field_states": {
+      "SYNTHETIC_U": {
+        "state": "value",
+        "scope": null
+      },
+      "ORG_TYPE": {
+        "state": "value",
+        "scope": null
+      },
+      "OKFS_NAME": {
+        "state": "missing",
+        "scope": null
+      },
+      "COMPANY_AGE_YEARS_GRADATION": {
+        "state": "missing",
+        "scope": null
+      },
+      "ECO_MARK_LABEL": {
+        "state": "missing",
+        "scope": null
+      },
+      "MAINOKVED_CODE": {
+        "state": "suspect",
+        "scope": null
+      },
+      "MAINOKVED_NAME": {
+        "state": "suspect",
+        "scope": null
+      },
+      "NEGATIVEMARK": {
+        "state": "missing",
+        "scope": null
+      },
+      "AMOUNT_WORKERS_FNS_GRADATION": {
+        "state": "sentinel",
+        "scope": null
+      },
+      "AMOUNT_WORKERS_SPARK_GRADATION": {
+        "state": "missing",
+        "scope": null
+      },
+      "CL_TYPE": {
+        "state": "value",
+        "scope": null
+      },
+      "CL_PRODUCT_RKO_MARK": {
+        "state": "missing",
+        "scope": null
+      },
+      "CL_PRODUCT_GAR_MARK": {
+        "state": "missing",
+        "scope": null
+      },
+      "CL_PRODUCT_LOA_MARK": {
+        "state": "suspect",
+        "scope": null
+      },
+      "CL_PRODUCT_LEA_MARK": {
+        "state": "missing",
+        "scope": null
+      },
+      "CL_PRODUCT_DEP_MARK": {
+        "state": "missing",
+        "scope": null
+      },
+      "CL_PRODUCT_ZPP_MARK": {
+        "state": "missing",
+        "scope": null
+      },
+      "FTS_FLAG": {
+        "state": "suspect",
+        "scope": null
+      },
+      "FTS_COUNTRY_NAME": {
+        "state": "missing",
+        "scope": null
+      },
+      "FACTORING_MARK": {
+        "state": "missing",
+        "scope": null
+      },
+      "REVENUE_COMPANY": {
+        "state": "sentinel",
+        "scope": null
+      },
+      "GROUP_ID": {
+        "state": "missing",
+        "scope": null
+      },
+      "CITY": {
+        "state": "missing",
+        "scope": null
+      },
+      "REGION": {
+        "state": "suspect",
+        "scope": null
+      }
+    },
+    "notes": [
+      "injection_suspected: текстовое поле заменено на [redacted_instruction_like_text]",
+      "ОКВЭД 99.99 отсутствует в классификаторе (проверка по классификатору, предполагается загруженным)"
+    ]
+  },
+  "facts": [
+    {
+      "id": "F-537516b5",
+      "epistemic_status": "FACT",
+      "category": "identity",
+      "statement": "Тип организации: TYPE_A.",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "ORG_TYPE",
+          "value": "TYPE_A",
+          "role": "supports"
+        }
+      ],
+      "data_reliability": "high",
+      "caveats": []
+    }
+  ],
+  "derived_metrics": [],
+  "hypotheses": [],
+  "sensitivities": [],
+  "data_conflicts": [],
+  "missing_data": [
+    {
+      "id": "M-1e23f24a",
+      "feature": "MAINOKVED_CODE",
+      "kind": "sentinel",
+      "impact": "blocking",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля MAINOKVED_CODE у менеджера клиента"
+    },
+    {
+      "id": "M-da2041b7",
+      "feature": "MAINOKVED_NAME",
+      "kind": "sentinel",
+      "impact": "minor",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля MAINOKVED_NAME у менеджера клиента"
+    },
+    {
+      "id": "M-15d4d37c",
+      "feature": "AMOUNT_WORKERS_FNS_GRADATION",
+      "kind": "sentinel",
+      "impact": "minor",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля AMOUNT_WORKERS_FNS_GRADATION у менеджера клиента"
+    },
+    {
+      "id": "M-81ab0062",
+      "feature": "CL_PRODUCT_LOA_MARK",
+      "kind": "sentinel",
+      "impact": "minor",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля CL_PRODUCT_LOA_MARK у менеджера клиента"
+    },
+    {
+      "id": "M-8f0316b6",
+      "feature": "FTS_FLAG",
+      "kind": "sentinel",
+      "impact": "minor",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля FTS_FLAG у менеджера клиента"
+    },
+    {
+      "id": "M-e7299ecc",
+      "feature": "REVENUE_COMPANY",
+      "kind": "sentinel",
+      "impact": "major",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля REVENUE_COMPANY у менеджера клиента"
+    },
+    {
+      "id": "M-98cd5ef2",
+      "feature": "GROUP_ID",
+      "kind": "null",
+      "impact": "minor",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля GROUP_ID у менеджера клиента"
+    },
+    {
+      "id": "M-c39bed3a",
+      "feature": "REGION",
+      "kind": "sentinel",
+      "impact": "minor",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля REGION у менеджера клиента"
+    },
+    {
+      "id": "M-ba3b752c",
+      "feature": "NEGATIVEMARK",
+      "kind": "semantics_unknown",
+      "impact": "none",
+      "limits_conclusions_about": [
+        "ownership"
+      ],
+      "request_suggestion": null
+    }
+  ],
+  "downstream_hooks": {
+    "matching_profile": {
+      "okved_codes": [],
+      "regions": [],
+      "countries": [],
+      "factor_classes_weighted": {},
+      "keywords": [],
+      "negative_keywords": []
+    },
+    "relevance_priors": [],
+    "interpretation_constraints": [
+      {
+        "id": "IC-BANK-FLAG-SCOPE",
+        "text": "Значение 0 у CL_PRODUCT_* означает отсутствие продукта только в этом банке; не выводить отсутствие долга, лизинга или гарантий.",
+        "origin": "static_rule"
+      },
+      {
+        "id": "IC-ABSENCE-IS-UNKNOWN",
+        "text": "Пропущенное значение — это неизвестно, а не отсутствие признака.",
+        "origin": "static_rule"
+      },
+      {
+        "id": "IC-NO-INVENTED-ENTITIES",
+        "text": "Не называть поставщиков, покупателей, долги, ставки и суммы, которых нет в evidence.",
+        "origin": "static_rule"
+      }
+    ]
+  },
+  "provenance": {
+    "trace_id": "trace-U_T5",
+    "validation": {
+      "schema_valid": true,
+      "evidence_refs_verified": true,
+      "dropped_statements": [],
+      "retries": 0
+    },
+    "kb_entries_used": [],
+    "local_id_map": {}
+  }
+}

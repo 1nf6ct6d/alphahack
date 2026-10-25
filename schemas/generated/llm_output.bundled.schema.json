@@ -1,0 +1,418 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bce.local/schemas/llm_hypotheses_output.v1.bundled.json",
+  "title": "LLM hypotheses output",
+  "description": "Единственный объект, который формирует LLM. Всё остальное в профиле формирует код.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "hypotheses",
+    "sensitivities",
+    "conflict_notes",
+    "self_check"
+  ],
+  "properties": {
+    "hypotheses": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "$ref": "#/$defs/LlmHypothesis"
+      }
+    },
+    "sensitivities": {
+      "type": "array",
+      "maxItems": 10,
+      "items": {
+        "$ref": "#/$defs/LlmSensitivity"
+      }
+    },
+    "conflict_notes": {
+      "type": "array",
+      "maxItems": 10,
+      "items": {
+        "$ref": "#/$defs/ConflictNote"
+      }
+    },
+    "self_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "instruction_like_text_in_data",
+        "notes"
+      ],
+      "properties": {
+        "instruction_like_text_in_data": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "type": "string",
+            "maxLength": 200
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "LlmHypothesis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_id",
+        "topic",
+        "statement",
+        "evidence",
+        "inference_support",
+        "uncertainty_sources",
+        "open_questions",
+        "how_to_verify",
+        "would_be_refuted_by",
+        "caveats"
+      ],
+      "properties": {
+        "local_id": {
+          "$ref": "#/$defs/LocalId"
+        },
+        "topic": {
+          "$ref": "#/$defs/Topic"
+        },
+        "statement": {
+          "$ref": "#/$defs/ShortText"
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          }
+        },
+        "inference_support": {
+          "$ref": "#/$defs/InferenceSupport"
+        },
+        "uncertainty_sources": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/UncertaintySource"
+          }
+        },
+        "open_questions": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "how_to_verify": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "would_be_refuted_by": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "caveats": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "type": "string",
+            "maxLength": 200
+          }
+        }
+      }
+    },
+    "LlmSensitivity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_id",
+        "factor_class",
+        "factor",
+        "transmission_channel",
+        "direction",
+        "strength",
+        "evidence",
+        "basis_hypothesis_ids",
+        "uncertainty_sources",
+        "keywords_for_matching"
+      ],
+      "properties": {
+        "local_id": {
+          "$ref": "#/$defs/LocalId"
+        },
+        "factor_class": {
+          "$ref": "#/$defs/FactorClass"
+        },
+        "factor": {
+          "$ref": "#/$defs/FactorSlug"
+        },
+        "transmission_channel": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 250
+        },
+        "direction": {
+          "$ref": "#/$defs/Direction"
+        },
+        "strength": {
+          "$ref": "#/$defs/Strength"
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          }
+        },
+        "basis_hypothesis_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/LocalId"
+          }
+        },
+        "uncertainty_sources": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/UncertaintySource"
+          }
+        },
+        "keywords_for_matching": {
+          "type": "array",
+          "maxItems": 12,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60
+          }
+        }
+      }
+    },
+    "ConflictNote": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "conflict_id",
+        "plausible_explanations",
+        "affected_local_ids"
+      ],
+      "properties": {
+        "conflict_id": {
+          "$ref": "#/$defs/StableId"
+        },
+        "plausible_explanations": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        },
+        "affected_local_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LocalId"
+          }
+        }
+      }
+    },
+    "Scalar": {
+      "type": [
+        "string",
+        "number",
+        "boolean",
+        "null"
+      ]
+    },
+    "Level3": {
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "InferenceSupport": {
+      "enum": [
+        "weak",
+        "moderate",
+        "strong"
+      ]
+    },
+    "UncertaintySource": {
+      "enum": [
+        "magnitude_unknown",
+        "period_unknown",
+        "unit_unknown",
+        "currency_unknown",
+        "contract_terms_unknown",
+        "counterparty_identity_unknown",
+        "absence_scope_limited",
+        "dictionary_unconfirmed",
+        "source_conflict",
+        "sector_generalization",
+        "geography_proxy_only",
+        "low_coverage"
+      ]
+    },
+    "EvidenceSource": {
+      "enum": [
+        "df_Uid",
+        "link_individuals",
+        "payments",
+        "derived",
+        "kb"
+      ]
+    },
+    "EvidenceRole": {
+      "enum": [
+        "supports",
+        "limits"
+      ]
+    },
+    "EvidenceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "ref",
+        "value",
+        "role"
+      ],
+      "properties": {
+        "source": {
+          "$ref": "#/$defs/EvidenceSource"
+        },
+        "ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "description": "Имя поля источника; id DERIVED-метрики; id записи KB."
+        },
+        "value": {
+          "$ref": "#/$defs/Scalar"
+        },
+        "role": {
+          "$ref": "#/$defs/EvidenceRole"
+        }
+      }
+    },
+    "FactorClass": {
+      "enum": [
+        "macro",
+        "monetary_policy",
+        "fx",
+        "commodity_price",
+        "industry_demand",
+        "industry_regulation",
+        "sanctions_trade",
+        "tax_fiscal",
+        "labor_market",
+        "logistics",
+        "counterparty_credit",
+        "competition",
+        "technology"
+      ]
+    },
+    "FactorSlug": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{2,59}$"
+    },
+    "Topic": {
+      "enum": [
+        "business_model",
+        "supply_chain",
+        "demand_side",
+        "financing",
+        "fx_exposure",
+        "geography",
+        "regulation_exposure",
+        "group_structure",
+        "scale_position"
+      ]
+    },
+    "Direction": {
+      "enum": [
+        "risk_if_adverse",
+        "opportunity_if_favorable",
+        "two_sided",
+        "unclear"
+      ]
+    },
+    "Strength": {
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "Usability": {
+      "enum": [
+        "full",
+        "limited",
+        "sector_only",
+        "unusable"
+      ]
+    },
+    "PipelineMode": {
+      "enum": [
+        "llm_validated",
+        "llm_partially_validated",
+        "kb_fallback",
+        "no_inference"
+      ]
+    },
+    "DegradationReason": {
+      "enum": [
+        "budget_limit",
+        "llm_unavailable",
+        "validation_failed_after_retry",
+        "kb_miss",
+        "unusable_input"
+      ]
+    },
+    "FieldState": {
+      "enum": [
+        "value",
+        "missing",
+        "sentinel",
+        "suspect",
+        "confirmed_absent_in_scope",
+        "not_applicable",
+        "uninformative"
+      ]
+    },
+    "UnitStatus": {
+      "enum": [
+        "confirmed",
+        "unknown"
+      ]
+    },
+    "LocalId": {
+      "type": "string",
+      "pattern": "^[hs][1-9][0-9]?$"
+    },
+    "StableId": {
+      "type": "string",
+      "pattern": "^(F|D|H|S|C|M)-[0-9a-f]{8}$"
+    },
+    "ShortText": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    }
+  }
+}

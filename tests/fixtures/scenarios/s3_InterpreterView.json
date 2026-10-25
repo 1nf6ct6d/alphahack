@@ -1,0 +1,147 @@
+{
+  "schema_version": "1.0.0",
+  "company_id": "U_T3",
+  "profile_id": "U_T3-p1",
+  "usability": "sector_only",
+  "statements": [
+    {
+      "id": "F-ae5ef11a",
+      "epistemic_status": "FACT",
+      "text": "Основной ОКВЭД: 62.01 (название в данных отсутствует).",
+      "data_reliability": "medium",
+      "overall_confidence": null,
+      "uncertainty_sources": [],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "62.01",
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "H-dcff9c71",
+      "epistemic_status": "HYPOTHESIS",
+      "text": "Спрос на услуги разработки ПО по коду 62.01 может зависеть от инвестиционных бюджетов заказчиков.",
+      "data_reliability": "medium",
+      "overall_confidence": "medium",
+      "uncertainty_sources": [
+        "sector_generalization",
+        "dictionary_unconfirmed",
+        "magnitude_unknown"
+      ],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "62.01",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-62.01-01",
+          "value": null,
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "H-90f39acc",
+      "epistemic_status": "HYPOTHESIS",
+      "text": "Отрасль может быть чувствительна к изменению мер поддержки ИТ-компаний.",
+      "data_reliability": "medium",
+      "overall_confidence": "low",
+      "uncertainty_sources": [
+        "sector_generalization",
+        "magnitude_unknown"
+      ],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "62.01",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-62.01-01",
+          "value": null,
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "S-357cd076",
+      "epistemic_status": "HYPOTHESIS",
+      "text": "Замедление ИТ-бюджетов заказчиков снижает спрос на разработку.",
+      "data_reliability": "medium",
+      "overall_confidence": "medium",
+      "uncertainty_sources": [
+        "sector_generalization",
+        "dictionary_unconfirmed"
+      ],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "62.01",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-62.01-01",
+          "value": null,
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "S-a4c7678f",
+      "epistemic_status": "HYPOTHESIS",
+      "text": "Изменение условий поддержки ИТ-отрасли может влиять на налоговую нагрузку.",
+      "data_reliability": "medium",
+      "overall_confidence": "low",
+      "uncertainty_sources": [
+        "sector_generalization",
+        "magnitude_unknown"
+      ],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "62.01",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-62.01-01",
+          "value": null,
+          "role": "supports"
+        }
+      ]
+    }
+  ],
+  "constraints": [
+    {
+      "id": "IC-BANK-FLAG-SCOPE",
+      "text": "Значение 0 у CL_PRODUCT_* означает отсутствие продукта только в этом банке; не выводить отсутствие долга, лизинга или гарантий.",
+      "origin": "static_rule"
+    },
+    {
+      "id": "IC-ABSENCE-IS-UNKNOWN",
+      "text": "Пропущенное значение — это неизвестно, а не отсутствие признака.",
+      "origin": "static_rule"
+    },
+    {
+      "id": "IC-NO-INVENTED-ENTITIES",
+      "text": "Не называть поставщиков, покупателей, долги, ставки и суммы, которых нет в evidence.",
+      "origin": "static_rule"
+    },
+    {
+      "id": "IC-POTENTIAL-CLIENT-FLAGS",
+      "text": "Для потенциального клиента продуктовые флаги неинформативны.",
+      "origin": "semantics"
+    }
+  ]
+}

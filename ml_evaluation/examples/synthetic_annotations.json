@@ -1,0 +1,348 @@
+[
+  {
+    "query_id": "Q_S1",
+    "company_id": "U_T1",
+    "event_id": "SYN_STEEL_REG",
+    "analytic_focus": null,
+    "relevance_grade": 2,
+    "relevance_reason": "Подтверждённая отрасль входит в явно обязательную область требования.",
+    "impact_mechanism": "Подготовка обязательных сведений для производственного реестра.",
+    "supporting_evidence_refs": [
+      {
+        "kind": "article_quote",
+        "event_id": "SYN_STEEL_REG",
+        "evidence_id": "QUOTE_STEEL_REG"
+      },
+      {
+        "kind": "company_statement",
+        "statement_id": "F-307d7dbf"
+      }
+    ],
+    "reviewer_id": "SYNTHETIC_EXPECTATION_AUTHOR",
+    "annotation_status": "reviewed",
+    "adjudicates": []
+  },
+  {
+    "query_id": "Q_S1",
+    "company_id": "U_T1",
+    "event_id": "SYN_STEEL_TAX",
+    "analytic_focus": null,
+    "relevance_grade": 2,
+    "relevance_reason": "Подтверждённый ОКВЭД включён в область обязательного платежа.",
+    "impact_mechanism": "Изменение обязательных финансовых затрат и расчётов.",
+    "supporting_evidence_refs": [
+      {
+        "kind": "article_quote",
+        "event_id": "SYN_STEEL_TAX",
+        "evidence_id": "QUOTE_STEEL_TAX"
+      },
+      {
+        "kind": "company_statement",
+        "statement_id": "F-307d7dbf"
+      }
+    ],
+    "reviewer_id": "SYNTHETIC_EXPECTATION_AUTHOR",
+    "annotation_status": "reviewed",
+    "adjudicates": []
+  },
+  {
+    "query_id": "Q_S1",
+    "company_id": "U_T1",
+    "event_id": "SYN_STEEL_INPUT",
+    "analytic_focus": null,
+    "relevance_grade": 1,
+    "relevance_reason": "Отраслевая связь есть; фактическое использование ресурса неизвестно.",
+    "impact_mechanism": "Цена ресурса может изменить затраты при его использовании.",
+    "supporting_evidence_refs": [
+      {
+        "kind": "article_quote",
+        "event_id": "SYN_STEEL_INPUT",
+        "evidence_id": "QUOTE_STEEL_INPUT"
+      },
+      {
+        "kind": "company_statement",
+        "statement_id": "F-307d7dbf"
+      }
+    ],
+    "reviewer_id": "SYNTHETIC_EXPECTATION_AUTHOR",
+    "annotation_status": "reviewed",
+    "adjudicates": []
+  },
+  {
+    "query_id": "Q_S1",
+    "company_id": "U_T1",
+    "event_id": "SYN_IT_REG",
+    "analytic_focus": null,
+    "relevance_grade": 0,
+    "relevance_reason": "Сфера требования относится к другой отрасли.",
+    "impact_mechanism": null,
+    "supporting_evidence_refs": [
+      {
+        "kind": "article_quote",
+        "event_id": "SYN_IT_REG",
+        "evidence_id": "QUOTE_IT_REG"
+      }
+    ],
+    "reviewer_id": "SYNTHETIC_EXPECTATION_AUTHOR",
+    "annotation_status": "reviewed",
+    "adjudicates": []
+  },
+  {
+    "query_id": "Q_S1",
+    "company_id": "U_T1",
+    "event_id": "SYN_IT_DEMAND",
+    "analytic_focus": null,
+    "relevance_grade": 0,
+    "relevance_reason": "Нет подтверждённого выхода компании на рынок заказной разработки.",
+    "impact_mechanism": null,
+    "supporting_evidence_refs": [
+      {
+        "kind": "article_quote",
+        "event_id": "SYN_IT_DEMAND",
+        "evidence_id": "QUOTE_IT_DEMAND"
+      }
+    ],
+    "reviewer_id": "SYNTHETIC_EXPECTATION_AUTHOR",
+    "annotation_status": "reviewed",
+    "adjudicates": []
+  },
+  {
+    "query_id": "Q_S1",
+    "company_id": "U_T1",
+    "event_id": "SYN_RATE",
+    "analytic_focus": null,
+    "relevance_grade": 1,
+    "relevance_reason": "Есть кредитный продукт; договорная чувствительность к ставке неизвестна.",
+    "impact_mechanism": "Возможное изменение стоимости нового или пересматриваемого финансирования.",
+    "supporting_evidence_refs": [
+      {
+        "kind": "article_quote",
+        "event_id": "SYN_RATE",
+        "evidence_id": "QUOTE_RATE"
+      },
+      {
+        "kind": "company_statement",
+        "statement_id": "F-aad1630f"
+      }
+    ],
+    "reviewer_id": "SYNTHETIC_EXPECTATION_AUTHOR",
+    "annotation_status": "reviewed",
+    "adjudicates": []
+  },
+  {
+    "query_id": "Q_S1",
+    "company_id": "U_T1",
+    "event_id": "SYN_LOCAL_KEYWORD",
+    "analytic_focus": null,
+    "relevance_grade": 0,
+    "relevance_reason": "Название выставки и регион не устанавливают бизнес-механизм.",
+    "impact_mechanism": null,
+    "supporting_evidence_refs": [],
+    "reviewer_id": "SYNTHETIC_EXPECTATION_AUTHOR",
+    "annotation_status": "reviewed",
+    "adjudicates": []
+  },
+  {
+    "query_id": "Q_S1",
+    "company_id": "U_T1",
+    "event_id": "SYN_METADATA_ONLY",
+    "analytic_focus": null,
+    "relevance_grade": 0,
+    "relevance_reason": "Метаданных без текста недостаточно для обоснования механизма.",
+    "impact_mechanism": null,
+    "supporting_evidence_refs": [],
+    "reviewer_id": "SYNTHETIC_EXPECTATION_AUTHOR",
+    "annotation_status": "reviewed",
+    "adjudicates": []
+  },
+  {
+    "query_id": "Q_S1",
+    "company_id": "U_T1",
+    "event_id": "EVAL_LABOR",
+    "analytic_focus": null,
+    "relevance_grade": 1,
+    "relevance_reason": "Дефицит специалистов в отрасли создаёт условный канал; найм неизвестен.",
+    "impact_mechanism": "Возможное усложнение найма и роста расходов при потребности в персонале.",
+    "supporting_evidence_refs": [
+      {
+        "kind": "article_quote",
+        "event_id": "EVAL_LABOR",
+        "evidence_id": "QUOTE_LABOR"
+      },
+      {
+        "kind": "company_statement",
+        "statement_id": "F-307d7dbf"
+      }
+    ],
+    "reviewer_id": "SYNTHETIC_EXPECTATION_AUTHOR",
+    "annotation_status": "reviewed",
+    "adjudicates": []
+  },
+  {
+    "query_id": "Q_S3",
+    "company_id": "U_T3",
+    "event_id": "SYN_STEEL_REG",
+    "analytic_focus": null,
+    "relevance_grade": 0,
+    "relevance_reason": "Заявленная отрасль ИТ не входит в металлургическую область нормы.",
+    "impact_mechanism": null,
+    "supporting_evidence_refs": [
+      {
+        "kind": "article_quote",
+        "event_id": "SYN_STEEL_REG",
+        "evidence_id": "QUOTE_STEEL_REG"
+      }
+    ],
+    "reviewer_id": "SYNTHETIC_EXPECTATION_AUTHOR",
+    "annotation_status": "reviewed",
+    "adjudicates": []
+  },
+  {
+    "query_id": "Q_S3",
+    "company_id": "U_T3",
+    "event_id": "SYN_STEEL_TAX",
+    "analytic_focus": null,
+    "relevance_grade": 0,
+    "relevance_reason": "Сбор относится к другой отрасли.",
+    "impact_mechanism": null,
+    "supporting_evidence_refs": [
+      {
+        "kind": "article_quote",
+        "event_id": "SYN_STEEL_TAX",
+        "evidence_id": "QUOTE_STEEL_TAX"
+      }
+    ],
+    "reviewer_id": "SYNTHETIC_EXPECTATION_AUTHOR",
+    "annotation_status": "reviewed",
+    "adjudicates": []
+  },
+  {
+    "query_id": "Q_S3",
+    "company_id": "U_T3",
+    "event_id": "SYN_STEEL_INPUT",
+    "analytic_focus": null,
+    "relevance_grade": 0,
+    "relevance_reason": "Использование металлургического производственного ресурса не установлено.",
+    "impact_mechanism": null,
+    "supporting_evidence_refs": [
+      {
+        "kind": "article_quote",
+        "event_id": "SYN_STEEL_INPUT",
+        "evidence_id": "QUOTE_STEEL_INPUT"
+      }
+    ],
+    "reviewer_id": "SYNTHETIC_EXPECTATION_AUTHOR",
+    "annotation_status": "reviewed",
+    "adjudicates": []
+  },
+  {
+    "query_id": "Q_S3",
+    "company_id": "U_T3",
+    "event_id": "SYN_IT_REG",
+    "analytic_focus": null,
+    "relevance_grade": 1,
+    "relevance_reason": "ОКВЭД указан, но его подтверждение и применимость требуют проверки.",
+    "impact_mechanism": "Возможная подготовка отраслевой отчётности при подтверждении деятельности.",
+    "supporting_evidence_refs": [
+      {
+        "kind": "article_quote",
+        "event_id": "SYN_IT_REG",
+        "evidence_id": "QUOTE_IT_REG"
+      },
+      {
+        "kind": "ml_view_field",
+        "path": "hooks.matching_profile.okved_codes"
+      }
+    ],
+    "reviewer_id": "SYNTHETIC_EXPECTATION_AUTHOR",
+    "annotation_status": "reviewed",
+    "adjudicates": []
+  },
+  {
+    "query_id": "Q_S3",
+    "company_id": "U_T3",
+    "event_id": "SYN_IT_DEMAND",
+    "analytic_focus": null,
+    "relevance_grade": 1,
+    "relevance_reason": "Заявленный ОКВЭД совпадает, фактический рынок сбыта неизвестен.",
+    "impact_mechanism": "Возможное изменение заказов при работе на затронутом рынке.",
+    "supporting_evidence_refs": [
+      {
+        "kind": "article_quote",
+        "event_id": "SYN_IT_DEMAND",
+        "evidence_id": "QUOTE_IT_DEMAND"
+      },
+      {
+        "kind": "ml_view_field",
+        "path": "hooks.matching_profile.okved_codes"
+      }
+    ],
+    "reviewer_id": "SYNTHETIC_EXPECTATION_AUTHOR",
+    "annotation_status": "reviewed",
+    "adjudicates": []
+  },
+  {
+    "query_id": "Q_S3",
+    "company_id": "U_T3",
+    "event_id": "SYN_RATE",
+    "analytic_focus": null,
+    "relevance_grade": 0,
+    "relevance_reason": "Нет проверенного основания для конкретной кредитной чувствительности.",
+    "impact_mechanism": null,
+    "supporting_evidence_refs": [
+      {
+        "kind": "article_quote",
+        "event_id": "SYN_RATE",
+        "evidence_id": "QUOTE_RATE"
+      }
+    ],
+    "reviewer_id": "SYNTHETIC_EXPECTATION_AUTHOR",
+    "annotation_status": "reviewed",
+    "adjudicates": []
+  },
+  {
+    "query_id": "Q_S3",
+    "company_id": "U_T3",
+    "event_id": "SYN_LOCAL_KEYWORD",
+    "analytic_focus": null,
+    "relevance_grade": 0,
+    "relevance_reason": "Культурная выставка не имеет обоснованного бизнес-канала.",
+    "impact_mechanism": null,
+    "supporting_evidence_refs": [],
+    "reviewer_id": "SYNTHETIC_EXPECTATION_AUTHOR",
+    "annotation_status": "reviewed",
+    "adjudicates": []
+  },
+  {
+    "query_id": "Q_S3",
+    "company_id": "U_T3",
+    "event_id": "SYN_METADATA_ONLY",
+    "analytic_focus": null,
+    "relevance_grade": 0,
+    "relevance_reason": "Отсутствуют текст и обоснованная связь с компанией.",
+    "impact_mechanism": null,
+    "supporting_evidence_refs": [],
+    "reviewer_id": "SYNTHETIC_EXPECTATION_AUTHOR",
+    "annotation_status": "reviewed",
+    "adjudicates": []
+  },
+  {
+    "query_id": "Q_S3",
+    "company_id": "U_T3",
+    "event_id": "EVAL_LABOR",
+    "analytic_focus": null,
+    "relevance_grade": 0,
+    "relevance_reason": "Описан кадровый рынок другой отрасли.",
+    "impact_mechanism": null,
+    "supporting_evidence_refs": [
+      {
+        "kind": "article_quote",
+        "event_id": "EVAL_LABOR",
+        "evidence_id": "QUOTE_LABOR"
+      }
+    ],
+    "reviewer_id": "SYNTHETIC_EXPECTATION_AUTHOR",
+    "annotation_status": "reviewed",
+    "adjudicates": []
+  }
+]

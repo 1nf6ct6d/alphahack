@@ -1,0 +1,547 @@
+{
+  "meta": {
+    "schema_version": "1.0.0",
+    "company_id": "U_T1",
+    "group_id": null,
+    "as_of_date": "2026-10-20",
+    "profile_id": "U_T1-p1",
+    "input_hash": "28460cea6a7a7bba92799b7df964888bb35bb12799ce4d33960a4d547b2e18d0",
+    "kb_version": "kb-draft-0",
+    "prompt_version": "bce.hypo.v2",
+    "pipeline_mode": "llm_validated",
+    "degradation_reasons": [],
+    "models_used": [
+      {
+        "role": "hypothesis_generation",
+        "model": "Qwen3.6 35B A3B",
+        "prompt_version": "bce.hypo.v2",
+        "tokens_in": 2100,
+        "tokens_out": 900
+      }
+    ],
+    "customer_status": "existing",
+    "ttl_hours": 168
+  },
+  "input_quality": {
+    "usability": "full",
+    "industry_identification": {
+      "status": "confirmed",
+      "okved_code_used": "24.10"
+    },
+    "signal_groups": {
+      "scale": true,
+      "payments": true,
+      "bank_products": true,
+      "foreign_trade": true,
+      "group_structure": false
+    },
+    "revenue_semantics_status": "confirmed",
+    "payments_semantics_status": "confirmed",
+    "target_segment_applicability": "within_target",
+    "completeness_score": 0.7,
+    "consistency_score": 1.0,
+    "field_states": {
+      "SYNTHETIC_U": {
+        "state": "value",
+        "scope": null
+      },
+      "ORG_TYPE": {
+        "state": "value",
+        "scope": null
+      },
+      "OKFS_NAME": {
+        "state": "missing",
+        "scope": null
+      },
+      "COMPANY_AGE_YEARS_GRADATION": {
+        "state": "missing",
+        "scope": null
+      },
+      "ECO_MARK_LABEL": {
+        "state": "missing",
+        "scope": null
+      },
+      "MAINOKVED_CODE": {
+        "state": "value",
+        "scope": null
+      },
+      "MAINOKVED_NAME": {
+        "state": "value",
+        "scope": null
+      },
+      "NEGATIVEMARK": {
+        "state": "missing",
+        "scope": null
+      },
+      "AMOUNT_WORKERS_FNS_GRADATION": {
+        "state": "missing",
+        "scope": null
+      },
+      "AMOUNT_WORKERS_SPARK_GRADATION": {
+        "state": "missing",
+        "scope": null
+      },
+      "CL_TYPE": {
+        "state": "value",
+        "scope": null
+      },
+      "CL_PRODUCT_RKO_MARK": {
+        "state": "value",
+        "scope": null
+      },
+      "CL_PRODUCT_GAR_MARK": {
+        "state": "confirmed_absent_in_scope",
+        "scope": "bank"
+      },
+      "CL_PRODUCT_LOA_MARK": {
+        "state": "value",
+        "scope": null
+      },
+      "CL_PRODUCT_LEA_MARK": {
+        "state": "value",
+        "scope": null
+      },
+      "CL_PRODUCT_DEP_MARK": {
+        "state": "confirmed_absent_in_scope",
+        "scope": "bank"
+      },
+      "CL_PRODUCT_ZPP_MARK": {
+        "state": "value",
+        "scope": null
+      },
+      "FTS_FLAG": {
+        "state": "value",
+        "scope": null
+      },
+      "FTS_COUNTRY_NAME": {
+        "state": "value",
+        "scope": null
+      },
+      "FACTORING_MARK": {
+        "state": "confirmed_absent_in_scope",
+        "scope": "bank"
+      },
+      "REVENUE_COMPANY": {
+        "state": "value",
+        "scope": null
+      },
+      "GROUP_ID": {
+        "state": "missing",
+        "scope": null
+      },
+      "CITY": {
+        "state": "missing",
+        "scope": null
+      },
+      "REGION": {
+        "state": "value",
+        "scope": null
+      }
+    },
+    "notes": [
+      "Сценарий предполагает состояние ПОСЛЕ разрешения вопроса D1 об единицах (условно)."
+    ]
+  },
+  "facts": [
+    {
+      "id": "F-307d7dbf",
+      "epistemic_status": "FACT",
+      "category": "industry",
+      "statement": "Основной ОКВЭД: 24.10.",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "24.10",
+          "role": "supports"
+        }
+      ],
+      "data_reliability": "high",
+      "caveats": []
+    },
+    {
+      "id": "F-aad1630f",
+      "epistemic_status": "FACT",
+      "category": "bank_products",
+      "statement": "В банке подтверждены кредитный и лизинговый продукты.",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LOA_MARK",
+          "value": 1,
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LEA_MARK",
+          "value": 1,
+          "role": "supports"
+        }
+      ],
+      "data_reliability": "high",
+      "caveats": []
+    },
+    {
+      "id": "F-9ee51770",
+      "epistemic_status": "FACT",
+      "category": "scale",
+      "statement": "Годовая выручка по данным: 48000000000 (единицы подтверждены).",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "REVENUE_COMPANY",
+          "value": 48000000000,
+          "role": "supports"
+        }
+      ],
+      "data_reliability": "high",
+      "caveats": []
+    }
+  ],
+  "derived_metrics": [
+    {
+      "id": "D-012a9247",
+      "epistemic_status": "DERIVED",
+      "name": "top5_counterparty_share_out",
+      "value": 0.55,
+      "unit": "share",
+      "unit_dependency": "unit_free",
+      "formula": "sum(top5 PAY_AMT out)/sum(PAY_AMT out)",
+      "inputs": [
+        {
+          "source": "payments",
+          "ref": "PAY_AMT",
+          "value": null,
+          "role": "supports"
+        }
+      ],
+      "coverage": 1.0,
+      "data_reliability": "high",
+      "caveats": []
+    },
+    {
+      "id": "D-45df7a25",
+      "epistemic_status": "DERIVED",
+      "name": "counterparty_count_out",
+      "value": 40,
+      "unit": "count",
+      "unit_dependency": "unit_free",
+      "formula": "count(distinct BENEFICIARY where PAYER=company)",
+      "inputs": [
+        {
+          "source": "payments",
+          "ref": "BENEFICIARY",
+          "value": null,
+          "role": "supports"
+        }
+      ],
+      "coverage": 1.0,
+      "data_reliability": "high",
+      "caveats": []
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "H-2827439b",
+      "epistemic_status": "HYPOTHESIS",
+      "generated_by": "llm",
+      "topic": "financing",
+      "statement": "Подтверждённая кредитная связь с банком и лизинг могут означать чувствительность стоимости финансирования к ключевой ставке.",
+      "evidence": [],
+      "data_reliability": "high",
+      "inference_support": "strong",
+      "uncertainty_sources": [
+        "magnitude_unknown",
+        "contract_terms_unknown"
+      ],
+      "overall_confidence": "high",
+      "open_questions": [
+        "Какая доля долга с плавающей ставкой?"
+      ],
+      "how_to_verify": "Условия и объём заимствований (ставка, плавающая или фиксированная)",
+      "would_be_refuted_by": "Условия кредитов с фиксированной ставкой на весь срок",
+      "caveats": [],
+      "affected_by_conflict_ids": []
+    },
+    {
+      "id": "H-7357c62c",
+      "epistemic_status": "HYPOTHESIS",
+      "generated_by": "llm",
+      "topic": "business_model",
+      "statement": "Для производства стали по коду 24.10 типична чувствительность к ценам на сырьё и энергию и к спросу смежных отраслей.",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "24.10",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-24.10-01",
+          "value": null,
+          "role": "supports"
+        }
+      ],
+      "data_reliability": "high",
+      "inference_support": "moderate",
+      "uncertainty_sources": [
+        "sector_generalization",
+        "magnitude_unknown"
+      ],
+      "overall_confidence": "medium",
+      "open_questions": [],
+      "how_to_verify": "Структура затрат и долей контрагентов по отраслям",
+      "would_be_refuted_by": "Преобладание давальческого сырья",
+      "caveats": [],
+      "affected_by_conflict_ids": []
+    },
+    {
+      "id": "H-b202475b",
+      "epistemic_status": "HYPOTHESIS",
+      "generated_by": "llm",
+      "topic": "fx_exposure",
+      "statement": "Запись в базе ФТС со страной может указывать на внешнеторговые связи, но валюта и направление потоков неизвестны.",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "FTS_FLAG",
+          "value": 1,
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "FTS_COUNTRY_NAME",
+          "value": "COUNTRY_X",
+          "role": "supports"
+        }
+      ],
+      "data_reliability": "high",
+      "inference_support": "weak",
+      "uncertainty_sources": [
+        "currency_unknown",
+        "magnitude_unknown",
+        "absence_scope_limited"
+      ],
+      "overall_confidence": "low",
+      "open_questions": [],
+      "how_to_verify": "Данные о валютных операциях и направлении внешней торговли",
+      "would_be_refuted_by": "Операции ФТС относятся к разовым или нерелевантным поставкам",
+      "caveats": [],
+      "affected_by_conflict_ids": []
+    }
+  ],
+  "sensitivities": [
+    {
+      "id": "S-206c8fe6",
+      "epistemic_status": "HYPOTHESIS",
+      "generated_by": "llm",
+      "factor_class": "monetary_policy",
+      "factor": "key_rate_up",
+      "transmission_channel": "Рост ключевой ставки удорожает обслуживание кредитов и лизинга.",
+      "direction": "risk_if_adverse",
+      "strength": "medium",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LOA_MARK",
+          "value": 1,
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LEA_MARK",
+          "value": 1,
+          "role": "supports"
+        }
+      ],
+      "basis_hypothesis_ids": [
+        "H-2827439b"
+      ],
+      "data_reliability": "high",
+      "uncertainty_sources": [
+        "magnitude_unknown",
+        "contract_terms_unknown"
+      ],
+      "overall_confidence": "high",
+      "keywords_for_matching": [
+        "ключевая ставка",
+        "стоимость кредита"
+      ]
+    },
+    {
+      "id": "S-2706073e",
+      "epistemic_status": "HYPOTHESIS",
+      "generated_by": "llm",
+      "factor_class": "commodity_price",
+      "factor": "steel_input_price_up",
+      "transmission_channel": "Изменение цен на сырьё и энергию влияет на себестоимость.",
+      "direction": "two_sided",
+      "strength": "high",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "24.10",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-24.10-01",
+          "value": null,
+          "role": "supports"
+        }
+      ],
+      "basis_hypothesis_ids": [
+        "H-7357c62c"
+      ],
+      "data_reliability": "high",
+      "uncertainty_sources": [
+        "sector_generalization",
+        "magnitude_unknown"
+      ],
+      "overall_confidence": "medium",
+      "keywords_for_matching": [
+        "сталь",
+        "железная руда",
+        "энергоносители"
+      ]
+    },
+    {
+      "id": "S-48da2dc4",
+      "epistemic_status": "HYPOTHESIS",
+      "generated_by": "llm",
+      "factor_class": "fx",
+      "factor": "rub_depreciation",
+      "transmission_channel": "Если есть валютные потоки, курс влияет на выручку и расходы.",
+      "direction": "two_sided",
+      "strength": "medium",
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "FTS_FLAG",
+          "value": 1,
+          "role": "supports"
+        }
+      ],
+      "basis_hypothesis_ids": [
+        "H-b202475b"
+      ],
+      "data_reliability": "high",
+      "uncertainty_sources": [
+        "currency_unknown",
+        "magnitude_unknown"
+      ],
+      "overall_confidence": "low",
+      "keywords_for_matching": [
+        "курс рубля"
+      ]
+    }
+  ],
+  "data_conflicts": [],
+  "missing_data": [
+    {
+      "id": "M-4e64cddc",
+      "feature": "GROUP_ID",
+      "kind": "null",
+      "impact": "minor",
+      "limits_conclusions_about": [],
+      "request_suggestion": "Уточнить значение поля GROUP_ID у менеджера клиента"
+    },
+    {
+      "id": "M-4f92deba",
+      "feature": "NEGATIVEMARK",
+      "kind": "semantics_unknown",
+      "impact": "none",
+      "limits_conclusions_about": [
+        "ownership"
+      ],
+      "request_suggestion": null
+    }
+  ],
+  "downstream_hooks": {
+    "matching_profile": {
+      "okved_codes": [
+        "24.10"
+      ],
+      "regions": [
+        "REGION_1"
+      ],
+      "countries": [],
+      "factor_classes_weighted": {
+        "monetary_policy": 0.53,
+        "commodity_price": 0.55,
+        "fx": 0.17
+      },
+      "keywords": [
+        "железная руда",
+        "ключевая ставка",
+        "курс рубля",
+        "сталь",
+        "стоимость кредита",
+        "энергоносители"
+      ],
+      "negative_keywords": []
+    },
+    "relevance_priors": [
+      {
+        "sensitivity_id": "S-206c8fe6",
+        "factor_class": "monetary_policy",
+        "factor": "key_rate_up",
+        "weight": 0.53,
+        "overall_confidence": "high"
+      },
+      {
+        "sensitivity_id": "S-2706073e",
+        "factor_class": "commodity_price",
+        "factor": "steel_input_price_up",
+        "weight": 0.55,
+        "overall_confidence": "medium"
+      },
+      {
+        "sensitivity_id": "S-48da2dc4",
+        "factor_class": "fx",
+        "factor": "rub_depreciation",
+        "weight": 0.17,
+        "overall_confidence": "low"
+      }
+    ],
+    "interpretation_constraints": [
+      {
+        "id": "IC-BANK-FLAG-SCOPE",
+        "text": "Значение 0 у CL_PRODUCT_* означает отсутствие продукта только в этом банке; не выводить отсутствие долга, лизинга или гарантий.",
+        "origin": "static_rule"
+      },
+      {
+        "id": "IC-ABSENCE-IS-UNKNOWN",
+        "text": "Пропущенное значение — это неизвестно, а не отсутствие признака.",
+        "origin": "static_rule"
+      },
+      {
+        "id": "IC-NO-INVENTED-ENTITIES",
+        "text": "Не называть поставщиков, покупателей, долги, ставки и суммы, которых нет в evidence.",
+        "origin": "static_rule"
+      }
+    ]
+  },
+  "provenance": {
+    "trace_id": "trace-U_T1",
+    "validation": {
+      "schema_valid": true,
+      "evidence_refs_verified": true,
+      "dropped_statements": [],
+      "retries": 0
+    },
+    "kb_entries_used": [
+      "KB-24.10-01"
+    ],
+    "local_id_map": {
+      "h1": "H-2827439b",
+      "h2": "H-7357c62c",
+      "h3": "H-b202475b",
+      "s1": "S-206c8fe6",
+      "s2": "S-2706073e",
+      "s3": "S-48da2dc4"
+    }
+  }
+}

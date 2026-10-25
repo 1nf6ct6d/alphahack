@@ -1,0 +1,35 @@
+{
+  "version": "2.0.0",
+  "note": "Реестр правил противоречий BCE v0.2. Правила с requires_dictionary выполняются только если соответствующий справочник загружен; иначе правило помечается как not_executed в логах, а не как пройденное.",
+  "rules": [
+    {"rule_id": "CONF-OKVED-NAME-MISMATCH", "kind": "hard_contradiction", "severity": "critical", "requires_dictionary": "okved_classifier", "mvp": true,
+     "condition": "MAINOKVED_CODE найден в классификаторе, но MAINOKVED_NAME не соответствует названию этого кода",
+     "resolution": "preferred_primary_field", "effect": "industry_identification.status=ambiguous; usability не выше limited; data_reliability отраслевых утверждений=low"},
+    {"rule_id": "CONF-FTS-FLAG-COUNTRY", "kind": "hard_contradiction", "severity": "warning", "requires_dictionary": null, "mvp": true,
+     "condition": "FTS_FLAG=0 (нет записи в ФТС), но FTS_COUNTRY_NAME заполнено",
+     "resolution": "kept_both_flagged", "effect": "signal_groups.foreign_trade=false; поля ФТС не используются как evidence role=supports"},
+    {"rule_id": "CONF-CLTYPE-PRODUCT", "kind": "source_disagreement", "severity": "warning", "requires_dictionary": null, "mvp": true,
+     "condition": "CL_TYPE=potential, но хотя бы один CL_PRODUCT_*=1",
+     "resolution": "kept_both_flagged", "effect": "signal_groups.bank_products=false; продуктовые флаги не используются как supports"},
+    {"rule_id": "CONF-PAY-SELF", "kind": "anomaly", "severity": "warning", "requires_dictionary": null, "mvp": true,
+     "condition": "PAYER == BENEFICIARY",
+     "resolution": "excluded_from_analysis", "effect": "строки исключаются из агрегатов платежей"},
+    {"rule_id": "CONF-STAFF-SOURCES", "kind": "source_disagreement", "severity": "info", "requires_dictionary": "ordered_staff_bins", "mvp": false,
+     "condition": "градации штата ФНС и СПАРК не соседние (нужен порядок градаций)",
+     "resolution": "kept_both_flagged", "effect": "data_reliability поля штата не выше medium"},
+    {"rule_id": "CONF-REGION-CITY", "kind": "hard_contradiction", "severity": "warning", "requires_dictionary": "region_city_dictionary", "mvp": false,
+     "condition": "CITY не принадлежит REGION по справочнику",
+     "resolution": "preferred_primary_field", "effect": "REGION приоритетнее"}
+  ],
+  "removed_from_v0_1": {
+    "CONF-REV-THRESHOLD": "Выручка ниже 15 млрд ₽ — не ошибка данных; отражается как input_quality.target_segment_applicability=below_target.",
+    "CONF-PROD-TYPE (existing, но все продукты 0 включая РКО)": "Отсутствие РКО при других продуктах — не ошибка; клиент может обслуживаться в других банках.",
+    "CONF-LOA-GAR-LEA": "Не противоречие.",
+    "CONF-AGE-STAGE": "Нет словаря значений, правило невыполнимо без выдумывания; отложено до D1.",
+    "CONF-REV-STAFF": "Нет подтверждённых пороговых значений; отложено (нужна KB аналитика).",
+    "CONF-PAY-GROUP": "Не конфликт данных, а ограничение интерпретации: уходит в interpretation_constraints (IC-INTRAGROUP-NOT-SUPPLY-CHAIN).",
+    "CONF-PAY-UNKNOWN-CP": "Не конфликт, а покрытие: метрика counterparty_coverage_in_df_uid и uncertainty low_coverage.",
+    "CONF-NEGATIVEMARK": "Не конфликт, а неизвестная семантика: missing_data.kind=semantics_unknown.",
+    "CONF-FTS-COUNTRY (FTS_FLAG=1 и пустая страна)": "Пустая страна при FTS_FLAG=1 — пропуск, а не противоречие."
+  }
+}

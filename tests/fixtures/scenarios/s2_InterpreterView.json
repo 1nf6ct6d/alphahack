@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0.0",
+  "company_id": "U_T2",
+  "profile_id": "U_T2-p1",
+  "usability": "limited",
+  "statements": [
+    {
+      "id": "F-d3d876c1",
+      "epistemic_status": "FACT",
+      "text": "Компания входит в группу G_77.",
+      "data_reliability": "high",
+      "overall_confidence": null,
+      "uncertainty_sources": [],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "GROUP_ID",
+          "value": "G_77",
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "F-f88e5ff6",
+      "epistemic_status": "FACT",
+      "text": "Основной ОКВЭД по коду: 47.11; название в данных не согласуется с кодом.",
+      "data_reliability": "low",
+      "overall_confidence": null,
+      "uncertainty_sources": [],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "47.11",
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "D-a28cf621",
+      "epistemic_status": "DERIVED",
+      "text": "group_size = 4",
+      "data_reliability": "high",
+      "overall_confidence": null,
+      "uncertainty_sources": [],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "GROUP_ID",
+          "value": "G_77",
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "D-014da9a0",
+      "epistemic_status": "DERIVED",
+      "text": "counterparty_count_out = 12",
+      "data_reliability": "high",
+      "overall_confidence": null,
+      "uncertainty_sources": [],
+      "evidence": [
+        {
+          "source": "payments",
+          "ref": "BENEFICIARY",
+          "value": null,
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "H-c7e69cc0",
+      "epistemic_status": "HYPOTHESIS",
+      "text": "Принадлежность к группе из 4 компаний может означать распределение функций внутри группы.",
+      "data_reliability": "high",
+      "overall_confidence": "low",
+      "uncertainty_sources": [
+        "counterparty_identity_unknown",
+        "magnitude_unknown"
+      ],
+      "evidence": [
+        {
+          "source": "derived",
+          "ref": "D-a28cf621",
+          "value": 4,
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "GROUP_ID",
+          "value": "G_77",
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "47.11",
+          "role": "limits"
+        }
+      ]
+    }
+  ],
+  "constraints": [
+    {
+      "id": "IC-BANK-FLAG-SCOPE",
+      "text": "Значение 0 у CL_PRODUCT_* означает отсутствие продукта только в этом банке; не выводить отсутствие долга, лизинга или гарантий.",
+      "origin": "static_rule"
+    },
+    {
+      "id": "IC-ABSENCE-IS-UNKNOWN",
+      "text": "Пропущенное значение — это неизвестно, а не отсутствие признака.",
+      "origin": "static_rule"
+    },
+    {
+      "id": "IC-NO-INVENTED-ENTITIES",
+      "text": "Не называть поставщиков, покупателей, долги, ставки и суммы, которых нет в evidence.",
+      "origin": "static_rule"
+    }
+  ]
+}

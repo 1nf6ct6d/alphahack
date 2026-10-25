@@ -1,0 +1,53 @@
+{
+  "hypotheses": [
+    {
+      "local_id": "h1",
+      "topic": "group_structure",
+      "statement": "Принадлежность к группе из 4 компаний может означать распределение функций внутри группы.",
+      "evidence": [
+        {
+          "source": "derived",
+          "ref": "D-a28cf621",
+          "value": 4,
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "GROUP_ID",
+          "value": "G_77",
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "47.11",
+          "role": "limits"
+        }
+      ],
+      "inference_support": "weak",
+      "uncertainty_sources": [
+        "counterparty_identity_unknown",
+        "magnitude_unknown"
+      ],
+      "open_questions": [],
+      "how_to_verify": "Структура платежей внутри группы и отраслевой состав группы",
+      "would_be_refuted_by": "Группа не связана операционно",
+      "caveats": []
+    }
+  ],
+  "sensitivities": [],
+  "conflict_notes": [
+    {
+      "conflict_id": "C-80dc952a",
+      "plausible_explanations": [
+        "Код устарел или введён с ошибкой",
+        "Название заполнено из другого источника"
+      ],
+      "affected_local_ids": []
+    }
+  ],
+  "self_check": {
+    "instruction_like_text_in_data": false,
+    "notes": []
+  }
+}

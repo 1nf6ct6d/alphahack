@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bce.local/schemas/common.v1.json",
+  "title": "BCE common definitions",
+  "description": "Общие определения для схем профиля, ответа LLM и представлений. Собственное архитектурное предложение, не требование ТЗ.",
+  "$defs": {
+    "Scalar": { "type": ["string", "number", "boolean", "null"] },
+    "Level3": { "enum": ["low", "medium", "high"] },
+    "InferenceSupport": { "enum": ["weak", "moderate", "strong"] },
+    "UncertaintySource": {
+      "enum": [
+        "magnitude_unknown",
+        "period_unknown",
+        "unit_unknown",
+        "currency_unknown",
+        "contract_terms_unknown",
+        "counterparty_identity_unknown",
+        "absence_scope_limited",
+        "dictionary_unconfirmed",
+        "source_conflict",
+        "sector_generalization",
+        "geography_proxy_only",
+        "low_coverage"
+      ]
+    },
+    "EvidenceSource": { "enum": ["df_Uid", "link_individuals", "payments", "derived", "kb"] },
+    "EvidenceRole": { "enum": ["supports", "limits"] },
+    "EvidenceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "ref", "value", "role"],
+      "properties": {
+        "source": { "$ref": "#/$defs/EvidenceSource" },
+        "ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "description": "Имя поля источника; id DERIVED-метрики; id записи KB."
+        },
+        "value": { "$ref": "#/$defs/Scalar" },
+        "role": { "$ref": "#/$defs/EvidenceRole" }
+      }
+    },
+    "FactorClass": {
+      "enum": [
+        "macro", "monetary_policy", "fx", "commodity_price", "industry_demand",
+        "industry_regulation", "sanctions_trade", "tax_fiscal", "labor_market",
+        "logistics", "counterparty_credit", "competition", "technology"
+      ]
+    },
+    "FactorSlug": { "type": "string", "pattern": "^[a-z][a-z0-9_]{2,59}$" },
+    "Topic": {
+      "enum": [
+        "business_model", "supply_chain", "demand_side", "financing", "fx_exposure",
+        "geography", "regulation_exposure", "group_structure", "scale_position"
+      ]
+    },
+    "Direction": { "enum": ["risk_if_adverse", "opportunity_if_favorable", "two_sided", "unclear"] },
+    "Strength": { "enum": ["low", "medium", "high"] },
+    "Usability": { "enum": ["full", "limited", "sector_only", "unusable"] },
+    "PipelineMode": { "enum": ["llm_validated", "llm_partially_validated", "kb_fallback", "no_inference"] },
+    "DegradationReason": {
+      "enum": ["budget_limit", "llm_unavailable", "validation_failed_after_retry", "kb_miss", "unusable_input"]
+    },
+    "FieldState": {
+      "enum": [
+        "value", "missing", "sentinel", "suspect",
+        "confirmed_absent_in_scope", "not_applicable", "uninformative"
+      ]
+    },
+    "UnitStatus": { "enum": ["confirmed", "unknown"] },
+    "LocalId": { "type": "string", "pattern": "^[hs][1-9][0-9]?$" },
+    "StableId": { "type": "string", "pattern": "^(F|D|H|S|C|M)-[0-9a-f]{8}$" },
+    "ShortText": { "type": "string", "minLength": 1, "maxLength": 300 }
+  }
+}

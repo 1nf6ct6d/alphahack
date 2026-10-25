@@ -1,0 +1,28 @@
+<task>
+Сформируй гипотезы чувствительности для компании по данным ниже.
+prompt_version: {{prompt_version}}; as_of_date: {{as_of_date}}; customer_status: {{customer_status}}; usability: {{usability}};
+revenue_semantics_status: {{revenue_semantics_status}}; payments_semantics_status: {{payments_semantics_status}};
+allowed_topics: {{allowed_topics}}.
+</task>
+
+<company_data>
+{{company_data_json}}
+</company_data>
+
+<evidence_index>
+{{evidence_index_json}}
+</evidence_index>
+
+<sector_kb version="{{kb_version}}">
+{{sector_kb_entries_json}}
+</sector_kb>
+
+<factor_catalog>
+{{factor_catalog_json}}
+</factor_catalog>
+
+<output_schema>
+{{llm_output_schema_json}}
+</output_schema>
+
+<retry_feedback>{{validator_errors_or_empty}}</retry_feedback>

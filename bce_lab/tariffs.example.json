@@ -1,0 +1,8 @@
+{
+  "_comment": "Стоимость считается ТОЛЬКО при confirmed=true и заполненных тарифах. Подтверждённых тарифов в ТЗ нет (известен лишь общий лимит ≈500 ₽ в день).",
+  "currency": "RUB",
+  "models": {
+    "Qwen3.6 35B A3B": {"input_per_1m_tokens": null, "output_per_1m_tokens": null, "confirmed": false, "source": null},
+    "GLM-5.3-Flash": {"input_per_1m_tokens": null, "output_per_1m_tokens": null, "confirmed": false, "source": null}
+  }
+}

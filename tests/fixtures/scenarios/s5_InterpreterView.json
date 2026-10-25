@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "company_id": "U_T5",
+  "profile_id": "U_T5-p1",
+  "usability": "unusable",
+  "statements": [
+    {
+      "id": "F-537516b5",
+      "epistemic_status": "FACT",
+      "text": "Тип организации: TYPE_A.",
+      "data_reliability": "high",
+      "overall_confidence": null,
+      "uncertainty_sources": [],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "ORG_TYPE",
+          "value": "TYPE_A",
+          "role": "supports"
+        }
+      ]
+    }
+  ],
+  "constraints": [
+    {
+      "id": "IC-BANK-FLAG-SCOPE",
+      "text": "Значение 0 у CL_PRODUCT_* означает отсутствие продукта только в этом банке; не выводить отсутствие долга, лизинга или гарантий.",
+      "origin": "static_rule"
+    },
+    {
+      "id": "IC-ABSENCE-IS-UNKNOWN",
+      "text": "Пропущенное значение — это неизвестно, а не отсутствие признака.",
+      "origin": "static_rule"
+    },
+    {
+      "id": "IC-NO-INVENTED-ENTITIES",
+      "text": "Не называть поставщиков, покупателей, долги, ставки и суммы, которых нет в evidence.",
+      "origin": "static_rule"
+    }
+  ]
+}

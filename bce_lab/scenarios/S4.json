@@ -1,0 +1,529 @@
+{
+  "id": "S4",
+  "title": "S4 группа",
+  "company_id": "U_T4",
+  "customer_status": "existing",
+  "usability": "full",
+  "revenue_semantics_status": "unknown",
+  "payments_semantics_status": "unknown",
+  "target_segment_applicability": "unknown",
+  "industry_identification": {
+    "status": "confirmed",
+    "okved_code_used": "46.71"
+  },
+  "signal_groups": {
+    "scale": false,
+    "payments": true,
+    "bank_products": true,
+    "foreign_trade": false,
+    "group_structure": true
+  },
+  "field_states": {
+    "SYNTHETIC_U": {
+      "state": "value",
+      "scope": null
+    },
+    "ORG_TYPE": {
+      "state": "value",
+      "scope": null
+    },
+    "OKFS_NAME": {
+      "state": "missing",
+      "scope": null
+    },
+    "COMPANY_AGE_YEARS_GRADATION": {
+      "state": "missing",
+      "scope": null
+    },
+    "ECO_MARK_LABEL": {
+      "state": "missing",
+      "scope": null
+    },
+    "MAINOKVED_CODE": {
+      "state": "value",
+      "scope": null
+    },
+    "MAINOKVED_NAME": {
+      "state": "value",
+      "scope": null
+    },
+    "NEGATIVEMARK": {
+      "state": "missing",
+      "scope": null
+    },
+    "AMOUNT_WORKERS_FNS_GRADATION": {
+      "state": "missing",
+      "scope": null
+    },
+    "AMOUNT_WORKERS_SPARK_GRADATION": {
+      "state": "missing",
+      "scope": null
+    },
+    "CL_TYPE": {
+      "state": "value",
+      "scope": null
+    },
+    "CL_PRODUCT_RKO_MARK": {
+      "state": "missing",
+      "scope": null
+    },
+    "CL_PRODUCT_GAR_MARK": {
+      "state": "missing",
+      "scope": null
+    },
+    "CL_PRODUCT_LOA_MARK": {
+      "state": "value",
+      "scope": null
+    },
+    "CL_PRODUCT_LEA_MARK": {
+      "state": "missing",
+      "scope": null
+    },
+    "CL_PRODUCT_DEP_MARK": {
+      "state": "missing",
+      "scope": null
+    },
+    "CL_PRODUCT_ZPP_MARK": {
+      "state": "missing",
+      "scope": null
+    },
+    "FTS_FLAG": {
+      "state": "missing",
+      "scope": null
+    },
+    "FTS_COUNTRY_NAME": {
+      "state": "missing",
+      "scope": null
+    },
+    "FACTORING_MARK": {
+      "state": "value",
+      "scope": null
+    },
+    "REVENUE_COMPANY": {
+      "state": "value",
+      "scope": null
+    },
+    "GROUP_ID": {
+      "state": "value",
+      "scope": null
+    },
+    "CITY": {
+      "state": "missing",
+      "scope": null
+    },
+    "REGION": {
+      "state": "value",
+      "scope": null
+    }
+  },
+  "facts": [
+    {
+      "id": "F-bcb5d7e8",
+      "category": "group",
+      "statement": "Компания входит в группу G_12."
+    },
+    {
+      "id": "F-acc51b0f",
+      "category": "bank_products",
+      "statement": "В банке подтверждены кредитный продукт и факторинг."
+    }
+  ],
+  "derived_metrics": [
+    {
+      "id": "D-73c36e6a",
+      "name": "intragroup_share_out",
+      "value": 0.93,
+      "unit": "share",
+      "unit_dependency": "unit_free",
+      "coverage": 1.0,
+      "data_reliability": "high"
+    },
+    {
+      "id": "D-c9bd8e5c",
+      "name": "intragroup_share_in",
+      "value": 0.88,
+      "unit": "share",
+      "unit_dependency": "unit_free",
+      "coverage": 1.0,
+      "data_reliability": "high"
+    },
+    {
+      "id": "D-cadafc6b",
+      "name": "group_size",
+      "value": 6,
+      "unit": "count",
+      "unit_dependency": "unit_free",
+      "coverage": 1.0,
+      "data_reliability": "high"
+    },
+    {
+      "id": "D-daa27f21",
+      "name": "counterparty_coverage_in_df_uid",
+      "value": 0.4,
+      "unit": "share",
+      "unit_dependency": "unit_free",
+      "coverage": 1.0,
+      "data_reliability": "high"
+    }
+  ],
+  "data_conflicts": [],
+  "missing_data": [
+    {
+      "feature": "FTS_FLAG",
+      "kind": "null",
+      "impact": "minor",
+      "limits_conclusions_about": []
+    },
+    {
+      "feature": "NEGATIVEMARK",
+      "kind": "semantics_unknown",
+      "impact": "none",
+      "limits_conclusions_about": [
+        "ownership"
+      ]
+    }
+  ],
+  "evidence_candidates": [
+    {
+      "source": "df_Uid",
+      "ref": "SYNTHETIC_U",
+      "value": "U_T4"
+    },
+    {
+      "source": "df_Uid",
+      "ref": "ORG_TYPE",
+      "value": "TYPE_A"
+    },
+    {
+      "source": "df_Uid",
+      "ref": "OKFS_NAME",
+      "value": null
+    },
+    {
+      "source": "df_Uid",
+      "ref": "COMPANY_AGE_YEARS_GRADATION",
+      "value": null
+    },
+    {
+      "source": "df_Uid",
+      "ref": "ECO_MARK_LABEL",
+      "value": null
+    },
+    {
+      "source": "df_Uid",
+      "ref": "MAINOKVED_CODE",
+      "value": "46.71"
+    },
+    {
+      "source": "df_Uid",
+      "ref": "MAINOKVED_NAME",
+      "value": "Торговля оптовая топливом"
+    },
+    {
+      "source": "df_Uid",
+      "ref": "NEGATIVEMARK",
+      "value": null
+    },
+    {
+      "source": "df_Uid",
+      "ref": "AMOUNT_WORKERS_FNS_GRADATION",
+      "value": null
+    },
+    {
+      "source": "df_Uid",
+      "ref": "AMOUNT_WORKERS_SPARK_GRADATION",
+      "value": null
+    },
+    {
+      "source": "df_Uid",
+      "ref": "CL_TYPE",
+      "value": "existing"
+    },
+    {
+      "source": "df_Uid",
+      "ref": "CL_PRODUCT_RKO_MARK",
+      "value": null
+    },
+    {
+      "source": "df_Uid",
+      "ref": "CL_PRODUCT_GAR_MARK",
+      "value": null
+    },
+    {
+      "source": "df_Uid",
+      "ref": "CL_PRODUCT_LOA_MARK",
+      "value": 1
+    },
+    {
+      "source": "df_Uid",
+      "ref": "CL_PRODUCT_LEA_MARK",
+      "value": null
+    },
+    {
+      "source": "df_Uid",
+      "ref": "CL_PRODUCT_DEP_MARK",
+      "value": null
+    },
+    {
+      "source": "df_Uid",
+      "ref": "CL_PRODUCT_ZPP_MARK",
+      "value": null
+    },
+    {
+      "source": "df_Uid",
+      "ref": "FTS_FLAG",
+      "value": null
+    },
+    {
+      "source": "df_Uid",
+      "ref": "FTS_COUNTRY_NAME",
+      "value": null
+    },
+    {
+      "source": "df_Uid",
+      "ref": "FACTORING_MARK",
+      "value": 1
+    },
+    {
+      "source": "df_Uid",
+      "ref": "REVENUE_COMPANY",
+      "value": 22000000000
+    },
+    {
+      "source": "df_Uid",
+      "ref": "GROUP_ID",
+      "value": "G_12"
+    },
+    {
+      "source": "df_Uid",
+      "ref": "CITY",
+      "value": null
+    },
+    {
+      "source": "df_Uid",
+      "ref": "REGION",
+      "value": "REGION_3"
+    },
+    {
+      "source": "derived",
+      "ref": "D-73c36e6a",
+      "value": 0.93
+    },
+    {
+      "source": "derived",
+      "ref": "D-c9bd8e5c",
+      "value": 0.88
+    },
+    {
+      "source": "derived",
+      "ref": "D-cadafc6b",
+      "value": 6
+    },
+    {
+      "source": "derived",
+      "ref": "D-daa27f21",
+      "value": 0.4
+    },
+    {
+      "source": "payments",
+      "ref": "PAY_AMT",
+      "value": null
+    },
+    {
+      "source": "payments",
+      "ref": "BENEFICIARY",
+      "value": null
+    },
+    {
+      "source": "kb",
+      "ref": "KB-46.71-01",
+      "value": null
+    }
+  ],
+  "kb_ids": [
+    "KB-46.71-01"
+  ],
+  "kb_overrides": {},
+  "llm_call": true,
+  "red_team": false,
+  "injection_markers": [],
+  "expected_llm_output": {
+    "hypotheses": [
+      {
+        "local_id": "h1",
+        "topic": "financing",
+        "statement": "Кредитный продукт и факторинг в банке могут означать зависимость стоимости оборотного финансирования от ключевой ставки.",
+        "evidence": [
+          {
+            "source": "df_Uid",
+            "ref": "CL_TYPE",
+            "value": "existing",
+            "role": "supports"
+          },
+          {
+            "source": "df_Uid",
+            "ref": "CL_PRODUCT_LOA_MARK",
+            "value": 1,
+            "role": "supports"
+          },
+          {
+            "source": "df_Uid",
+            "ref": "FACTORING_MARK",
+            "value": 1,
+            "role": "supports"
+          }
+        ],
+        "inference_support": "strong",
+        "uncertainty_sources": [
+          "magnitude_unknown",
+          "contract_terms_unknown"
+        ],
+        "open_questions": [],
+        "how_to_verify": "Условия кредитов и объём факторинга",
+        "would_be_refuted_by": "Фиксированная ставка по всем обязательствам",
+        "caveats": []
+      },
+      {
+        "local_id": "h2",
+        "topic": "group_structure",
+        "statement": "Высокая доля внутригрупповых платежей может указывать на вертикально интегрированную группу.",
+        "evidence": [
+          {
+            "source": "derived",
+            "ref": "D-73c36e6a",
+            "value": 0.93,
+            "role": "supports"
+          },
+          {
+            "source": "derived",
+            "ref": "D-c9bd8e5c",
+            "value": 0.88,
+            "role": "supports"
+          },
+          {
+            "source": "derived",
+            "ref": "D-cadafc6b",
+            "value": 6,
+            "role": "supports"
+          },
+          {
+            "source": "derived",
+            "ref": "D-daa27f21",
+            "value": 0.4,
+            "role": "limits"
+          }
+        ],
+        "inference_support": "moderate",
+        "uncertainty_sources": [
+          "counterparty_identity_unknown",
+          "unit_unknown",
+          "magnitude_unknown"
+        ],
+        "open_questions": [],
+        "how_to_verify": "Отраслевой состав компаний группы и внешние платежи",
+        "would_be_refuted_by": "Внутригрупповые платежи — транзитные или учётные",
+        "caveats": []
+      },
+      {
+        "local_id": "h3",
+        "topic": "business_model",
+        "statement": "Для оптовой торговли топливом по коду 46.71 типична чувствительность к ценам на топливо и маржинальности.",
+        "evidence": [
+          {
+            "source": "df_Uid",
+            "ref": "MAINOKVED_CODE",
+            "value": "46.71",
+            "role": "supports"
+          },
+          {
+            "source": "kb",
+            "ref": "KB-46.71-01",
+            "value": null,
+            "role": "supports"
+          }
+        ],
+        "inference_support": "moderate",
+        "uncertainty_sources": [
+          "sector_generalization",
+          "magnitude_unknown"
+        ],
+        "open_questions": [],
+        "how_to_verify": "Структура закупок и продаж",
+        "would_be_refuted_by": "Контракты с фиксированной ценой",
+        "caveats": []
+      }
+    ],
+    "sensitivities": [
+      {
+        "local_id": "s1",
+        "factor_class": "monetary_policy",
+        "factor": "key_rate_up",
+        "transmission_channel": "Рост ставки удорожает кредиты и факторинг.",
+        "direction": "risk_if_adverse",
+        "strength": "medium",
+        "evidence": [
+          {
+            "source": "df_Uid",
+            "ref": "CL_PRODUCT_LOA_MARK",
+            "value": 1,
+            "role": "supports"
+          },
+          {
+            "source": "df_Uid",
+            "ref": "FACTORING_MARK",
+            "value": 1,
+            "role": "supports"
+          }
+        ],
+        "basis_hypothesis_ids": [
+          "h1"
+        ],
+        "uncertainty_sources": [
+          "magnitude_unknown",
+          "contract_terms_unknown"
+        ],
+        "keywords_for_matching": [
+          "ключевая ставка",
+          "факторинг"
+        ]
+      },
+      {
+        "local_id": "s2",
+        "factor_class": "commodity_price",
+        "factor": "fuel_price_change",
+        "transmission_channel": "Изменение цен на топливо влияет на оборот и маржу.",
+        "direction": "two_sided",
+        "strength": "medium",
+        "evidence": [
+          {
+            "source": "df_Uid",
+            "ref": "MAINOKVED_CODE",
+            "value": "46.71",
+            "role": "supports"
+          },
+          {
+            "source": "kb",
+            "ref": "KB-46.71-01",
+            "value": null,
+            "role": "supports"
+          }
+        ],
+        "basis_hypothesis_ids": [
+          "h3"
+        ],
+        "uncertainty_sources": [
+          "sector_generalization",
+          "magnitude_unknown"
+        ],
+        "keywords_for_matching": [
+          "цены на топливо"
+        ]
+      }
+    ],
+    "conflict_notes": [],
+    "self_check": {
+      "instruction_like_text_in_data": false,
+      "notes": []
+    }
+  }
+}

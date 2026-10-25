@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bce.local/schemas/llm_hypotheses_output.v1.json",
+  "title": "LLM hypotheses output",
+  "description": "Единственный объект, который формирует LLM. Всё остальное в профиле формирует код.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["hypotheses", "sensitivities", "conflict_notes", "self_check"],
+  "properties": {
+    "hypotheses": {
+      "type": "array",
+      "maxItems": 8,
+      "items": { "$ref": "#/$defs/LlmHypothesis" }
+    },
+    "sensitivities": {
+      "type": "array",
+      "maxItems": 10,
+      "items": { "$ref": "#/$defs/LlmSensitivity" }
+    },
+    "conflict_notes": {
+      "type": "array",
+      "maxItems": 10,
+      "items": { "$ref": "#/$defs/ConflictNote" }
+    },
+    "self_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["instruction_like_text_in_data", "notes"],
+      "properties": {
+        "instruction_like_text_in_data": { "type": "boolean" },
+        "notes": { "type": "array", "maxItems": 5, "items": { "type": "string", "maxLength": 200 } }
+      }
+    }
+  },
+  "$defs": {
+    "LlmHypothesis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_id", "topic", "statement", "evidence", "inference_support",
+        "uncertainty_sources", "open_questions", "how_to_verify", "would_be_refuted_by", "caveats"
+      ],
+      "properties": {
+        "local_id": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/LocalId" },
+        "topic": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Topic" },
+        "statement": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/ShortText" },
+        "evidence": {
+          "type": "array", "minItems": 1, "maxItems": 8,
+          "items": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/EvidenceRef" }
+        },
+        "inference_support": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/InferenceSupport" },
+        "uncertainty_sources": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/UncertaintySource" }
+        },
+        "open_questions": { "type": "array", "maxItems": 3, "items": { "type": "string", "maxLength": 200 } },
+        "how_to_verify": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "would_be_refuted_by": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "caveats": { "type": "array", "maxItems": 3, "items": { "type": "string", "maxLength": 200 } }
+      }
+    },
+    "LlmSensitivity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_id", "factor_class", "factor", "transmission_channel", "direction",
+        "strength", "evidence", "basis_hypothesis_ids", "uncertainty_sources", "keywords_for_matching"
+      ],
+      "properties": {
+        "local_id": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/LocalId" },
+        "factor_class": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/FactorClass" },
+        "factor": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/FactorSlug" },
+        "transmission_channel": { "type": "string", "minLength": 1, "maxLength": 250 },
+        "direction": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Direction" },
+        "strength": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Strength" },
+        "evidence": {
+          "type": "array", "minItems": 1, "maxItems": 8,
+          "items": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/EvidenceRef" }
+        },
+        "basis_hypothesis_ids": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/LocalId" }
+        },
+        "uncertainty_sources": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/UncertaintySource" }
+        },
+        "keywords_for_matching": {
+          "type": "array", "maxItems": 12, "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1, "maxLength": 60 }
+        }
+      }
+    },
+    "ConflictNote": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["conflict_id", "plausible_explanations", "affected_local_ids"],
+      "properties": {
+        "conflict_id": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/StableId" },
+        "plausible_explanations": {
+          "type": "array", "minItems": 1, "maxItems": 3,
+          "items": { "type": "string", "minLength": 1, "maxLength": 200 }
+        },
+        "affected_local_ids": {
+          "type": "array",
+          "items": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/LocalId" }
+        }
+      }
+    }
+  }
+}

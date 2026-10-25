@@ -1,0 +1,190 @@
+{
+  "schema_version": "1.0.0",
+  "company_id": "U_T3",
+  "profile_id": "U_T3-p1",
+  "as_of_date": "2026-10-20",
+  "banner": {
+    "usability": "sector_only",
+    "text": "Профиль построен по неполным данным"
+  },
+  "sections": [
+    {
+      "kind": "facts",
+      "items": [
+        {
+          "id": "F-ae5ef11a",
+          "label": "Факт из данных",
+          "title": "Основной ОКВЭД: 62.01 (название в данных отсутствует).",
+          "text": "Основной ОКВЭД: 62.01 (название в данных отсутствует).",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "MAINOKVED_CODE",
+              "label": "MAINOKVED_CODE",
+              "value_text": "62.01",
+              "role": "supports"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "derived",
+      "items": []
+    },
+    {
+      "kind": "hypotheses",
+      "items": [
+        {
+          "id": "H-dcff9c71",
+          "label": "Гипотеза AI",
+          "title": "Спрос на услуги разработки ПО по коду 62.01 может зависеть от инвестиционных бюджетов заказчиков.",
+          "text": "Спрос на услуги разработки ПО по коду 62.01 может зависеть от инвестиционных бюджетов заказчиков.",
+          "confidence": "medium",
+          "uncertainty_note": "sector_generalization, dictionary_unconfirmed, magnitude_unknown",
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "MAINOKVED_CODE",
+              "label": "MAINOKVED_CODE",
+              "value_text": "62.01",
+              "role": "supports"
+            },
+            {
+              "source": "kb",
+              "ref": "KB-62.01-01",
+              "label": "KB-62.01-01",
+              "value_text": "None",
+              "role": "supports"
+            }
+          ]
+        },
+        {
+          "id": "H-90f39acc",
+          "label": "Гипотеза AI",
+          "title": "Отрасль может быть чувствительна к изменению мер поддержки ИТ-компаний.",
+          "text": "Отрасль может быть чувствительна к изменению мер поддержки ИТ-компаний.",
+          "confidence": "low",
+          "uncertainty_note": "sector_generalization, magnitude_unknown",
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "MAINOKVED_CODE",
+              "label": "MAINOKVED_CODE",
+              "value_text": "62.01",
+              "role": "supports"
+            },
+            {
+              "source": "kb",
+              "ref": "KB-62.01-01",
+              "label": "KB-62.01-01",
+              "value_text": "None",
+              "role": "supports"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "conflicts",
+      "items": []
+    },
+    {
+      "kind": "missing",
+      "items": [
+        {
+          "id": "M-178d9eee",
+          "label": "Нет данных",
+          "title": "CL_PRODUCT_RKO_MARK",
+          "text": "uninformative",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля CL_PRODUCT_RKO_MARK у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-1edcee6e",
+          "label": "Нет данных",
+          "title": "CL_PRODUCT_GAR_MARK",
+          "text": "uninformative",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля CL_PRODUCT_GAR_MARK у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-c81798a5",
+          "label": "Нет данных",
+          "title": "CL_PRODUCT_LOA_MARK",
+          "text": "uninformative",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля CL_PRODUCT_LOA_MARK у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-bc89e172",
+          "label": "Нет данных",
+          "title": "CL_PRODUCT_LEA_MARK",
+          "text": "uninformative",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля CL_PRODUCT_LEA_MARK у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-5661c17c",
+          "label": "Нет данных",
+          "title": "CL_PRODUCT_DEP_MARK",
+          "text": "uninformative",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля CL_PRODUCT_DEP_MARK у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-55fd73df",
+          "label": "Нет данных",
+          "title": "CL_PRODUCT_ZPP_MARK",
+          "text": "uninformative",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля CL_PRODUCT_ZPP_MARK у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-819081c0",
+          "label": "Нет данных",
+          "title": "FTS_FLAG",
+          "text": "null",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля FTS_FLAG у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-f01cb549",
+          "label": "Нет данных",
+          "title": "REVENUE_COMPANY",
+          "text": "null",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля REVENUE_COMPANY у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-61153ac7",
+          "label": "Нет данных",
+          "title": "GROUP_ID",
+          "text": "null",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля GROUP_ID у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-ca30b7f9",
+          "label": "Нет данных",
+          "title": "NEGATIVEMARK",
+          "text": "semantics_unknown",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": []
+        }
+      ]
+    }
+  ]
+}

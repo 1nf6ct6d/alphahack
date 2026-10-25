@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0.0",
+  "company_id": "U_T4",
+  "profile_id": "U_T4-p1",
+  "as_of_date": "2026-10-20",
+  "usability": "full",
+  "weight_semantics": "ordinal_prior_not_probability",
+  "hooks": {
+    "matching_profile": {
+      "okved_codes": [
+        "46.71"
+      ],
+      "regions": [
+        "REGION_3"
+      ],
+      "countries": [],
+      "factor_classes_weighted": {
+        "monetary_policy": 0.53,
+        "commodity_price": 0.36
+      },
+      "keywords": [
+        "ключевая ставка",
+        "факторинг",
+        "цены на топливо"
+      ],
+      "negative_keywords": []
+    },
+    "relevance_priors": [
+      {
+        "sensitivity_id": "S-72e9d1ca",
+        "factor_class": "monetary_policy",
+        "factor": "key_rate_up",
+        "weight": 0.53,
+        "overall_confidence": "high"
+      },
+      {
+        "sensitivity_id": "S-cbc1724f",
+        "factor_class": "commodity_price",
+        "factor": "fuel_price_change",
+        "weight": 0.36,
+        "overall_confidence": "medium"
+      }
+    ],
+    "interpretation_constraints": [
+      {
+        "id": "IC-BANK-FLAG-SCOPE",
+        "text": "Значение 0 у CL_PRODUCT_* означает отсутствие продукта только в этом банке; не выводить отсутствие долга, лизинга или гарантий.",
+        "origin": "static_rule"
+      },
+      {
+        "id": "IC-ABSENCE-IS-UNKNOWN",
+        "text": "Пропущенное значение — это неизвестно, а не отсутствие признака.",
+        "origin": "static_rule"
+      },
+      {
+        "id": "IC-NO-INVENTED-ENTITIES",
+        "text": "Не называть поставщиков, покупателей, долги, ставки и суммы, которых нет в evidence.",
+        "origin": "static_rule"
+      },
+      {
+        "id": "IC-INTRAGROUP-NOT-SUPPLY-CHAIN",
+        "text": "Внутригрупповые платежи не являются внешней цепочкой поставок или сбыта.",
+        "origin": "semantics"
+      },
+      {
+        "id": "IC-UNIT-UNKNOWN",
+        "text": "Единицы выручки и платежей не подтверждены: не называть денежных сумм и не сравнивать с порогами.",
+        "origin": "semantics"
+      }
+    ]
+  },
+  "numeric_features": [
+    {
+      "derived_id": "D-73c36e6a",
+      "name": "intragroup_share_out",
+      "value": 0.93,
+      "coverage": 1.0,
+      "data_reliability": "high"
+    },
+    {
+      "derived_id": "D-c9bd8e5c",
+      "name": "intragroup_share_in",
+      "value": 0.88,
+      "coverage": 1.0,
+      "data_reliability": "high"
+    },
+    {
+      "derived_id": "D-cadafc6b",
+      "name": "group_size",
+      "value": 6,
+      "coverage": 1.0,
+      "data_reliability": "high"
+    },
+    {
+      "derived_id": "D-daa27f21",
+      "name": "counterparty_coverage_in_df_uid",
+      "value": 0.4,
+      "coverage": 1.0,
+      "data_reliability": "high"
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "schema_version": "1.0.0",
+  "company_id": "U_T5",
+  "profile_id": "U_T5-p1",
+  "as_of_date": "2026-10-20",
+  "banner": {
+    "usability": "unusable",
+    "text": "Профиль построен по неполным данным"
+  },
+  "sections": [
+    {
+      "kind": "facts",
+      "items": [
+        {
+          "id": "F-537516b5",
+          "label": "Факт из данных",
+          "title": "Тип организации: TYPE_A.",
+          "text": "Тип организации: TYPE_A.",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "ORG_TYPE",
+              "label": "ORG_TYPE",
+              "value_text": "TYPE_A",
+              "role": "supports"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "derived",
+      "items": []
+    },
+    {
+      "kind": "hypotheses",
+      "items": []
+    },
+    {
+      "kind": "conflicts",
+      "items": []
+    },
+    {
+      "kind": "missing",
+      "items": [
+        {
+          "id": "M-1e23f24a",
+          "label": "Нет данных",
+          "title": "MAINOKVED_CODE",
+          "text": "sentinel",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля MAINOKVED_CODE у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-da2041b7",
+          "label": "Нет данных",
+          "title": "MAINOKVED_NAME",
+          "text": "sentinel",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля MAINOKVED_NAME у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-15d4d37c",
+          "label": "Нет данных",
+          "title": "AMOUNT_WORKERS_FNS_GRADATION",
+          "text": "sentinel",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля AMOUNT_WORKERS_FNS_GRADATION у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-81ab0062",
+          "label": "Нет данных",
+          "title": "CL_PRODUCT_LOA_MARK",
+          "text": "sentinel",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля CL_PRODUCT_LOA_MARK у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-8f0316b6",
+          "label": "Нет данных",
+          "title": "FTS_FLAG",
+          "text": "sentinel",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля FTS_FLAG у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-e7299ecc",
+          "label": "Нет данных",
+          "title": "REVENUE_COMPANY",
+          "text": "sentinel",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля REVENUE_COMPANY у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-98cd5ef2",
+          "label": "Нет данных",
+          "title": "GROUP_ID",
+          "text": "null",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля GROUP_ID у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-c39bed3a",
+          "label": "Нет данных",
+          "title": "REGION",
+          "text": "sentinel",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля REGION у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-ba3b752c",
+          "label": "Нет данных",
+          "title": "NEGATIVEMARK",
+          "text": "semantics_unknown",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": []
+        }
+      ]
+    }
+  ]
+}

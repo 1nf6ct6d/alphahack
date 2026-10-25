@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "company_id": "U_T1",
+  "profile_id": "U_T1-p1",
+  "as_of_date": "2026-10-20",
+  "usability": "full",
+  "weight_semantics": "ordinal_prior_not_probability",
+  "hooks": {
+    "matching_profile": {
+      "okved_codes": [
+        "24.10"
+      ],
+      "regions": [
+        "REGION_1"
+      ],
+      "countries": [],
+      "factor_classes_weighted": {
+        "monetary_policy": 0.53,
+        "commodity_price": 0.55,
+        "fx": 0.17
+      },
+      "keywords": [
+        "железная руда",
+        "ключевая ставка",
+        "курс рубля",
+        "сталь",
+        "стоимость кредита",
+        "энергоносители"
+      ],
+      "negative_keywords": []
+    },
+    "relevance_priors": [
+      {
+        "sensitivity_id": "S-206c8fe6",
+        "factor_class": "monetary_policy",
+        "factor": "key_rate_up",
+        "weight": 0.53,
+        "overall_confidence": "high"
+      },
+      {
+        "sensitivity_id": "S-2706073e",
+        "factor_class": "commodity_price",
+        "factor": "steel_input_price_up",
+        "weight": 0.55,
+        "overall_confidence": "medium"
+      },
+      {
+        "sensitivity_id": "S-48da2dc4",
+        "factor_class": "fx",
+        "factor": "rub_depreciation",
+        "weight": 0.17,
+        "overall_confidence": "low"
+      }
+    ],
+    "interpretation_constraints": [
+      {
+        "id": "IC-BANK-FLAG-SCOPE",
+        "text": "Значение 0 у CL_PRODUCT_* означает отсутствие продукта только в этом банке; не выводить отсутствие долга, лизинга или гарантий.",
+        "origin": "static_rule"
+      },
+      {
+        "id": "IC-ABSENCE-IS-UNKNOWN",
+        "text": "Пропущенное значение — это неизвестно, а не отсутствие признака.",
+        "origin": "static_rule"
+      },
+      {
+        "id": "IC-NO-INVENTED-ENTITIES",
+        "text": "Не называть поставщиков, покупателей, долги, ставки и суммы, которых нет в evidence.",
+        "origin": "static_rule"
+      }
+    ]
+  },
+  "numeric_features": [
+    {
+      "derived_id": "D-012a9247",
+      "name": "top5_counterparty_share_out",
+      "value": 0.55,
+      "coverage": 1.0,
+      "data_reliability": "high"
+    },
+    {
+      "derived_id": "D-45df7a25",
+      "name": "counterparty_count_out",
+      "value": 40,
+      "coverage": 1.0,
+      "data_reliability": "high"
+    }
+  ]
+}

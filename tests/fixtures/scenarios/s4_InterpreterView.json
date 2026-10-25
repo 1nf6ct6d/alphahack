@@ -1,0 +1,281 @@
+{
+  "schema_version": "1.0.0",
+  "company_id": "U_T4",
+  "profile_id": "U_T4-p1",
+  "usability": "full",
+  "statements": [
+    {
+      "id": "F-bcb5d7e8",
+      "epistemic_status": "FACT",
+      "text": "Компания входит в группу G_12.",
+      "data_reliability": "high",
+      "overall_confidence": null,
+      "uncertainty_sources": [],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "GROUP_ID",
+          "value": "G_12",
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "F-acc51b0f",
+      "epistemic_status": "FACT",
+      "text": "В банке подтверждены кредитный продукт и факторинг.",
+      "data_reliability": "high",
+      "overall_confidence": null,
+      "uncertainty_sources": [],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LOA_MARK",
+          "value": 1,
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "FACTORING_MARK",
+          "value": 1,
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "D-73c36e6a",
+      "epistemic_status": "DERIVED",
+      "text": "intragroup_share_out = 0.93",
+      "data_reliability": "high",
+      "overall_confidence": null,
+      "uncertainty_sources": [],
+      "evidence": [
+        {
+          "source": "payments",
+          "ref": "PAY_AMT",
+          "value": null,
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "D-c9bd8e5c",
+      "epistemic_status": "DERIVED",
+      "text": "intragroup_share_in = 0.88",
+      "data_reliability": "high",
+      "overall_confidence": null,
+      "uncertainty_sources": [],
+      "evidence": [
+        {
+          "source": "payments",
+          "ref": "PAY_AMT",
+          "value": null,
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "D-cadafc6b",
+      "epistemic_status": "DERIVED",
+      "text": "group_size = 6",
+      "data_reliability": "high",
+      "overall_confidence": null,
+      "uncertainty_sources": [],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "GROUP_ID",
+          "value": "G_12",
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "D-daa27f21",
+      "epistemic_status": "DERIVED",
+      "text": "counterparty_coverage_in_df_uid = 0.4",
+      "data_reliability": "high",
+      "overall_confidence": null,
+      "uncertainty_sources": [],
+      "evidence": [
+        {
+          "source": "payments",
+          "ref": "BENEFICIARY",
+          "value": null,
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "H-f6d448ca",
+      "epistemic_status": "HYPOTHESIS",
+      "text": "Кредитный продукт и факторинг в банке могут означать зависимость стоимости оборотного финансирования от ключевой ставки.",
+      "data_reliability": "high",
+      "overall_confidence": "high",
+      "uncertainty_sources": [
+        "magnitude_unknown",
+        "contract_terms_unknown"
+      ],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "CL_TYPE",
+          "value": "existing",
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LOA_MARK",
+          "value": 1,
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "FACTORING_MARK",
+          "value": 1,
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "H-9e2341b8",
+      "epistemic_status": "HYPOTHESIS",
+      "text": "Высокая доля внутригрупповых платежей может указывать на вертикально интегрированную группу.",
+      "data_reliability": "high",
+      "overall_confidence": "medium",
+      "uncertainty_sources": [
+        "counterparty_identity_unknown",
+        "unit_unknown",
+        "magnitude_unknown"
+      ],
+      "evidence": [
+        {
+          "source": "derived",
+          "ref": "D-73c36e6a",
+          "value": 0.93,
+          "role": "supports"
+        },
+        {
+          "source": "derived",
+          "ref": "D-c9bd8e5c",
+          "value": 0.88,
+          "role": "supports"
+        },
+        {
+          "source": "derived",
+          "ref": "D-cadafc6b",
+          "value": 6,
+          "role": "supports"
+        },
+        {
+          "source": "derived",
+          "ref": "D-daa27f21",
+          "value": 0.4,
+          "role": "limits"
+        }
+      ]
+    },
+    {
+      "id": "H-d2db6042",
+      "epistemic_status": "HYPOTHESIS",
+      "text": "Для оптовой торговли топливом по коду 46.71 типична чувствительность к ценам на топливо и маржинальности.",
+      "data_reliability": "high",
+      "overall_confidence": "medium",
+      "uncertainty_sources": [
+        "sector_generalization",
+        "magnitude_unknown"
+      ],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "46.71",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-46.71-01",
+          "value": null,
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "S-72e9d1ca",
+      "epistemic_status": "HYPOTHESIS",
+      "text": "Рост ставки удорожает кредиты и факторинг.",
+      "data_reliability": "high",
+      "overall_confidence": "high",
+      "uncertainty_sources": [
+        "magnitude_unknown",
+        "contract_terms_unknown"
+      ],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LOA_MARK",
+          "value": 1,
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "FACTORING_MARK",
+          "value": 1,
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "S-cbc1724f",
+      "epistemic_status": "HYPOTHESIS",
+      "text": "Изменение цен на топливо влияет на оборот и маржу.",
+      "data_reliability": "high",
+      "overall_confidence": "medium",
+      "uncertainty_sources": [
+        "sector_generalization",
+        "magnitude_unknown"
+      ],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "46.71",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-46.71-01",
+          "value": null,
+          "role": "supports"
+        }
+      ]
+    }
+  ],
+  "constraints": [
+    {
+      "id": "IC-BANK-FLAG-SCOPE",
+      "text": "Значение 0 у CL_PRODUCT_* означает отсутствие продукта только в этом банке; не выводить отсутствие долга, лизинга или гарантий.",
+      "origin": "static_rule"
+    },
+    {
+      "id": "IC-ABSENCE-IS-UNKNOWN",
+      "text": "Пропущенное значение — это неизвестно, а не отсутствие признака.",
+      "origin": "static_rule"
+    },
+    {
+      "id": "IC-NO-INVENTED-ENTITIES",
+      "text": "Не называть поставщиков, покупателей, долги, ставки и суммы, которых нет в evidence.",
+      "origin": "static_rule"
+    },
+    {
+      "id": "IC-INTRAGROUP-NOT-SUPPLY-CHAIN",
+      "text": "Внутригрупповые платежи не являются внешней цепочкой поставок или сбыта.",
+      "origin": "semantics"
+    },
+    {
+      "id": "IC-UNIT-UNKNOWN",
+      "text": "Единицы выручки и платежей не подтверждены: не называть денежных сумм и не сравнивать с порогами.",
+      "origin": "semantics"
+    }
+  ]
+}

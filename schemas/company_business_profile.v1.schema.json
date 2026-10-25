@@ -1,0 +1,417 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bce.local/schemas/company_business_profile.v1.json",
+  "title": "CompanyBusinessProfile",
+  "description": "Полный профиль, который собирает Assembler. Секции facts/derived/input_quality/missing/conflicts/hooks формирует код, hypotheses/sensitivities — код из ответа LLM или KB после валидации.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "meta", "input_quality", "facts", "derived_metrics", "hypotheses", "sensitivities",
+    "data_conflicts", "missing_data", "downstream_hooks", "provenance"
+  ],
+  "properties": {
+    "meta": { "$ref": "#/$defs/Meta" },
+    "input_quality": { "$ref": "#/$defs/InputQuality" },
+    "facts": { "type": "array", "items": { "$ref": "#/$defs/Fact" } },
+    "derived_metrics": { "type": "array", "items": { "$ref": "#/$defs/DerivedMetric" } },
+    "hypotheses": { "type": "array", "maxItems": 12, "items": { "$ref": "#/$defs/Hypothesis" } },
+    "sensitivities": { "type": "array", "maxItems": 15, "items": { "$ref": "#/$defs/Sensitivity" } },
+    "data_conflicts": { "type": "array", "items": { "$ref": "#/$defs/DataConflict" } },
+    "missing_data": { "type": "array", "items": { "$ref": "#/$defs/MissingData" } },
+    "downstream_hooks": { "$ref": "#/$defs/DownstreamHooks" },
+    "provenance": { "$ref": "#/$defs/Provenance" }
+  },
+  "allOf": [
+    {
+      "description": "usability=unusable => вывод только фактов, без гипотез и без LLM",
+      "if": {
+        "required": ["input_quality"],
+        "properties": { "input_quality": { "required": ["usability"], "properties": { "usability": { "const": "unusable" } } } }
+      },
+      "then": {
+        "properties": {
+          "hypotheses": { "maxItems": 0 },
+          "sensitivities": { "maxItems": 0 },
+          "meta": { "properties": { "pipeline_mode": { "const": "no_inference" } } }
+        }
+      }
+    },
+    {
+      "description": "pipeline_mode=no_inference допустим только при usability=unusable",
+      "if": {
+        "required": ["meta"],
+        "properties": { "meta": { "required": ["pipeline_mode"], "properties": { "pipeline_mode": { "const": "no_inference" } } } }
+      },
+      "then": {
+        "properties": { "input_quality": { "properties": { "usability": { "const": "unusable" } } } }
+      }
+    },
+    {
+      "description": "sector_only => только отраслевые темы",
+      "if": {
+        "required": ["input_quality"],
+        "properties": { "input_quality": { "required": ["usability"], "properties": { "usability": { "const": "sector_only" } } } }
+      },
+      "then": {
+        "properties": {
+          "hypotheses": {
+            "items": { "properties": { "topic": { "enum": ["business_model", "demand_side", "regulation_exposure"] } } }
+          }
+        }
+      }
+    },
+    {
+      "description": "режимы с LLM требуют записи об использованной модели",
+      "if": {
+        "required": ["meta"],
+        "properties": { "meta": { "required": ["pipeline_mode"], "properties": { "pipeline_mode": { "enum": ["llm_validated", "llm_partially_validated"] } } } }
+      },
+      "then": {
+        "properties": { "meta": { "required": ["models_used"], "properties": { "models_used": { "minItems": 1 } } } }
+      }
+    },
+    {
+      "description": "kb_fallback требует причины деградации",
+      "if": {
+        "required": ["meta"],
+        "properties": { "meta": { "required": ["pipeline_mode"], "properties": { "pipeline_mode": { "const": "kb_fallback" } } } }
+      },
+      "then": {
+        "properties": { "meta": { "properties": { "degradation_reasons": { "minItems": 1 } } } }
+      }
+    },
+    {
+      "description": "llm_partially_validated требует списка отброшенных утверждений",
+      "if": {
+        "required": ["meta"],
+        "properties": { "meta": { "required": ["pipeline_mode"], "properties": { "pipeline_mode": { "const": "llm_partially_validated" } } } }
+      },
+      "then": {
+        "properties": { "provenance": { "properties": { "validation": { "properties": { "dropped_statements": { "minItems": 1 } } } } } }
+      }
+    }
+  ],
+  "$defs": {
+    "HypothesisId": { "type": "string", "pattern": "^H-[0-9a-f]{8}$" },
+    "SensitivityId": { "type": "string", "pattern": "^S-[0-9a-f]{8}$" },
+    "FactId": { "type": "string", "pattern": "^F-[0-9a-f]{8}$" },
+    "DerivedId": { "type": "string", "pattern": "^D-[0-9a-f]{8}$" },
+    "ConflictId": { "type": "string", "pattern": "^C-[0-9a-f]{8}$" },
+    "MissingId": { "type": "string", "pattern": "^M-[0-9a-f]{8}$" },
+    "Evidence": {
+      "type": "array", "minItems": 1, "maxItems": 8,
+      "items": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/EvidenceRef" }
+    },
+    "Meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version", "company_id", "group_id", "as_of_date", "profile_id", "input_hash",
+        "kb_version", "prompt_version", "pipeline_mode", "degradation_reasons", "models_used",
+        "customer_status", "ttl_hours"
+      ],
+      "properties": {
+        "schema_version": { "const": "1.0.0" },
+        "company_id": { "type": "string", "minLength": 1 },
+        "group_id": { "type": ["string", "null"] },
+        "as_of_date": { "type": "string", "format": "date" },
+        "profile_id": { "type": "string", "minLength": 1 },
+        "input_hash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "kb_version": { "type": ["string", "null"] },
+        "prompt_version": { "type": ["string", "null"] },
+        "pipeline_mode": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/PipelineMode" },
+        "degradation_reasons": {
+          "type": "array", "uniqueItems": true,
+          "items": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/DegradationReason" }
+        },
+        "models_used": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["role", "model", "prompt_version", "tokens_in", "tokens_out"],
+            "properties": {
+              "role": { "enum": ["hypothesis_generation", "classification"] },
+              "model": { "enum": ["Gemma 4 26B A4B", "GLM-5.3-Flash", "Qwen3.6 35B A3B", "DeepSeek-V4.1-Flash", "Qwen3-VL-30B-A3B-Instruct", "Kimi-K2.6"] },
+              "prompt_version": { "type": "string" },
+              "tokens_in": { "type": "integer", "minimum": 0 },
+              "tokens_out": { "type": "integer", "minimum": 0 }
+            }
+          }
+        },
+        "customer_status": { "enum": ["existing", "potential", "unknown"] },
+        "ttl_hours": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "InputQuality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "usability", "industry_identification", "signal_groups", "revenue_semantics_status",
+        "payments_semantics_status", "target_segment_applicability", "completeness_score",
+        "consistency_score", "field_states", "notes"
+      ],
+      "properties": {
+        "usability": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Usability" },
+        "industry_identification": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "okved_code_used"],
+          "properties": {
+            "status": { "enum": ["confirmed", "code_only_unverified", "ambiguous", "name_only_unmapped", "missing", "invalid"] },
+            "okved_code_used": { "type": ["string", "null"] }
+          }
+        },
+        "signal_groups": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["scale", "payments", "bank_products", "foreign_trade", "group_structure"],
+          "properties": {
+            "scale": { "type": "boolean" },
+            "payments": { "type": "boolean" },
+            "bank_products": { "type": "boolean" },
+            "foreign_trade": { "type": "boolean" },
+            "group_structure": { "type": "boolean" }
+          }
+        },
+        "revenue_semantics_status": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/UnitStatus" },
+        "payments_semantics_status": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/UnitStatus" },
+        "target_segment_applicability": { "enum": ["within_target", "below_target", "unknown"] },
+        "completeness_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "consistency_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "field_states": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["state", "scope"],
+            "properties": {
+              "state": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/FieldState" },
+              "scope": { "enum": ["bank", "fts_base", "dataset", null] }
+            }
+          }
+        },
+        "notes": { "type": "array", "items": { "type": "string", "maxLength": 300 } }
+      }
+    },
+    "Fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "epistemic_status", "category", "statement", "evidence", "data_reliability", "caveats"],
+      "properties": {
+        "id": { "$ref": "#/$defs/FactId" },
+        "epistemic_status": { "const": "FACT" },
+        "category": { "enum": ["identity", "industry", "scale", "ownership", "geography", "bank_products", "foreign_trade_flag", "group"] },
+        "statement": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/ShortText" },
+        "evidence": { "$ref": "#/$defs/Evidence" },
+        "data_reliability": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Level3" },
+        "caveats": { "type": "array", "items": { "type": "string", "maxLength": 200 } }
+      }
+    },
+    "DerivedMetric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "epistemic_status", "name", "value", "unit", "unit_dependency", "formula", "inputs", "coverage", "data_reliability", "caveats"],
+      "properties": {
+        "id": { "$ref": "#/$defs/DerivedId" },
+        "epistemic_status": { "const": "DERIVED" },
+        "name": {
+          "enum": [
+            "size_class", "payments_net_flow_ratio", "payments_count_total",
+            "counterparty_count_in", "counterparty_count_out",
+            "top1_counterparty_share_out", "top5_counterparty_share_out", "hhi_out", "hhi_in",
+            "intragroup_share_out", "intragroup_share_in", "counterparty_coverage_in_df_uid",
+            "upstream_okved_top_share", "downstream_okved_top_share",
+            "group_size", "linked_individuals_count", "linked_individuals_region_count"
+          ]
+        },
+        "value": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Scalar" },
+        "unit": { "type": "string" },
+        "unit_dependency": { "enum": ["unit_free", "requires_confirmed_unit"] },
+        "formula": { "type": "string", "minLength": 1, "maxLength": 300 },
+        "inputs": { "$ref": "#/$defs/Evidence" },
+        "coverage": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "breakdown": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["key", "share"],
+            "properties": { "key": { "type": "string" }, "share": { "type": "number", "minimum": 0, "maximum": 1 } }
+          }
+        },
+        "data_reliability": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Level3" },
+        "caveats": { "type": "array", "items": { "type": "string", "maxLength": 200 } }
+      }
+    },
+    "Hypothesis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "epistemic_status", "generated_by", "topic", "statement", "evidence",
+        "data_reliability", "inference_support", "uncertainty_sources", "overall_confidence",
+        "open_questions", "how_to_verify", "would_be_refuted_by", "caveats", "affected_by_conflict_ids"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/HypothesisId" },
+        "epistemic_status": { "const": "HYPOTHESIS" },
+        "generated_by": { "enum": ["kb", "llm"] },
+        "topic": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Topic" },
+        "statement": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/ShortText" },
+        "evidence": { "$ref": "#/$defs/Evidence" },
+        "data_reliability": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Level3" },
+        "inference_support": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/InferenceSupport" },
+        "uncertainty_sources": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/UncertaintySource" }
+        },
+        "overall_confidence": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Level3" },
+        "open_questions": { "type": "array", "maxItems": 3, "items": { "type": "string", "maxLength": 200 } },
+        "how_to_verify": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "would_be_refuted_by": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "caveats": { "type": "array", "maxItems": 3, "items": { "type": "string", "maxLength": 200 } },
+        "affected_by_conflict_ids": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/ConflictId" } }
+      }
+    },
+    "Sensitivity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "epistemic_status", "generated_by", "factor_class", "factor", "transmission_channel",
+        "direction", "strength", "evidence", "basis_hypothesis_ids", "data_reliability",
+        "uncertainty_sources", "overall_confidence", "keywords_for_matching"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/SensitivityId" },
+        "epistemic_status": { "const": "HYPOTHESIS" },
+        "generated_by": { "enum": ["kb", "llm"] },
+        "factor_class": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/FactorClass" },
+        "factor": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/FactorSlug" },
+        "transmission_channel": { "type": "string", "minLength": 1, "maxLength": 250 },
+        "direction": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Direction" },
+        "strength": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Strength" },
+        "evidence": { "$ref": "#/$defs/Evidence" },
+        "basis_hypothesis_ids": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/HypothesisId" } },
+        "data_reliability": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Level3" },
+        "uncertainty_sources": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/UncertaintySource" }
+        },
+        "overall_confidence": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Level3" },
+        "keywords_for_matching": { "type": "array", "maxItems": 12, "uniqueItems": true, "items": { "type": "string", "minLength": 1, "maxLength": 60 } }
+      }
+    },
+    "DataConflict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "rule_id", "kind", "severity", "fields", "description", "resolution", "plausible_explanations"],
+      "properties": {
+        "id": { "$ref": "#/$defs/ConflictId" },
+        "rule_id": { "type": "string", "pattern": "^CONF-[A-Z0-9-]+$" },
+        "kind": { "enum": ["hard_contradiction", "source_disagreement", "anomaly"] },
+        "severity": { "enum": ["info", "warning", "critical"] },
+        "fields": { "$ref": "#/$defs/Evidence" },
+        "description": { "type": "string", "minLength": 1, "maxLength": 300 },
+        "resolution": { "enum": ["kept_both_flagged", "preferred_primary_field", "excluded_from_analysis"] },
+        "plausible_explanations": { "type": "array", "maxItems": 3, "items": { "type": "string", "maxLength": 200 } }
+      }
+    },
+    "MissingData": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "feature", "kind", "impact", "limits_conclusions_about", "request_suggestion"],
+      "properties": {
+        "id": { "$ref": "#/$defs/MissingId" },
+        "feature": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["absent", "null", "sentinel", "semantics_unknown", "not_applicable", "uninformative"] },
+        "impact": { "enum": ["none", "minor", "major", "blocking"] },
+        "limits_conclusions_about": { "type": "array", "items": { "type": "string" } },
+        "request_suggestion": { "type": ["string", "null"], "maxLength": 200 }
+      }
+    },
+    "DownstreamHooks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["matching_profile", "relevance_priors", "interpretation_constraints"],
+      "properties": {
+        "matching_profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["okved_codes", "regions", "countries", "factor_classes_weighted", "keywords", "negative_keywords"],
+          "properties": {
+            "okved_codes": { "type": "array", "items": { "type": "string" } },
+            "regions": { "type": "array", "items": { "type": "string" } },
+            "countries": { "type": "array", "items": { "type": "string" } },
+            "factor_classes_weighted": {
+              "type": "object",
+              "propertyNames": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/FactorClass" },
+              "additionalProperties": { "type": "number", "minimum": 0, "maximum": 1 }
+            },
+            "keywords": { "type": "array", "items": { "type": "string" } },
+            "negative_keywords": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "relevance_priors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["sensitivity_id", "factor_class", "factor", "weight", "overall_confidence"],
+            "properties": {
+              "sensitivity_id": { "$ref": "#/$defs/SensitivityId" },
+              "factor_class": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/FactorClass" },
+              "factor": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/FactorSlug" },
+              "weight": { "type": "number", "minimum": 0, "maximum": 1 },
+              "overall_confidence": { "$ref": "https://bce.local/schemas/common.v1.json#/$defs/Level3" }
+            }
+          }
+        },
+        "interpretation_constraints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "text", "origin"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^IC-[A-Z0-9-]+$" },
+              "text": { "type": "string", "minLength": 1, "maxLength": 300 },
+              "origin": { "enum": ["static_rule", "conflict", "missing_data", "semantics"] }
+            }
+          }
+        }
+      }
+    },
+    "Provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["trace_id", "validation", "kb_entries_used", "local_id_map"],
+      "properties": {
+        "trace_id": { "type": "string", "minLength": 1 },
+        "validation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["schema_valid", "evidence_refs_verified", "dropped_statements", "retries"],
+          "properties": {
+            "schema_valid": { "type": "boolean" },
+            "evidence_refs_verified": { "type": "boolean" },
+            "dropped_statements": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["local_id", "reason"],
+                "properties": {
+                  "local_id": { "type": "string" },
+                  "reason": { "enum": ["evidence_ref_not_found", "evidence_value_mismatch", "no_company_evidence", "forbidden_topic_for_usability", "unknown_factor", "number_not_in_evidence", "unit_rule_violation", "supports_not_allowed", "unknown_reference", "invented_entity_suspected", "injection_not_flagged", "injection_obeyed", "prompt_leak", "schema_violation"] }
+                }
+              }
+            },
+            "retries": { "type": "integer", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "kb_entries_used": { "type": "array", "items": { "type": "string" } },
+        "local_id_map": { "type": "object", "additionalProperties": { "type": "string" } }
+      }
+    }
+  }
+}

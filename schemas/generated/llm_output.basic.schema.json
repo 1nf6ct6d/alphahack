@@ -1,0 +1,319 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "hypotheses",
+    "sensitivities",
+    "conflict_notes",
+    "self_check"
+  ],
+  "properties": {
+    "hypotheses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "local_id",
+          "topic",
+          "statement",
+          "evidence",
+          "inference_support",
+          "uncertainty_sources",
+          "open_questions",
+          "how_to_verify",
+          "would_be_refuted_by",
+          "caveats"
+        ],
+        "properties": {
+          "local_id": {
+            "type": "string"
+          },
+          "topic": {
+            "enum": [
+              "business_model",
+              "supply_chain",
+              "demand_side",
+              "financing",
+              "fx_exposure",
+              "geography",
+              "regulation_exposure",
+              "group_structure",
+              "scale_position"
+            ]
+          },
+          "statement": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "source",
+                "ref",
+                "value",
+                "role"
+              ],
+              "properties": {
+                "source": {
+                  "enum": [
+                    "df_Uid",
+                    "link_individuals",
+                    "payments",
+                    "derived",
+                    "kb"
+                  ]
+                },
+                "ref": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": [
+                    "string",
+                    "number",
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "role": {
+                  "enum": [
+                    "supports",
+                    "limits"
+                  ]
+                }
+              }
+            }
+          },
+          "inference_support": {
+            "enum": [
+              "weak",
+              "moderate",
+              "strong"
+            ]
+          },
+          "uncertainty_sources": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "magnitude_unknown",
+                "period_unknown",
+                "unit_unknown",
+                "currency_unknown",
+                "contract_terms_unknown",
+                "counterparty_identity_unknown",
+                "absence_scope_limited",
+                "dictionary_unconfirmed",
+                "source_conflict",
+                "sector_generalization",
+                "geography_proxy_only",
+                "low_coverage"
+              ]
+            }
+          },
+          "open_questions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "how_to_verify": {
+            "type": "string"
+          },
+          "would_be_refuted_by": {
+            "type": "string"
+          },
+          "caveats": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "sensitivities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "local_id",
+          "factor_class",
+          "factor",
+          "transmission_channel",
+          "direction",
+          "strength",
+          "evidence",
+          "basis_hypothesis_ids",
+          "uncertainty_sources",
+          "keywords_for_matching"
+        ],
+        "properties": {
+          "local_id": {
+            "type": "string"
+          },
+          "factor_class": {
+            "enum": [
+              "macro",
+              "monetary_policy",
+              "fx",
+              "commodity_price",
+              "industry_demand",
+              "industry_regulation",
+              "sanctions_trade",
+              "tax_fiscal",
+              "labor_market",
+              "logistics",
+              "counterparty_credit",
+              "competition",
+              "technology"
+            ]
+          },
+          "factor": {
+            "type": "string"
+          },
+          "transmission_channel": {
+            "type": "string"
+          },
+          "direction": {
+            "enum": [
+              "risk_if_adverse",
+              "opportunity_if_favorable",
+              "two_sided",
+              "unclear"
+            ]
+          },
+          "strength": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ]
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "source",
+                "ref",
+                "value",
+                "role"
+              ],
+              "properties": {
+                "source": {
+                  "enum": [
+                    "df_Uid",
+                    "link_individuals",
+                    "payments",
+                    "derived",
+                    "kb"
+                  ]
+                },
+                "ref": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": [
+                    "string",
+                    "number",
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "role": {
+                  "enum": [
+                    "supports",
+                    "limits"
+                  ]
+                }
+              }
+            }
+          },
+          "basis_hypothesis_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "uncertainty_sources": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "magnitude_unknown",
+                "period_unknown",
+                "unit_unknown",
+                "currency_unknown",
+                "contract_terms_unknown",
+                "counterparty_identity_unknown",
+                "absence_scope_limited",
+                "dictionary_unconfirmed",
+                "source_conflict",
+                "sector_generalization",
+                "geography_proxy_only",
+                "low_coverage"
+              ]
+            }
+          },
+          "keywords_for_matching": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "conflict_notes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "conflict_id",
+          "plausible_explanations",
+          "affected_local_ids"
+        ],
+        "properties": {
+          "conflict_id": {
+            "type": "string"
+          },
+          "plausible_explanations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "affected_local_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "self_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "instruction_like_text_in_data",
+        "notes"
+      ],
+      "properties": {
+        "instruction_like_text_in_data": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

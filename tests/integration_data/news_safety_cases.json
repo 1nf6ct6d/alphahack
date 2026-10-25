@@ -1,0 +1,100 @@
+[
+  {
+    "source_id": "SYNTHETIC_INTEGRATION",
+    "source_url": "https://example.invalid/integration/safety",
+    "event_type": "regulation_change",
+    "published_at": "2026-10-24T12:00:00+03:00",
+    "factor_classes": [
+      "industry_regulation"
+    ],
+    "okved_codes": [
+      "24.10"
+    ],
+    "mandatory": true,
+    "applies_to_all_in_scope": true,
+    "deadline": "2026-10-28",
+    "synthetic": true,
+    "event_id": "SMOKE_EXEMPTION",
+    "title": "Учебное освобождение при ошибочном флаге",
+    "content": "Все организации с ОКВЭД 24.10 освобождены от обязанности до 2026-10-28 подавать сведения в реестр.",
+    "evidence": [
+      {
+        "evidence_id": "SMOKE_QUOTE_EXEMPTION",
+        "quote": "Все организации с ОКВЭД 24.10 освобождены от обязанности до 2026-10-28 подавать сведения в реестр.",
+        "supports": [
+          "event_type",
+          "factor_classes",
+          "okved_codes",
+          "mandatory",
+          "applies_to_all_in_scope",
+          "deadline"
+        ]
+      }
+    ]
+  },
+  {
+    "source_id": "SYNTHETIC_INTEGRATION",
+    "source_url": "https://example.invalid/integration/safety",
+    "event_type": "regulation_change",
+    "published_at": "2026-10-24T12:00:00+03:00",
+    "factor_classes": [
+      "industry_regulation"
+    ],
+    "okved_codes": [
+      "24.10"
+    ],
+    "mandatory": true,
+    "applies_to_all_in_scope": true,
+    "deadline": "2026-10-28",
+    "synthetic": true,
+    "event_id": "SMOKE_UNSUPPORTED",
+    "title": "Учебные метаданные без исходного текста",
+    "content": null,
+    "evidence": []
+  },
+  {
+    "source_id": "SYNTHETIC_INTEGRATION",
+    "source_url": "https://example.invalid/integration/safety",
+    "event_type": "regulation_change",
+    "published_at": "2026-10-24T12:00:00+03:00",
+    "factor_classes": [
+      "industry_regulation"
+    ],
+    "okved_codes": [
+      "24.10"
+    ],
+    "mandatory": true,
+    "applies_to_all_in_scope": true,
+    "deadline": "2026-10-28",
+    "synthetic": true,
+    "event_id": "SMOKE_CONTRADICTORY",
+    "title": "Учебное противоречие фрагментов",
+    "content": "Для всех организаций с ОКВЭД 24.10 введена новая обязанность до 2026-10-28 представить сведения в реестр.\n\nВсе организации с ОКВЭД 24.10 освобождены от обязанности до 2026-10-28 подавать сведения в реестр.",
+    "evidence": [
+      {
+        "evidence_id": "SMOKE_QUOTE_INTRODUCED",
+        "quote": "Для всех организаций с ОКВЭД 24.10 введена новая обязанность до 2026-10-28 представить сведения в реестр.",
+        "supports": [
+          "event_type",
+          "factor_classes",
+          "okved_codes",
+          "mandatory",
+          "applies_to_all_in_scope",
+          "deadline"
+        ]
+      },
+      {
+        "evidence_id": "SMOKE_QUOTE_OPPOSING",
+        "quote": "Все организации с ОКВЭД 24.10 освобождены от обязанности до 2026-10-28 подавать сведения в реестр.",
+        "supports": [
+          "event_type",
+          "factor_classes",
+          "okved_codes",
+          "mandatory",
+          "applies_to_all_in_scope",
+          "deadline"
+        ]
+      }
+    ]
+  }
+]

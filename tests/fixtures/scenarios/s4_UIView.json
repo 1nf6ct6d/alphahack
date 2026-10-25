@@ -1,0 +1,256 @@
+{
+  "schema_version": "1.0.0",
+  "company_id": "U_T4",
+  "profile_id": "U_T4-p1",
+  "as_of_date": "2026-10-20",
+  "banner": {
+    "usability": "full",
+    "text": null
+  },
+  "sections": [
+    {
+      "kind": "facts",
+      "items": [
+        {
+          "id": "F-bcb5d7e8",
+          "label": "Факт из данных",
+          "title": "Компания входит в группу G_12.",
+          "text": "Компания входит в группу G_12.",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "GROUP_ID",
+              "label": "GROUP_ID",
+              "value_text": "G_12",
+              "role": "supports"
+            }
+          ]
+        },
+        {
+          "id": "F-acc51b0f",
+          "label": "Факт из данных",
+          "title": "В банке подтверждены кредитный продукт и факторинг.",
+          "text": "В банке подтверждены кредитный продукт и факторинг.",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "CL_PRODUCT_LOA_MARK",
+              "label": "CL_PRODUCT_LOA_MARK",
+              "value_text": "1",
+              "role": "supports"
+            },
+            {
+              "source": "df_Uid",
+              "ref": "FACTORING_MARK",
+              "label": "FACTORING_MARK",
+              "value_text": "1",
+              "role": "supports"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "derived",
+      "items": [
+        {
+          "id": "D-73c36e6a",
+          "label": "Расчёт",
+          "title": "intragroup_share_out",
+          "text": "intragroup_share_out = 0.93",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "payments",
+              "ref": "PAY_AMT",
+              "label": "PAY_AMT",
+              "value_text": "None",
+              "role": "supports"
+            }
+          ]
+        },
+        {
+          "id": "D-c9bd8e5c",
+          "label": "Расчёт",
+          "title": "intragroup_share_in",
+          "text": "intragroup_share_in = 0.88",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "payments",
+              "ref": "PAY_AMT",
+              "label": "PAY_AMT",
+              "value_text": "None",
+              "role": "supports"
+            }
+          ]
+        },
+        {
+          "id": "D-cadafc6b",
+          "label": "Расчёт",
+          "title": "group_size",
+          "text": "group_size = 6",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "GROUP_ID",
+              "label": "GROUP_ID",
+              "value_text": "G_12",
+              "role": "supports"
+            }
+          ]
+        },
+        {
+          "id": "D-daa27f21",
+          "label": "Расчёт",
+          "title": "counterparty_coverage_in_df_uid",
+          "text": "counterparty_coverage_in_df_uid = 0.4",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": [
+            {
+              "source": "payments",
+              "ref": "BENEFICIARY",
+              "label": "BENEFICIARY",
+              "value_text": "None",
+              "role": "supports"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "hypotheses",
+      "items": [
+        {
+          "id": "H-f6d448ca",
+          "label": "Гипотеза AI",
+          "title": "Кредитный продукт и факторинг в банке могут означать зависимость стоимости оборотного финансирования от ключевой ставки.",
+          "text": "Кредитный продукт и факторинг в банке могут означать зависимость стоимости оборотного финансирования от ключевой ставки.",
+          "confidence": "high",
+          "uncertainty_note": "magnitude_unknown, contract_terms_unknown",
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "CL_TYPE",
+              "label": "CL_TYPE",
+              "value_text": "existing",
+              "role": "supports"
+            },
+            {
+              "source": "df_Uid",
+              "ref": "CL_PRODUCT_LOA_MARK",
+              "label": "CL_PRODUCT_LOA_MARK",
+              "value_text": "1",
+              "role": "supports"
+            },
+            {
+              "source": "df_Uid",
+              "ref": "FACTORING_MARK",
+              "label": "FACTORING_MARK",
+              "value_text": "1",
+              "role": "supports"
+            }
+          ]
+        },
+        {
+          "id": "H-9e2341b8",
+          "label": "Гипотеза AI",
+          "title": "Высокая доля внутригрупповых платежей может указывать на вертикально интегрированную группу.",
+          "text": "Высокая доля внутригрупповых платежей может указывать на вертикально интегрированную группу.",
+          "confidence": "medium",
+          "uncertainty_note": "counterparty_identity_unknown, unit_unknown, magnitude_unknown",
+          "evidence": [
+            {
+              "source": "derived",
+              "ref": "D-73c36e6a",
+              "label": "D-73c36e6a",
+              "value_text": "0.93",
+              "role": "supports"
+            },
+            {
+              "source": "derived",
+              "ref": "D-c9bd8e5c",
+              "label": "D-c9bd8e5c",
+              "value_text": "0.88",
+              "role": "supports"
+            },
+            {
+              "source": "derived",
+              "ref": "D-cadafc6b",
+              "label": "D-cadafc6b",
+              "value_text": "6",
+              "role": "supports"
+            },
+            {
+              "source": "derived",
+              "ref": "D-daa27f21",
+              "label": "D-daa27f21",
+              "value_text": "0.4",
+              "role": "limits"
+            }
+          ]
+        },
+        {
+          "id": "H-d2db6042",
+          "label": "Гипотеза AI",
+          "title": "Для оптовой торговли топливом по коду 46.71 типична чувствительность к ценам на топливо и маржинальности.",
+          "text": "Для оптовой торговли топливом по коду 46.71 типична чувствительность к ценам на топливо и маржинальности.",
+          "confidence": "medium",
+          "uncertainty_note": "sector_generalization, magnitude_unknown",
+          "evidence": [
+            {
+              "source": "df_Uid",
+              "ref": "MAINOKVED_CODE",
+              "label": "MAINOKVED_CODE",
+              "value_text": "46.71",
+              "role": "supports"
+            },
+            {
+              "source": "kb",
+              "ref": "KB-46.71-01",
+              "label": "KB-46.71-01",
+              "value_text": "None",
+              "role": "supports"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "conflicts",
+      "items": []
+    },
+    {
+      "kind": "missing",
+      "items": [
+        {
+          "id": "M-7ae33fd9",
+          "label": "Нет данных",
+          "title": "FTS_FLAG",
+          "text": "null",
+          "confidence": null,
+          "uncertainty_note": "Уточнить значение поля FTS_FLAG у менеджера клиента",
+          "evidence": []
+        },
+        {
+          "id": "M-f0071467",
+          "label": "Нет данных",
+          "title": "NEGATIVEMARK",
+          "text": "semantics_unknown",
+          "confidence": null,
+          "uncertainty_note": null,
+          "evidence": []
+        }
+      ]
+    }
+  ]
+}

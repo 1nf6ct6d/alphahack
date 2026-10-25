@@ -1,0 +1,139 @@
+[
+  {
+    "event_id": "SYN_STEEL_REG",
+    "title": "Учебный пример: новый производственный реестр для металлургии",
+    "source_id": "SYNTHETIC_EDITORIAL",
+    "source_url": "https://example.invalid/synthetic/steel-regulation",
+    "published_at": "2026-10-23T10:00:00+03:00",
+    "event_type": "regulation_change",
+    "factor_classes": ["industry_regulation"],
+    "okved_codes": ["24.10"],
+    "content": "Синтетический учебный текст. Все организации с ОКВЭД 24.10 обязаны до 2026-10-28 подать сведения в новый производственный реестр.",
+    "mandatory": true,
+    "applies_to_all_in_scope": true,
+    "deadline": "2026-10-28",
+    "evidence": [{
+      "evidence_id": "QUOTE_STEEL_REG",
+      "quote": "Все организации с ОКВЭД 24.10 обязаны до 2026-10-28 подать сведения в новый производственный реестр.",
+      "supports": ["event_type", "factor_classes", "okved_codes", "mandatory", "applies_to_all_in_scope", "deadline"]
+    }],
+    "synthetic": true
+  },
+  {
+    "event_id": "SYN_STEEL_TAX",
+    "title": "Учебный пример: отраслевой сбор для производителей стали",
+    "source_id": "SYNTHETIC_EDITORIAL",
+    "source_url": "https://example.invalid/synthetic/steel-tax",
+    "published_at": "2026-10-22T11:00:00+03:00",
+    "event_type": "tax_change",
+    "factor_classes": ["tax_fiscal"],
+    "okved_codes": ["24.10"],
+    "content": "Синтетический учебный текст. Все организации с ОКВЭД 24.10 обязаны учитывать новый отраслевой сбор при расчёте обязательных платежей.",
+    "mandatory": true,
+    "applies_to_all_in_scope": true,
+    "evidence": [{
+      "evidence_id": "QUOTE_STEEL_TAX",
+      "quote": "Все организации с ОКВЭД 24.10 обязаны учитывать новый отраслевой сбор при расчёте обязательных платежей.",
+      "supports": ["event_type", "factor_classes", "okved_codes", "mandatory", "applies_to_all_in_scope"]
+    }],
+    "synthetic": true
+  },
+  {
+    "event_id": "SYN_STEEL_INPUT",
+    "title": "Учебный пример: изменение цены ресурса для металлургии",
+    "source_id": "SYNTHETIC_EDITORIAL",
+    "source_url": "https://example.invalid/synthetic/steel-input",
+    "published_at": "2026-10-24T12:00:00+03:00",
+    "event_type": "input_cost_change",
+    "factor_classes": ["commodity_price"],
+    "okved_codes": ["24.10"],
+    "content": "Синтетический учебный текст. Для отрасли с ОКВЭД 24.10 объявлено повышение цены производственного энергоресурса; условия договоров отдельных предприятий не раскрываются.",
+    "evidence": [{
+      "evidence_id": "QUOTE_STEEL_INPUT",
+      "quote": "Для отрасли с ОКВЭД 24.10 объявлено повышение цены производственного энергоресурса; условия договоров отдельных предприятий не раскрываются.",
+      "supports": ["event_type", "factor_classes", "okved_codes"]
+    }],
+    "synthetic": true
+  },
+  {
+    "event_id": "SYN_IT_REG",
+    "title": "Учебный пример: новая отчётность разработчиков ПО",
+    "source_id": "SYNTHETIC_EDITORIAL",
+    "source_url": "https://example.invalid/synthetic/it-regulation",
+    "published_at": "2026-10-24T09:00:00+03:00",
+    "event_type": "regulation_change",
+    "factor_classes": ["industry_regulation"],
+    "okved_codes": ["62.01"],
+    "content": "Синтетический учебный текст. Все организации с ОКВЭД 62.01 обязаны до 2026-10-27 представить новую отраслевую отчётность.",
+    "mandatory": true,
+    "applies_to_all_in_scope": true,
+    "deadline": "2026-10-27",
+    "evidence": [{
+      "evidence_id": "QUOTE_IT_REG",
+      "quote": "Все организации с ОКВЭД 62.01 обязаны до 2026-10-27 представить новую отраслевую отчётность.",
+      "supports": ["event_type", "factor_classes", "okved_codes", "mandatory", "applies_to_all_in_scope", "deadline"]
+    }],
+    "synthetic": true
+  },
+  {
+    "event_id": "SYN_IT_DEMAND",
+    "title": "Учебный пример: снижение спроса на заказную разработку",
+    "source_id": "SYNTHETIC_EDITORIAL",
+    "source_url": "https://example.invalid/synthetic/it-demand",
+    "published_at": "2026-10-24T16:00:00+03:00",
+    "event_type": "demand_change",
+    "factor_classes": ["industry_demand"],
+    "okved_codes": ["62.01"],
+    "content": "Синтетический учебный текст. В отрасли с ОКВЭД 62.01 наблюдается снижение спроса на заказную разработку программного обеспечения.",
+    "evidence": [{
+      "evidence_id": "QUOTE_IT_DEMAND",
+      "quote": "В отрасли с ОКВЭД 62.01 наблюдается снижение спроса на заказную разработку программного обеспечения.",
+      "supports": ["event_type", "factor_classes", "okved_codes"]
+    }],
+    "synthetic": true
+  },
+  {
+    "event_id": "SYN_RATE",
+    "title": "Учебный пример: изменение ключевой ставки",
+    "source_id": "SYNTHETIC_EDITORIAL",
+    "source_url": "https://example.invalid/synthetic/key-rate",
+    "published_at": "2026-10-24T18:00:00+03:00",
+    "event_type": "monetary_policy_change",
+    "factor_classes": ["monetary_policy"],
+    "content": "Синтетический учебный текст. В учебном сценарии изменена ключевая ставка; ставки и условия отдельных кредитных договоров не приведены.",
+    "evidence": [{
+      "evidence_id": "QUOTE_RATE",
+      "quote": "В учебном сценарии изменена ключевая ставка; ставки и условия отдельных кредитных договоров не приведены.",
+      "supports": ["event_type", "factor_classes"]
+    }],
+    "synthetic": true
+  },
+  {
+    "event_id": "SYN_LOCAL_KEYWORD",
+    "title": "Учебный пример: слово «сталь» в региональной культурной новости",
+    "source_id": "SYNTHETIC_EDITORIAL",
+    "source_url": "https://example.invalid/synthetic/local-culture",
+    "published_at": "2026-10-24T20:00:00+03:00",
+    "event_type": "other",
+    "factor_classes": ["macro"],
+    "geography": ["REGION_1"],
+    "content": "Синтетический учебный текст. В REGION_1 открылась культурная выставка под названием «Сталь»; сведений о бизнес-последствиях нет.",
+    "evidence": [{
+      "evidence_id": "QUOTE_LOCAL",
+      "quote": "В REGION_1 открылась культурная выставка под названием «Сталь»; сведений о бизнес-последствиях нет.",
+      "supports": ["event_type", "factor_classes"]
+    }],
+    "synthetic": true
+  },
+  {
+    "event_id": "SYN_METADATA_ONLY",
+    "title": "Учебный пример: заголовок об изменении цены стали без статьи",
+    "source_id": "SYNTHETIC_EDITORIAL",
+    "source_url": "https://example.invalid/synthetic/no-article",
+    "published_at": null,
+    "event_type": "input_cost_change",
+    "factor_classes": ["commodity_price"],
+    "okved_codes": ["24.10"],
+    "synthetic": true
+  }
+]

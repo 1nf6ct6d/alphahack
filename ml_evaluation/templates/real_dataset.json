@@ -1,0 +1,16 @@
+{
+  "format_version": "ml3a-1",
+  "dataset_id": "alfa-context-real-news",
+  "dataset_version": "0.0.0",
+  "kind": "real",
+  "status": "awaiting_independent_annotation",
+  "labeling_provenance": {
+    "method": "independent_human",
+    "independent_of_ranker": true,
+    "description": "Ожидаются реальные новости, замороженные профили и независимая разметка Business/Product. Оценки пока отсутствуют."
+  },
+  "contexts": [],
+  "events": [],
+  "queries": [],
+  "annotations": []
+}

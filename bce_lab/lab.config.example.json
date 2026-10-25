@@ -1,0 +1,16 @@
+{
+  "_comment": "Скопируйте в bce_lab/lab.config.json и заполните. Формат API организаторов в ТЗ не описан: клиент рассчитан на OpenAI-совместимый chat/completions; если формат другой, потребуется адаптер.",
+  "base_url": null,
+  "api_key_env": "BCE_LLM_API_KEY",
+  "temperature": 0.2,
+  "max_tokens": 3000,
+  "schema_delivery": "api",
+  "models": {
+    "Qwen3.6 35B A3B": {"api_model_id": null, "structured_output": "json_object"},
+    "GLM-5.3-Flash": {"api_model_id": null, "structured_output": "json_object"},
+    "Gemma 4 26B A4B": {"api_model_id": null, "structured_output": "json_object"},
+    "DeepSeek-V4.1-Flash": {"api_model_id": null, "structured_output": "json_object"},
+    "Kimi-K2.6": {"api_model_id": null, "structured_output": "json_object"},
+    "Qwen3-VL-30B-A3B-Instruct": {"api_model_id": null, "structured_output": "json_object"}
+  }
+}

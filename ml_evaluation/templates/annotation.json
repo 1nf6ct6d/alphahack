@@ -1,0 +1,13 @@
+{
+  "query_id": "",
+  "company_id": "",
+  "event_id": "",
+  "analytic_focus": null,
+  "relevance_grade": null,
+  "relevance_reason": null,
+  "impact_mechanism": null,
+  "supporting_evidence_refs": [],
+  "reviewer_id": "",
+  "annotation_status": "pending",
+  "adjudicates": []
+}

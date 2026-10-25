@@ -1,0 +1,262 @@
+{
+  "schema_version": "1.0.0",
+  "company_id": "U_T1",
+  "profile_id": "U_T1-p1",
+  "usability": "full",
+  "statements": [
+    {
+      "id": "F-307d7dbf",
+      "epistemic_status": "FACT",
+      "text": "Основной ОКВЭД: 24.10.",
+      "data_reliability": "high",
+      "overall_confidence": null,
+      "uncertainty_sources": [],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "24.10",
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "F-aad1630f",
+      "epistemic_status": "FACT",
+      "text": "В банке подтверждены кредитный и лизинговый продукты.",
+      "data_reliability": "high",
+      "overall_confidence": null,
+      "uncertainty_sources": [],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LOA_MARK",
+          "value": 1,
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LEA_MARK",
+          "value": 1,
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "F-9ee51770",
+      "epistemic_status": "FACT",
+      "text": "Годовая выручка по данным: 48000000000 (единицы подтверждены).",
+      "data_reliability": "high",
+      "overall_confidence": null,
+      "uncertainty_sources": [],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "REVENUE_COMPANY",
+          "value": 48000000000,
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "D-012a9247",
+      "epistemic_status": "DERIVED",
+      "text": "top5_counterparty_share_out = 0.55",
+      "data_reliability": "high",
+      "overall_confidence": null,
+      "uncertainty_sources": [],
+      "evidence": [
+        {
+          "source": "payments",
+          "ref": "PAY_AMT",
+          "value": null,
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "D-45df7a25",
+      "epistemic_status": "DERIVED",
+      "text": "counterparty_count_out = 40",
+      "data_reliability": "high",
+      "overall_confidence": null,
+      "uncertainty_sources": [],
+      "evidence": [
+        {
+          "source": "payments",
+          "ref": "BENEFICIARY",
+          "value": null,
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "H-2827439b",
+      "epistemic_status": "HYPOTHESIS",
+      "text": "Подтверждённая кредитная связь с банком и лизинг могут означать чувствительность стоимости финансирования к ключевой ставке.",
+      "data_reliability": "high",
+      "overall_confidence": "high",
+      "uncertainty_sources": [
+        "magnitude_unknown",
+        "contract_terms_unknown"
+      ],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "CL_TYPE",
+          "value": "existing",
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LOA_MARK",
+          "value": 1,
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LEA_MARK",
+          "value": 1,
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "H-7357c62c",
+      "epistemic_status": "HYPOTHESIS",
+      "text": "Для производства стали по коду 24.10 типична чувствительность к ценам на сырьё и энергию и к спросу смежных отраслей.",
+      "data_reliability": "high",
+      "overall_confidence": "medium",
+      "uncertainty_sources": [
+        "sector_generalization",
+        "magnitude_unknown"
+      ],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "24.10",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-24.10-01",
+          "value": null,
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "H-b202475b",
+      "epistemic_status": "HYPOTHESIS",
+      "text": "Запись в базе ФТС со страной может указывать на внешнеторговые связи, но валюта и направление потоков неизвестны.",
+      "data_reliability": "high",
+      "overall_confidence": "low",
+      "uncertainty_sources": [
+        "currency_unknown",
+        "magnitude_unknown",
+        "absence_scope_limited"
+      ],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "FTS_FLAG",
+          "value": 1,
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "FTS_COUNTRY_NAME",
+          "value": "COUNTRY_X",
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "S-206c8fe6",
+      "epistemic_status": "HYPOTHESIS",
+      "text": "Рост ключевой ставки удорожает обслуживание кредитов и лизинга.",
+      "data_reliability": "high",
+      "overall_confidence": "high",
+      "uncertainty_sources": [
+        "magnitude_unknown",
+        "contract_terms_unknown"
+      ],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LOA_MARK",
+          "value": 1,
+          "role": "supports"
+        },
+        {
+          "source": "df_Uid",
+          "ref": "CL_PRODUCT_LEA_MARK",
+          "value": 1,
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "S-2706073e",
+      "epistemic_status": "HYPOTHESIS",
+      "text": "Изменение цен на сырьё и энергию влияет на себестоимость.",
+      "data_reliability": "high",
+      "overall_confidence": "medium",
+      "uncertainty_sources": [
+        "sector_generalization",
+        "magnitude_unknown"
+      ],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "MAINOKVED_CODE",
+          "value": "24.10",
+          "role": "supports"
+        },
+        {
+          "source": "kb",
+          "ref": "KB-24.10-01",
+          "value": null,
+          "role": "supports"
+        }
+      ]
+    },
+    {
+      "id": "S-48da2dc4",
+      "epistemic_status": "HYPOTHESIS",
+      "text": "Если есть валютные потоки, курс влияет на выручку и расходы.",
+      "data_reliability": "high",
+      "overall_confidence": "low",
+      "uncertainty_sources": [
+        "currency_unknown",
+        "magnitude_unknown"
+      ],
+      "evidence": [
+        {
+          "source": "df_Uid",
+          "ref": "FTS_FLAG",
+          "value": 1,
+          "role": "supports"
+        }
+      ]
+    }
+  ],
+  "constraints": [
+    {
+      "id": "IC-BANK-FLAG-SCOPE",
+      "text": "Значение 0 у CL_PRODUCT_* означает отсутствие продукта только в этом банке; не выводить отсутствие долга, лизинга или гарантий.",
+      "origin": "static_rule"
+    },
+    {
+      "id": "IC-ABSENCE-IS-UNKNOWN",
+      "text": "Пропущенное значение — это неизвестно, а не отсутствие признака.",
+      "origin": "static_rule"
+    },
+    {
+      "id": "IC-NO-INVENTED-ENTITIES",
+      "text": "Не называть поставщиков, покупателей, долги, ставки и суммы, которых нет в evidence.",
+      "origin": "static_rule"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "company_id": "U_T5",
+  "profile_id": "U_T5-p1",
+  "as_of_date": "2026-10-20",
+  "usability": "unusable",
+  "weight_semantics": "ordinal_prior_not_probability",
+  "hooks": {
+    "matching_profile": {
+      "okved_codes": [],
+      "regions": [],
+      "countries": [],
+      "factor_classes_weighted": {},
+      "keywords": [],
+      "negative_keywords": []
+    },
+    "relevance_priors": [],
+    "interpretation_constraints": [
+      {
+        "id": "IC-BANK-FLAG-SCOPE",
+        "text": "Значение 0 у CL_PRODUCT_* означает отсутствие продукта только в этом банке; не выводить отсутствие долга, лизинга или гарантий.",
+        "origin": "static_rule"
+      },
+      {
+        "id": "IC-ABSENCE-IS-UNKNOWN",
+        "text": "Пропущенное значение — это неизвестно, а не отсутствие признака.",
+        "origin": "static_rule"
+      },
+      {
+        "id": "IC-NO-INVENTED-ENTITIES",
+        "text": "Не называть поставщиков, покупателей, долги, ставки и суммы, которых нет в evidence.",
+        "origin": "static_rule"
+      }
+    ]
+  },
+  "numeric_features": []
+}

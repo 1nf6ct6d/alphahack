@@ -1,0 +1,10 @@
+{
+  "version": "plan-0",
+  "temperature_note": "temperature берётся из lab.config.json (по умолчанию 0.2)",
+  "stages": [
+    {"id": "P0_pilot", "description": "Пилот: один запрос для замера токенов и проверки формата API", "model": "Qwen3.6 35B A3B", "scenarios": ["S1"], "repeats": 1},
+    {"id": "P1_qwen_main", "description": "Основной прогон на базовой модели", "model": "Qwen3.6 35B A3B", "scenarios": ["S1", "S2", "S3", "S4", "A1"], "repeats": 3},
+    {"id": "P2_glm_compare", "description": "Сравнение на модели повышенной сложности", "model": "GLM-5.3-Flash", "scenarios": ["S2", "S4"], "repeats": 3}
+  ],
+  "skipped_by_design": {"S5": "usability=unusable → LLM не вызывается (pipeline_mode=no_inference)"}
+}

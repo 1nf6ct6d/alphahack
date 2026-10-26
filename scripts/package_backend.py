@@ -1,5 +1,3 @@
-"""Create a portable source ZIP with a per-file SHA-256 manifest."""
-
 import hashlib
 import json
 from pathlib import Path

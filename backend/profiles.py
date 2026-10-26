@@ -1,9 +1,4 @@
-"""Deterministic CompanyBusinessProfile assembly and profile projections.
 
-The module is deliberately infrastructure-free.  It reads one company from
-the supplied CSV files, delegates all payment mathematics to ``ml_features``,
-and builds the existing BCE contracts without invoking an LLM.
-"""
 
 from __future__ import annotations
 

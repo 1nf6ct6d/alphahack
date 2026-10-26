@@ -1,8 +1,5 @@
-"""Immutable streaming CSV staging. Financial calculations stay in ml_features."""
-
 import csv
 from pathlib import Path
-
 from ml_audit.audit import REQUIRED_COLUMNS, NUMERIC_COLUMNS, numeric_value
 from ml_audit.csv_io import detect_encoding, file_hash, normalized
 

@@ -1,10 +1,4 @@
-"""Bounded news ingestion with an explicit source allowlist.
 
-Downloaded articles are untrusted data. Fetching and extracting text does not
-establish an industry classification or a regulatory obligation: imported
-articles start as ``other`` and can be enriched through the normalized-event
-import after their evidence has been reviewed.
-"""
 
 from __future__ import annotations
 

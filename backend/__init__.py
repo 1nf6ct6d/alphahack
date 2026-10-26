@@ -1,5 +1,3 @@
-"""Alfa Context backend: FastAPI, SQLite, ML integration and evidence storage."""
-
 from .config import Settings
 from .db import Database
 

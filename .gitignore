@@ -52,3 +52,6 @@ id_rsa
 id_ed25519
 lab.config.json
 tariffs.json
+
+alfa-context-frontend/node_modules/
+alfa-context-frontend/dist/

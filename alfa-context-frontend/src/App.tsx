@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import { api } from './api';
+import { ApiError, api, describeError, setToken } from './api';
 import type { ChatAnswer, Company, EventCandidate, Focus, Insight, Overview } from './types';
 
 type IconName = 'grid' | 'layers' | 'bookmark' | 'settings' | 'search' | 'chevron' | 'refresh' | 'arrow' | 'external' | 'clock' | 'spark' | 'message' | 'x' | 'send' | 'check' | 'alert' | 'file' | 'building' | 'trend' | 'menu';
@@ -31,6 +31,8 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState('');
+  const [needToken, setNeedToken] = useState(false);
+  const [tokenInput, setTokenInput] = useState('');
   const [insightError, setInsightError] = useState('');
   const [insightLoading, setInsightLoading] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
@@ -59,12 +61,19 @@ function App() {
     setLoading(true); setRefreshing(false); setError(''); setOverview(null); setInsight(null); setSelected(null); setInsightError(''); setInsightLoading(false); setChatMessages([]); setConversationId(null); setChatOpen(false); setChatBusy(false); setFeedbackOpen(false); setFeedbackSaved(false); setSourceOpen(null);
     insightSeq.current++; chatSeq.current++; refreshSeq.current++;
     try {
-      const [list, data] = await Promise.all([api.companies(), api.overview(id, currentFocus)]);
+      const list = await api.companies();
       if (seq !== requestSeq.current) return;
-      setCompanies(list); setOverview(data);
-    } catch {
+      setCompanies(list);
+      if (!list.length) { setError('Для вашей учётной записи нет доступных компаний.'); return; }
+      const active = list.some(c => c.company_id === id) ? id : list[0].company_id;
+      if (active !== id) { setCompanyId(active); return; }
+      const data = await api.overview(active, currentFocus);
       if (seq !== requestSeq.current) return;
-      setError('Не удалось загрузить обзор. Проверьте подключение и попробуйте ещё раз.');
+      setOverview(data); setNeedToken(false);
+    } catch (e) {
+      if (seq !== requestSeq.current) return;
+      setNeedToken(e instanceof ApiError && e.status === 401);
+      setError(describeError(e, 'Не удалось загрузить обзор.'));
     } finally { if (seq === requestSeq.current) setLoading(false); }
   }, []);
 
@@ -80,8 +89,11 @@ function App() {
       const data = await api.refreshOverview(requestedCompany, requestedFocus);
       if (seq !== refreshSeq.current || requestedCompany !== companyId || requestedFocus !== focus) return;
       setOverview(data); setInsight(null); setSelected(null); setInsightError(''); setChatMessages([]); setConversationId(null); setChatBusy(false); chatSeq.current++; insightSeq.current++;
-    } catch {
-      if (seq === refreshSeq.current && requestedCompany === companyId && requestedFocus === focus) setError('Не удалось обновить подборку. Показываем предыдущий результат.');
+    } catch (e) {
+      if (seq === refreshSeq.current && requestedCompany === companyId && requestedFocus === focus) {
+        setNeedToken(e instanceof ApiError && e.status === 401);
+        setError(describeError(e, 'Не удалось обновить подборку. Показываем предыдущий результат.'));
+      }
     } finally { if (seq === refreshSeq.current) setRefreshing(false); }
   }
   async function openInsight(candidate: EventCandidate) {
@@ -91,8 +103,8 @@ function App() {
     try {
       const result = await api.insight(requestedCompany, requestedFocus, candidate);
       if (seq === insightSeq.current && requestedCompany === companyId && requestedFocus === focus) setInsight(result);
-    } catch {
-      if (seq === insightSeq.current && requestedCompany === companyId && requestedFocus === focus) setInsightError('Не удалось подготовить инсайт. Проверьте подключение и повторите попытку.');
+    } catch (e) {
+      if (seq === insightSeq.current && requestedCompany === companyId && requestedFocus === focus) setInsightError(describeError(e, 'Не удалось подготовить инсайт. Повторите попытку.'));
     } finally { if (seq === insightSeq.current) setInsightLoading(false); }
   }
   async function sendQuestion(question = chatInput) {
@@ -104,14 +116,14 @@ function App() {
       const answer = await api.question(insight, q, conversationId);
       if (seq !== chatSeq.current || insightId !== insight?.insight_id) return;
       setConversationId(answer.conversation_id); setChatMessages(prev => [...prev, { role: 'assistant', text: answer.answer, answer }]);
-    } catch {
-      if (seq === chatSeq.current && insightId === insight?.insight_id) setChatMessages(prev => [...prev, { role: 'assistant', text: 'Не получилось получить ответ. Попробуйте отправить вопрос ещё раз.' }]);
+    } catch (e) {
+      if (seq === chatSeq.current && insightId === insight?.insight_id) setChatMessages(prev => [...prev, { role: 'assistant', text: describeError(e, 'Не получилось получить ответ. Попробуйте отправить вопрос ещё раз.') }]);
     } finally { if (seq === chatSeq.current) setChatBusy(false); }
   }
   async function saveFeedback() {
     if (!insight) return;
     try { await api.feedback(insight, feedbackRating, feedbackReason, feedbackComment); setFeedbackSaved(true); setFeedbackOpen(false); }
-    catch { setError('Не удалось сохранить оценку. Попробуйте ещё раз.'); }
+    catch (e) { setError(describeError(e, 'Не удалось сохранить оценку. Попробуйте ещё раз.')); }
   }
   function goOverview() { insightSeq.current++; chatSeq.current++; setInsightLoading(false); setInsightError(''); setActivePage('overview'); setSelected(null); setInsight(null); setChatOpen(false); setChatMessages([]); setConversationId(null); setChatBusy(false); setFeedbackOpen(false); setSourceOpen(null); }
   const navItems = [{ id: 'overview', label: 'Обзор', icon: 'grid' as const }, { id: 'sources', label: 'Источники', icon: 'layers' as const }, { id: 'saved', label: 'Сохранённое', icon: 'bookmark' as const }];
@@ -131,13 +143,14 @@ function App() {
       <div className="page-content">
         <div className="page-heading"><div><div className="eyebrow"><span className="eyebrow-line"></span>АНАЛИТИЧЕСКАЯ ПЛАТФОРМА</div><h1>{activePage === 'insight' && insight ? 'Детальный инсайт' : activePage === 'sources' ? 'Источники' : activePage === 'saved' ? 'Сохранённое' : 'Обзор компании'}</h1><p className="page-subtitle">{activePage === 'insight' ? 'Разбор события и его возможного влияния на бизнес' : activePage === 'sources' ? 'Материалы, на которых основаны аналитические выводы' : activePage === 'saved' ? 'Ваши отмеченные аналитические материалы' : 'События, которые могут повлиять на бизнес компании'}</p></div><div className="focus-control"><span>Фокус анализа</span><div className="segmented"><button className={focus === 'CFO' ? 'selected' : ''} onClick={() => setFocus('CFO')}>CFO</button><button className={focus === 'CEO' ? 'selected' : ''} onClick={() => setFocus('CEO')}>CEO</button></div></div></div>
         {api.isDemo && <div className="demo-banner"><span className="demo-icon"><Icon name="spark" size={15} /></span><span><strong>Демонстрационный режим.</strong> Данные ниже — примеры интерфейса, а не реальные выводы о компании.</span><button onClick={() => setError('Чтобы подключить Backend, задайте VITE_DEMO_MODE=false и VITE_API_BASE_URL в .env.')}>Подключить API <Icon name="arrow" size={14} /></button></div>}
+        {needToken && <form className="token-form" onSubmit={e => { e.preventDefault(); const value = tokenInput.trim(); if (!value) return; setToken(value); setTokenInput(''); setNeedToken(false); void loadOverview(companyId, focus); }}><label htmlFor="api-token">Токен доступа</label><input id="api-token" type="password" autoComplete="off" value={tokenInput} onChange={e => setTokenInput(e.target.value)} /><button type="submit" disabled={!tokenInput.trim()}>Подключиться</button></form>}
         {error && <div className="alert-banner" role="alert"><Icon name="alert" size={17} /><span>{error}</span><button onClick={() => { setError(''); if (!overview) void loadOverview(companyId, focus); }} aria-label="Закрыть сообщение"><Icon name="x" size={15} /></button></div>}
 
         {activePage === 'overview' && <>
-          <section className="overview-meta"><div className="company-title"><div className="large-company-icon"><Icon name="building" size={22} /></div><div><h2>{company?.display_name || 'Северсталь-Снабжение'}</h2><p>Профиль компании · {api.isDemo ? 'демонстрационные данные' : 'данные Backend'}</p></div>{overview && !loading && !error && <span className="verified-pill"><Icon name="check" size={12} /> {api.isDemo ? 'Демо-профиль' : 'Обзор загружен'}</span>}</div><div className="meta-right"><div className="updated"><Icon name="clock" size={15} /><span>Обновлено <b>{overview?.updated_at || '—'}</b></span></div><button className="button button-secondary" onClick={() => void refresh()} disabled={refreshing || loading}><Icon name="refresh" size={15} />{refreshing ? 'Обновляем…' : 'Обновить отбор'}</button></div></section>
+          <section className="overview-meta"><div className="company-title"><div className="large-company-icon"><Icon name="building" size={22} /></div><div><h2>{company?.display_name || companyId}</h2><p>Профиль компании · {api.isDemo ? 'демонстрационные данные' : 'данные Backend'}</p></div>{overview && !loading && !error && <span className="verified-pill"><Icon name="check" size={12} /> {api.isDemo ? 'Демо-профиль' : 'Обзор загружен'}</span>}</div><div className="meta-right"><div className="updated"><Icon name="clock" size={15} /><span>Обновлено <b>{overview?.updated_at || '—'}</b></span></div><button className="button button-secondary" onClick={() => void refresh()} disabled={refreshing || loading}><Icon name="refresh" size={15} />{refreshing ? 'Обновляем…' : 'Обновить отбор'}</button></div></section>
           <section className="metrics-grid"><Metric label="События в подборке" value={loading ? '—' : String(activeCandidates.length).padStart(2, '0')} hint="После проверки релевантности" icon="layers" /><Metric label="Высокий приоритет" value={loading ? '—' : String(activeCandidates.filter(c => c.priority === 'high').length).padStart(2, '0')} hint="Требуют внимания в первую очередь" icon="trend" accent /><Metric label="Источники" value={loading ? '—' : String(activeCandidates.reduce((n, c) => n + c.source_count, 0)).padStart(2, '0')} hint="Материалы в текущей подборке" icon="file" /><Metric label="Фокус анализа" value={focus} hint={focus === 'CFO' ? 'Финансы и денежные потоки' : 'Стратегия и развитие бизнеса'} icon="spark" /> </section>
           <section className="section-head"><div><h2>События для внимания</h2><p>Сначала — то, что может быть значимо для компании</p></div><button className="text-button" onClick={() => setActivePage('sources')}>Все источники <Icon name="arrow" size={15} /></button></section>
-          {loading ? <div className="candidate-list">{[1,2,3].map(n => <div className="candidate-skeleton" key={n}><div className="skeleton-line short"></div><div className="skeleton-line"></div><div className="skeleton-line medium"></div></div>)}</div> : overview?.status === 'not_prepared' ? <EmptyState title="Подборка ещё не подготовлена" text="Запустите обновление, чтобы получить список потенциально значимых событий." action="Подготовить подборку" onAction={() => void refresh()} /> : overview?.status === 'empty' || !activeCandidates.length ? <EmptyState title="Подходящих событий пока нет" text="Это не ошибка. В текущих данных не найдено событий с достаточными основаниями для персональной подборки." action="Обновить отбор" onAction={() => void refresh()} /> : <div className="candidate-list">{activeCandidates.map((candidate, index) => <CandidateCard key={candidate.event_id} candidate={candidate} index={index} onOpen={() => void openInsight(candidate)} />)}</div>}
+          {loading ? <div className="candidate-list">{[1,2,3].map(n => <div className="candidate-skeleton" key={n}><div className="skeleton-line short"></div><div className="skeleton-line"></div><div className="skeleton-line medium"></div></div>)}</div> : !overview ? null : overview.status === 'not_prepared' ? <EmptyState title="Подборка ещё не подготовлена" text="Запустите обновление, чтобы получить список потенциально значимых событий." action="Подготовить подборку" onAction={() => void refresh()} /> : overview.status === 'empty' || !activeCandidates.length ? <EmptyState title="Подходящих событий пока нет" text="Это не ошибка. В текущих данных не найдено событий с достаточными основаниями для персональной подборки." action="Обновить отбор" onAction={() => void refresh()} /> : <div className="candidate-list">{activeCandidates.map((candidate, index) => <CandidateCard key={candidate.event_id} candidate={candidate} index={index} onOpen={() => void openInsight(candidate)} />)}</div>}
           <div className="bottom-note"><Icon name="alert" size={16} /><p>Релевантность — это не прогноз и не подтверждение ущерба. Каждый вывод сопровождается источниками, условиями и ограничениями.</p><button onClick={() => setSourceOpen('principles')}>Как читать аналитику <Icon name="arrow" size={14} /></button></div>
         </>}
 
@@ -148,7 +161,7 @@ function App() {
       </div>
     </main>
 
-    {chatOpen && insight && <div className="chat-panel"><div className="chat-header"><div className="chat-heading-icon"><Icon name="message" size={18} /></div><div><h3>Уточнить инсайт</h3><p>Контекст: {insight.title}</p></div><button className="icon-button" onClick={() => setChatOpen(false)} aria-label="Закрыть чат"><Icon name="x" /></button></div><div className="chat-context"><span className="context-dot"></span>Компания и выбранное событие сохранены в контексте</div><div className="chat-messages"><div className="chat-message assistant"><div className="assistant-avatar"><Icon name="spark" size={14} /></div><div className="message-bubble"><p>Могу уточнить механизм влияния, основания вывода или ограничения. Если данных недостаточно, прямо обозначу это.</p><span className="message-time">Сейчас</span></div></div>{chatMessages.map((m, i) => <div key={i} className={`chat-message ${m.role}`}>{m.role === 'assistant' && <div className="assistant-avatar"><Icon name="spark" size={14} /></div>}<div className="message-bubble"><p>{m.text}</p>{m.answer && <>{m.answer.sources.length > 0 && <div className="chat-source"><Icon name="file" size={13} /> Основание: {m.answer.sources[0].title}</div>}{m.answer.unknowns_and_conditions.length > 0 && <div className="chat-conditions"><strong>Что проверить</strong>{m.answer.unknowns_and_conditions.map((u, j) => <span key={j}>• {u}</span>)}</div>}</>}<span className="message-time">{m.role === 'user' ? 'Вы' : 'Альфа Контекст'}</span></div></div>)}{chatBusy && <div className="chat-message assistant"><div className="assistant-avatar"><Icon name="spark" size={14} /></div><div className="message-bubble typing"><span></span><span></span><span></span></div></div>}</div><div className="suggested-questions"><span>Можно спросить</span><button onClick={() => void sendQuestion('Какие факты подтверждают этот вывод?')}>Какие факты подтверждают вывод?</button><button onClick={() => void sendQuestion('Что нужно проверить в первую очередь?')}>Что проверить в первую очередь?</button></div><form className="chat-compose" onSubmit={e => { e.preventDefault(); void sendQuestion(); }}><textarea value={chatInput} onChange={e => setChatInput(e.target.value)} placeholder="Задайте уточняющий вопрос…" rows={2} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); void sendQuestion(); } }} /><button type="submit" disabled={!chatInput.trim() || chatBusy} aria-label="Отправить вопрос"><Icon name="send" size={17} /></button><span>Enter — отправить · Shift + Enter — новая строка</span></form></div>}
+    {chatOpen && insight && <div className="chat-panel"><div className="chat-header"><div className="chat-heading-icon"><Icon name="message" size={18} /></div><div><h3>Уточнить инсайт</h3><p>Контекст: {insight.title}</p></div><button className="icon-button" onClick={() => setChatOpen(false)} aria-label="Закрыть чат"><Icon name="x" /></button></div><div className="chat-context"><span className="context-dot"></span>Компания и выбранное событие сохранены в контексте</div><div className="chat-messages"><div className="chat-message assistant"><div className="assistant-avatar"><Icon name="spark" size={14} /></div><div className="message-bubble"><p>Могу уточнить механизм влияния, основания вывода или ограничения. Если данных недостаточно, прямо обозначу это.</p><span className="message-time">Сейчас</span></div></div>{chatMessages.map((m, i) => <div key={i} className={`chat-message ${m.role}`}>{m.role === 'assistant' && <div className="assistant-avatar"><Icon name="spark" size={14} /></div>}<div className="message-bubble"><p>{m.text}</p>{m.answer && <>{m.answer.sources.length > 0 && <div className="chat-source"><Icon name="file" size={13} /> Основание: {m.answer.sources[0].title}</div>}{m.answer.unknowns_and_conditions.length > 0 && <div className="chat-conditions"><strong>Что проверить</strong>{m.answer.unknowns_and_conditions.map((u, j) => <span key={j}>• {u}</span>)}</div>}</>}<span className="message-time">{m.role === 'user' ? 'Вы' : 'Альфа Контекст'}</span></div></div>)}{chatBusy && <div className="chat-message assistant"><div className="assistant-avatar"><Icon name="spark" size={14} /></div><div className="message-bubble typing"><span></span><span></span><span></span></div></div>}</div><div className="suggested-questions"><span>Можно спросить</span><button onClick={() => void sendQuestion('Какие факты подтверждают этот вывод?')}>Какие признаки использованы?</button><button onClick={() => void sendQuestion('Что нужно проверить в первую очередь?')}>Что проверить в первую очередь?</button></div><form className="chat-compose" onSubmit={e => { e.preventDefault(); void sendQuestion(); }}><textarea value={chatInput} onChange={e => setChatInput(e.target.value)} placeholder="Задайте уточняющий вопрос…" rows={2} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); void sendQuestion(); } }} /><button type="submit" disabled={!chatInput.trim() || chatBusy} aria-label="Отправить вопрос"><Icon name="send" size={17} /></button><span>Enter — отправить · Shift + Enter — новая строка</span></form></div>}
 
     {feedbackOpen && insight && <div className="modal-backdrop" onClick={() => setFeedbackOpen(false)}><div className="feedback-modal" role="dialog" aria-modal="true" aria-labelledby="feedback-title" onClick={e => e.stopPropagation()}><div className="modal-top"><div className="modal-icon"><Icon name="message" /></div><button className="icon-button" onClick={() => setFeedbackOpen(false)} aria-label="Закрыть"><Icon name="x" /></button></div><h2 id="feedback-title">Оцените этот разбор</h2><p className="modal-copy">Ваша оценка помогает улучшать качество аналитики. Она сохранится вместе с версией инсайта.</p><div className="rating-options"><button className={feedbackRating === 'useful' ? 'chosen' : ''} onClick={() => { setFeedbackRating('useful'); setFeedbackReason(''); }}><span>👍</span><strong>Полезно</strong></button><button className={feedbackRating === 'not_useful' ? 'chosen' : ''} onClick={() => setFeedbackRating('not_useful')}><span>👎</span><strong>Не полезно</strong></button></div>{feedbackRating === 'not_useful' && <div className="form-field"><label htmlFor="feedback-reason">Что было не так?</label><select id="feedback-reason" value={feedbackReason} onChange={e => setFeedbackReason(e.target.value)}><option value="">Выберите причину</option><option value="irrelevant">Не относится к компании</option><option value="factual_error">Фактическая ошибка</option><option value="outdated">Устаревшие данные</option><option value="unclear">Непонятное объяснение</option><option value="other">Другое</option></select></div>}<div className="form-field"><label htmlFor="feedback-comment">Комментарий <span>необязательно</span></label><textarea id="feedback-comment" rows={3} value={feedbackComment} onChange={e => setFeedbackComment(e.target.value)} placeholder="Что стоит улучшить?" /></div><div className="modal-actions"><button className="button button-secondary" onClick={() => setFeedbackOpen(false)}>Отмена</button><button className="button button-primary" onClick={() => void saveFeedback()} disabled={feedbackRating === 'not_useful' && !feedbackReason}>Отправить оценку <Icon name="arrow" size={15} /></button></div></div></div>}
 

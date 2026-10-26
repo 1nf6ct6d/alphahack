@@ -1,7 +1,28 @@
 import type { ChatAnswer, Company, EventCandidate, Focus, Insight, Overview } from './types';
 
-const BASE = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000').replace(/\/$/, '');
-const DEMO = (import.meta.env.VITE_DEMO_MODE ?? 'true') !== 'false';
+const BASE = (import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8080').replace(/\/$/, '');
+const DEMO = import.meta.env.VITE_DEMO_MODE === 'true';
+const TOKEN_KEY = 'alfa_context_token';
+
+export function getToken(): string {
+  try { return sessionStorage.getItem(TOKEN_KEY) || import.meta.env.VITE_API_TOKEN || ''; }
+  catch { return import.meta.env.VITE_API_TOKEN || ''; }
+}
+export function setToken(token: string): void {
+  try { if (token) sessionStorage.setItem(TOKEN_KEY, token); else sessionStorage.removeItem(TOKEN_KEY); } catch { /* хранилище недоступно: токен действует до перезагрузки */ }
+}
+
+export class ApiError extends Error {
+  constructor(readonly status: number, readonly code: string, message: string) { super(message); this.name = 'ApiError'; }
+}
+export function describeError(error: unknown, fallback: string): string {
+  if (!(error instanceof ApiError)) return fallback;
+  if (error.status === 401) return 'Нет доступа: токен не задан или недействителен.';
+  if (error.status === 404) return 'Запрошенные данные недоступны для вашей учётной записи или не найдены.';
+  if (error.status === 429) return error.message || 'Достигнут дневной лимит обращений к модели. Повторите попытку позже.';
+  if (error.status === 0) return 'Нет связи с сервером. Проверьте адрес API и подключение.';
+  return error.message ? `${fallback} ${error.message}` : fallback;
+}
 
 const companies: Company[] = [
   { company_id: 'U_5639', display_name: 'Северсталь-Снабжение' },
@@ -40,17 +61,27 @@ const demoInsight = (candidate: EventCandidate, companyId: string, focus: Focus)
 });
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(`${BASE}${path}`, { ...init, headers: { ...(init?.body ? { 'Content-Type': 'application/json' } : {}), ...(init?.headers || {}) } });
+  const headers: Record<string, string> = { Accept: 'application/json', ...(init?.body ? { 'Content-Type': 'application/json' } : {}) };
+  const token = getToken();
+  if (token) headers.Authorization = `Bearer ${token}`;
+  let response: Response;
+  try { response = await fetch(`${BASE}${path}`, { ...init, headers: { ...headers, ...(init?.headers as Record<string, string> | undefined) } }); }
+  catch { throw new ApiError(0, 'network_error', 'Сервер недоступен.'); }
   const contentType = response.headers.get('content-type') || '';
   const payload = contentType.includes('application/json') ? await response.json().catch(() => null) : await response.text().catch(() => '');
   if (!response.ok) {
-    const detail = payload && typeof payload === 'object' && 'detail' in payload ? String((payload as { detail: unknown }).detail) : '';
-    throw new Error(detail || `Ошибка API: ${response.status}`);
+    const body = payload && typeof payload === 'object' ? payload as { code?: unknown; message?: unknown; detail?: unknown } : {};
+    const message = typeof body.message === 'string' ? body.message : typeof body.detail === 'string' ? body.detail : '';
+    throw new ApiError(response.status, typeof body.code === 'string' ? body.code : 'http_error', message || `Ошибка API: ${response.status}`);
   }
   if (response.status === 204 || payload === '') return undefined as T;
-  if (payload === null) throw new Error('Сервер вернул некорректный JSON-ответ.');
+  if (payload === null) throw new ApiError(response.status, 'invalid_json', 'Сервер вернул некорректный JSON-ответ.');
   return payload as T;
 }
+const formatDate = (value: string): string => {
+  const parsed = /^\d{4}-\d{2}-\d{2}/.test(value) ? new Date(value) : null;
+  return parsed && !Number.isNaN(parsed.getTime()) ? parsed.toLocaleDateString('ru-RU', { day: '2-digit', month: 'short', year: 'numeric' }) : value;
+};
 const currentDemoTimestamp = () => new Date().toLocaleString('ru-RU', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
 type JsonObject = Record<string, unknown>;
@@ -64,8 +95,15 @@ const claimText = (value: unknown): string => {
 const stringList = (value: unknown): string[] => Array.isArray(value) ? value.map(item => claimText(item)).filter(Boolean) : [];
 const mapSource = (value: unknown, index: number): Insight['sources'][number] => {
   const s = asObject(value);
-  const kind = asText(s.kind, asText(s.source_type, 'news'));
-  return { source_id: asText(s.source_id, asText(s.id, `source-${index + 1}`)), title: asText(s.title, asText(s.name, 'Источник')), publisher: asText(s.publisher, asText(s.source_name, 'Источник')), published_at: asText(s.published_at, 'Дата не указана'), url: asText(s.url, asText(s.source_url)), kind: kind === 'bank' || kind === 'registry' ? kind : 'news' };
+  const sourceId = asText(s.source_id, asText(s.id, `source-${index + 1}`));
+  const type = asText(s.kind, asText(s.type, asText(s.source_type, 'news')));
+  const kind = type === 'bank' || type === 'bank_report' ? 'bank' : type === 'registry' ? 'registry' : 'news';
+  return {
+    source_id: sourceId, title: asText(s.title, asText(s.name, 'Источник')),
+    publisher: asText(s.publisher, asText(s.source_name, sourceId)),
+    published_at: formatDate(asText(s.published_at, asText(s.date, 'Дата не указана'))),
+    url: asText(s.url, asText(s.source_url)), kind,
+  };
 };
 function normalizeOverview(value: unknown, companyId: string, focus: Focus): Overview {
   const raw = asObject(value);
@@ -77,7 +115,7 @@ function normalizeOverview(value: unknown, companyId: string, focus: Focus): Ove
     const priority = asText(e.priority, 'low');
     return {
       event_id: asText(e.event_id, `event-${index + 1}`), title: asText(e.title, 'Событие без названия'),
-      published_at: asText(e.published_at, 'Дата не указана'), source_name: asText(e.source_name, sources[0]?.publisher || 'Источник'),
+      published_at: formatDate(asText(e.published_at, 'Дата не указана')), source_name: asText(e.source_name, sources[0]?.publisher || 'Источник'),
       source_url: asText(e.source_url, sources[0]?.url || ''), event_type: asText(e.event_type, asText(e.type, 'Событие')),
       priority: priority === 'high' || priority === 'medium' ? priority : 'low',
       relevance: relevance === 'grounded' || relevance === 'none' ? relevance : 'conditional',
@@ -87,8 +125,8 @@ function normalizeOverview(value: unknown, companyId: string, focus: Focus): Ove
       limitations: stringList(e.limitations ?? e.conditions),
     };
   }).filter(item => item.relevance !== 'none').slice(0, 5);
-  const status = asText(raw.status, mapped.length ? 'ready' : 'empty');
-  return { company_id: asText(raw.company_id, companyId), analytic_focus: asText(raw.analytic_focus, focus) === 'CEO' ? 'CEO' : 'CFO', status: status === 'not_prepared' || status === 'empty' ? status : 'ready', updated_at: asText(raw.updated_at, asText(raw.generated_at, 'Дата не указана')), candidates: mapped };
+  const status = asText(raw.state, asText(raw.status, mapped.length ? 'ready' : 'empty'));
+  return { company_id: asText(raw.company_id, companyId), analytic_focus: asText(raw.analytic_focus, focus) === 'CEO' ? 'CEO' : 'CFO', status: status === 'not_prepared' || status === 'empty' ? status : 'ready', updated_at: formatDate(asText(raw.updated_at, asText(raw.generated_at, 'Дата не указана'))), candidates: mapped };
 }
 function normalizeInsight(value: unknown, fallbackCompanyId: string, fallbackFocus: Focus): Insight {
   const raw = asObject(value);
@@ -100,21 +138,36 @@ function normalizeInsight(value: unknown, fallbackCompanyId: string, fallbackFoc
   const rawEvidence = Array.isArray(raw.evidence) ? raw.evidence : [];
   const evidence: Insight['evidence'] = rawEvidence.map((item, index) => {
     const e = asObject(item);
-    return { evidence_id: asText(e.evidence_id, asText(e.id, `evidence-${index + 1}`)), claim: claimText(e.claim ?? e.text), source_id: asText(e.source_id, Array.isArray(e.source_ids) ? asText(e.source_ids[0]) : ''), quote: asText(e.quote, asText(e.excerpt, '')) };
+    const sourceType = asText(e.source_type);
+    const profileInputs = (Array.isArray(asObject(e.raw).inputs) ? asObject(e.raw).inputs as unknown[] : [])
+      .map(input => { const field = asObject(input); return field.ref ? `${asText(field.ref)} = ${asText(field.value, 'не указано')}` : ''; })
+      .filter(Boolean).join('; ');
+    const fallbackClaim = sourceType === 'bank_report' ? 'Фрагмент банковского отчёта' : sourceType === 'profile' ? 'Признак профиля компании' : sourceType === 'news' ? 'Цитата из новости' : 'Основание';
+    return {
+      evidence_id: asText(e.evidence_id, asText(e.id, `evidence-${index + 1}`)),
+      claim: claimText(e.claim ?? e.text) || fallbackClaim,
+      source_id: asText(e.source_id, Array.isArray(e.source_ids) ? asText(e.source_ids[0]) : ''),
+      quote: sourceType === 'profile' && profileInputs ? profileInputs : asText(e.quote, asText(e.observation, asText(e.excerpt, ''))),
+    };
   });
   const claims = (v: unknown) => stringList(v);
   const summary = claimText(ai.summary ?? raw.conclusion);
   const counterparty = asObject(raw.counterparty_impact);
   const rawStatus = asText(raw.status, 'limited');
   const status = rawStatus === 'ready' || rawStatus === 'unavailable' ? rawStatus : 'limited';
-  const bankText = typeof raw.bank_position === 'string' ? raw.bank_position : claimText(bank.summary ?? bank.position ?? bank.text) || (raw.bank_position === null ? 'Банковская позиция не подтверждена.' : 'Банковская позиция не указана.');
+  const retrieval = asText(raw.bank_retrieval_status);
+  const bankText = typeof raw.bank_position === 'string' ? raw.bank_position
+    : claimText(bank.text ?? bank.summary ?? bank.position)
+      || (retrieval === 'unavailable' ? 'Корпус банковской аналитики недоступен: позиция банка не оценивалась.'
+        : retrieval === 'error' ? 'Поиск по банковской аналитике завершился ошибкой.'
+        : asText(bank.reason) || 'Подходящий проверенный материал банка не найден.');
   return {
     insight_id: asText(raw.insight_id, 'insight-unknown'), insight_version: typeof raw.insight_version === 'number' ? raw.insight_version : 1,
     company_id: asText(raw.company_id, fallbackCompanyId), analytic_focus: asText(raw.analytic_focus, fallbackFocus) === 'CEO' ? 'CEO' : 'CFO', status,
     generated_at: asText(raw.generated_at, new Date().toISOString()), title: asText(raw.title, claimText(event.title) || 'Аналитический разбор'),
     conclusion: summary || (status === 'unavailable' ? 'Недостаточно данных для содержательного вывода.' : 'Вывод не предоставлен.'),
     event: typeof raw.event === 'string' ? raw.event : claimText(event.summary ?? event.description ?? event.title) || 'Описание события не предоставлено.',
-    mechanism: claimText(counterparty.summary ?? counterparty.impact ?? ai.mechanism) || 'Механизм влияния требует дополнительной проверки.',
+    mechanism: claimText(counterparty) || claimText(ai.mechanism) || 'Механизм влияния требует дополнительной проверки.',
     bank_position: bankText,
     bank_retrieval_status: ['completed', 'unavailable', 'error'].includes(asText(raw.bank_retrieval_status)) ? asText(raw.bank_retrieval_status) as Insight['bank_retrieval_status'] : null,
     bank_analytics_mode: ['direct_match', 'macro_background', 'no_relevant_report'].includes(asText(raw.bank_analytics_mode)) ? asText(raw.bank_analytics_mode) as Insight['bank_analytics_mode'] : null,
@@ -125,7 +178,15 @@ function normalizeInsight(value: unknown, fallbackCompanyId: string, fallbackFoc
 }
 export const api = {
   isDemo: DEMO,
-  async companies(): Promise<Company[]> { return DEMO ? companies : (await request<{ items: Company[] }>('/companies')).items; },
+  async companies(): Promise<Company[]> {
+    if (DEMO) return companies;
+    const raw = asObject(await request<unknown>('/companies'));
+    return (Array.isArray(raw.items) ? raw.items : []).map(item => {
+      const c = asObject(item);
+      const id = asText(c.company_id, asText(c.id));
+      return { company_id: id, display_name: asText(c.display_name, id) };
+    }).filter(c => c.company_id);
+  },
   async overview(companyId: string, focus: Focus): Promise<Overview> {
     if (!DEMO) return normalizeOverview(await request<unknown>(`/companies/${encodeURIComponent(companyId)}/overview?analytic_focus=${focus}`), companyId, focus);
     await new Promise(r => setTimeout(r, 260));
@@ -151,7 +212,7 @@ export const api = {
     return { conversation_id: conversationId || `conv-${insight.insight_id}`, answer: 'По имеющимся материалам можно сформулировать только условный вывод. Сначала нужно проверить применимость события к конкретным операциям компании и подтвердить даты. Сейчас нет достаточных оснований утверждать, что финансовый эффект уже возник.', sources: insight.sources.slice(0, 1), unknowns_and_conditions: insight.unknowns_and_conditions.slice(0, 2) };
   },
   async feedback(insight: Insight, rating: 'useful' | 'not_useful', reason: string, comment: string): Promise<void> {
-    if (!DEMO) { await request(`/insights/${encodeURIComponent(insight.insight_id)}/feedback`, { method: 'PUT', body: JSON.stringify({ rating, reason: reason || null, comment: comment || null }) }); return; }
+    if (!DEMO) { await request(`/insights/${encodeURIComponent(insight.insight_id)}/feedback`, { method: 'PUT', body: JSON.stringify({ rating, reason: reason || (rating === 'useful' ? 'relevant' : 'other'), comment: comment || null }) }); return; }
     await new Promise(r => setTimeout(r, 350));
   },
 };

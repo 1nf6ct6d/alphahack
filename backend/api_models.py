@@ -1,4 +1,3 @@
-"""Validated HTTP and import contracts for the Alfa Context backend."""
 
 from __future__ import annotations
 

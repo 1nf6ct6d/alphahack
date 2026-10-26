@@ -1,5 +1,3 @@
-"""Exercise a running synthetic demo over real HTTP. No third-party packages."""
-
 import argparse
 import json
 import os

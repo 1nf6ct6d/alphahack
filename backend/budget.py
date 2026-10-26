@@ -1,4 +1,4 @@
-
+"""Atomic daily LLM budget reservations backed by SQLite."""
 
 from __future__ import annotations
 
@@ -12,15 +12,15 @@ from .db import Database
 
 
 class BudgetError(RuntimeError):
-
+    """Base class for budget accounting failures."""
 
 
 class BudgetExceeded(BudgetError):
-
+    """A reservation would exceed the configured internal daily limit."""
 
 
 class ReservationStateError(BudgetError):
-
+    """A reservation cannot transition from its current state."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -62,6 +62,7 @@ def _utc_iso(value: datetime) -> str:
 
 
 class BudgetManager:
+    """Reserve, commit, and release daily spend under ``BEGIN IMMEDIATE``."""
 
     def __init__(
         self,
@@ -223,6 +224,7 @@ class BudgetManager:
             if row["status"] == "committed":
                 if int(row["actual_cost_kopecks"]) != actual_cost_kopecks:
                     raise ReservationStateError(
+                        "committed reservation has a different actual cost"
                     )
                 return self._reservation(row)
             if row["status"] != "reserved":
@@ -231,6 +233,7 @@ class BudgetManager:
                 )
             if actual_cost_kopecks > int(row["max_cost_kopecks"]):
                 raise ReservationStateError(
+                    "actual cost exceeds the reserved maximum"
                 )
             finalized = _utc_iso(current)
             connection.execute(

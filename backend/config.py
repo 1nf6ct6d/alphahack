@@ -1,4 +1,7 @@
+"""Environment-backed configuration for the backend foundation."""
+
 from __future__ import annotations
+
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 import math
@@ -9,6 +12,7 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 
 class ConfigurationError(ValueError):
+    """Raised when environment configuration is unsafe or malformed."""
 
 
 def _required_text(values: Mapping[str, str], key: str) -> str:

@@ -1,4 +1,4 @@
-
+"""Application orchestration for profiles, ranking, insights, and feedback."""
 
 from __future__ import annotations
 

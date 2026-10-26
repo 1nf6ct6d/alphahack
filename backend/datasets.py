@@ -1,5 +1,8 @@
+"""Immutable streaming CSV staging. Financial calculations stay in ml_features."""
+
 import csv
 from pathlib import Path
+
 from ml_audit.audit import REQUIRED_COLUMNS, NUMERIC_COLUMNS, numeric_value
 from ml_audit.csv_io import detect_encoding, file_hash, normalized
 
@@ -41,6 +44,8 @@ def import_dataset(database: Database, kind: str, csv_path: str | Path, *, encod
             if missing:
                 raise ValueError(f"Dataset is missing required columns: {sorted(missing)}")
             count = issues_count = 0
+            # One writer transaction provides atomic publication. Rows are
+            # streamed in bounded batches; no dataset is loaded into memory.
             with database.transaction(immediate=True) as connection:
                 connection.execute(
                     """INSERT INTO dataset_snapshots(id, kind, source_hash, source_filename,

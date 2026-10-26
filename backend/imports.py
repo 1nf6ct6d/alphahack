@@ -1,4 +1,7 @@
+"""Import lifecycle tracking and deterministic profile import orchestration."""
+
 from __future__ import annotations
+
 from dataclasses import dataclass
 import json
 from pathlib import Path
@@ -14,6 +17,7 @@ if TYPE_CHECKING:
 
 
 class ImportStateError(RuntimeError):
+    """Raised when an import run cannot make the requested transition."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -59,6 +63,7 @@ def _json_object(value: dict[str, Any] | None) -> str:
 
 
 class ImportTracker:
+    """Persist import runs and row-level errors in the existing schema."""
 
     def __init__(self, database: Database):
         self.database = database

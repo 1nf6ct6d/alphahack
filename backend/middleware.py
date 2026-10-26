@@ -1,4 +1,4 @@
-
+"""Small ASGI request guard, including bodies without Content-Length."""
 
 import json
 

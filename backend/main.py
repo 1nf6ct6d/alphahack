@@ -1,3 +1,10 @@
+"""FastAPI transport for the Alfa Context backend.
+
+The HTTP layer is deliberately thin: authentication and tenant isolation are
+enforced before calling the application service, while persistence and domain
+logic remain framework-independent and testable on their own.
+"""
+
 from contextlib import asynccontextmanager
 import hmac
 import os

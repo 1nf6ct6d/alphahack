@@ -1,4 +1,17 @@
+"""Optional, bounded OpenAI-compatible generation for evidence-based insights.
+
+No call is enabled implicitly. The application must reserve
+``max_cost_kopecks`` before invoking this adapter and conservatively account for
+that bound after a dispatched request, including an ambiguous timeout. This
+module does not estimate ruble prices from unconfirmed token tariffs.
+
+Only the narrative fields are generated. Source identity, company identity,
+bank quotations, ranking and all evidence remain owned by the backend. Local
+validation proves reference integrity, not semantic entailment of prose.
+"""
+
 from __future__ import annotations
+
 from copy import deepcopy
 from dataclasses import dataclass
 import json
@@ -27,6 +40,7 @@ DEFAULT_MAX_OUTPUT_TOKENS = 1800
 
 
 class GatewayError(RuntimeError):
+    """A sanitized configuration, transport, or output-contract failure."""
 
     def __init__(self, message: str, *, code: str = "llm_gateway_error"):
         super().__init__(message)
@@ -388,6 +402,14 @@ class Gateway:
 
     @classmethod
     def from_env(cls, values: Mapping[str, str] | None = None) -> "Gateway | None":
+        """Return None unless explicitly enabled; fail closed if misconfigured.
+
+        ``ALFA_LLM_MAX_CALL_KOPECKS`` must be a confirmed upper bound for a
+        request of at most MAX_INPUT_BYTES and max_output_tokens, including
+        any provider-billed hidden reasoning tokens. It is not a guessed rate.
+        The application records this conservative amount in its budget ledger.
+        """
+
         source = os.environ if values is None else values
         enabled = source.get("ALFA_LLM_ENABLED", "0").strip()
         if enabled in {"", "0"}:
@@ -590,6 +612,8 @@ class Gateway:
         payload = deepcopy(base)
         payload["ai_interpretation"] = interpretation
         payload["next_steps"] = patch["next_steps"]
+        # Even mode/status/identity are unchanged here; the calling backend
+        # records provider provenance after validation and successful persistence.
         return GatewayResult(
             payload, result.tokens_in, result.tokens_out, result.elapsed_ms
         )

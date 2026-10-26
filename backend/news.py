@@ -182,8 +182,6 @@ class SafeFetcher:
         return ValidatedURL(normalized, parsed.scheme.lower(), host, port, target)
 
     def _resolve(self, value: ValidatedURL, deadline: float) -> str:
-        # OS resolver calls have no portable cancellation API. A daemon keeps
-        # a stuck resolver from blocking this request past its total deadline.
         answers: queue.Queue = queue.Queue(maxsize=1)
 
         def resolve() -> None:

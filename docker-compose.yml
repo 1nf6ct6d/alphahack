@@ -1,0 +1,27 @@
+name: alfa-context
+
+services:
+  api:
+    build: .
+    ports:
+      - "127.0.0.1:${ALFA_PORT:-8080}:8080"
+    environment:
+      ALFA_ENV: ${ALFA_ENV:-development}
+      ALFA_DATABASE_PATH: /app/data/alfa_context.db
+      ALFA_AUTH_TOKEN_PEPPER: ${ALFA_AUTH_TOKEN_PEPPER:-development-only-change-before-production}
+      ALFA_DEMO_SEED: ${ALFA_DEMO_SEED:-1}
+      ALFA_DEMO_TOKENS: ${ALFA_DEMO_TOKENS:-TEST_A=demo-test-a,TEST_B=demo-test-b}
+      ALFA_ADMIN_TOKEN: ${ALFA_ADMIN_TOKEN:-demo-admin}
+      ALFA_CORS_ORIGINS: ${ALFA_CORS_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173,http://localhost:3000}
+      ALFA_ALLOWED_SOURCE_HOSTS: ${ALFA_ALLOWED_SOURCE_HOSTS:-www.cbr.ru,cbr.ru,www.interfax.ru,interfax.ru}
+      ALFA_LLM_ENABLED: ${ALFA_LLM_ENABLED:-0}
+      ALFA_LLM_BASE_URL: ${ALFA_LLM_BASE_URL:-}
+      ALFA_LLM_API_KEY: ${ALFA_LLM_API_KEY:-}
+      ALFA_LLM_MODEL: ${ALFA_LLM_MODEL:-}
+      ALFA_LLM_MAX_CALL_KOPECKS: ${ALFA_LLM_MAX_CALL_KOPECKS:-}
+    volumes:
+      - alfa-context-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  alfa-context-data:

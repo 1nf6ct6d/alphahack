@@ -1,5 +1,3 @@
-"""Run real Poppler/Tesseract extraction on temporary synthetic one-page PDFs."""
-
 from pathlib import Path
 from tempfile import TemporaryDirectory
 

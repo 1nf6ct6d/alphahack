@@ -1,4 +1,7 @@
+"""Pure domain helpers shared by the API and command-line workflows."""
+
 from __future__ import annotations
+
 import hashlib
 import json
 import re
@@ -111,10 +114,25 @@ def _priority_text(ranking: dict) -> str:
     )
 
 
+MIN_BANK_SHARED_TOKENS = 2
+MIN_BANK_SCORE = 0.25
+
+
 def score_bank_fragments(
-    query: str, fragments: Iterable[dict], *, limit: int = 3
+    query: str,
+    fragments: Iterable[dict],
+    *,
+    limit: int = 3,
+    min_shared_tokens: int = MIN_BANK_SHARED_TOKENS,
+    min_score: float = MIN_BANK_SCORE,
 ) -> list[dict]:
-    """Rank verified OCR fragments with deterministic lexical overlap."""
+    """Rank verified OCR fragments with deterministic lexical overlap.
+
+    A fragment is returned only when it shares at least ``min_shared_tokens``
+    query terms and covers at least ``min_score`` of the query; a single common
+    word is not treated as evidence of relevance.  The thresholds are
+    heuristics, not a semantic relevance judgement.
+    """
 
     tokens = _tokens(query)
     ranked = []
@@ -123,9 +141,11 @@ def score_bank_fragments(
             continue
         text_tokens = _tokens(fragment.get("text", ""))
         overlap = tokens & text_tokens
-        if not overlap:
+        if len(overlap) < min_shared_tokens:
             continue
         score = len(overlap) / max(1, len(tokens))
+        if score < min_score:
+            continue
         ranked.append({**fragment, "score": round(score, 6)})
     ranked.sort(
         key=lambda item: (

@@ -1,4 +1,13 @@
+"""Bounded news ingestion with an explicit source allowlist.
+
+Downloaded articles are untrusted data. Fetching and extracting text does not
+establish an industry classification or a regulatory obligation: imported
+articles start as ``other`` and can be enriched through the normalized-event
+import after their evidence has been reviewed.
+"""
+
 from __future__ import annotations
+
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
@@ -25,9 +34,11 @@ REDIRECT_STATUSES = {301, 302, 303, 307, 308}
 
 
 class URLPolicyError(ValueError):
+    """A URL or resolved destination is outside the permitted source policy."""
 
 
 class NewsFetchError(RuntimeError):
+    """A bounded fetch failed; HTTP adapters should map this to 503."""
 
     http_status = 503
     code = "news_source_unavailable"
@@ -69,6 +80,8 @@ def _public_address(value: str) -> str:
         address = ipaddress.ip_address(value)
     except ValueError as error:
         raise URLPolicyError("DNS returned an invalid address") from error
+    # is_global excludes private, unspecified, loopback, documentation,
+    # link-local, shared address space and other special-purpose networks.
     if not address.is_global or address.is_multicast or address.is_reserved:
         raise URLPolicyError("Source resolves to a non-public address")
     if isinstance(address, ipaddress.IPv6Address):
@@ -119,6 +132,12 @@ class _PinnedHTTPSConnection(_PinnedHTTPConnection):
 
 
 class SafeFetcher:
+    """Fetch public, allowlisted URLs, pinning connections to checked IPs.
+
+    The timeout is a total deadline across DNS, redirects, TLS and body reads.
+    No environment proxy, automatic redirect or second DNS lookup is used.
+    ``resolver`` is injectable for offline tests; it returns getaddrinfo rows.
+    """
 
     def __init__(
         self,
@@ -182,6 +201,8 @@ class SafeFetcher:
         return ValidatedURL(normalized, parsed.scheme.lower(), host, port, target)
 
     def _resolve(self, value: ValidatedURL, deadline: float) -> str:
+        # OS resolver calls have no portable cancellation API. A daemon keeps
+        # a stuck resolver from blocking this request past its total deadline.
         answers: queue.Queue = queue.Queue(maxsize=1)
 
         def resolve() -> None:
@@ -427,6 +448,8 @@ class NewsImporter:
     def _store(self, *, url: str, source_id: str, title: str, content: str | None, published_at: str | None) -> dict:
         if not isinstance(source_id, str) or not source_id.strip() or len(source_id) > 200:
             raise ValueError("source_id must contain 1 to 200 characters")
+        # Small pages often contain a paywall or a failed extractor. They are
+        # stored as metadata, never passed off as a full article.
         full_text = bool(content and len(content) >= 80)
         event_id = "NEWS-" + hashlib.sha256(f"{source_id}\n{url}".encode("utf-8")).hexdigest()[:24]
         value = NormalizedEventIn(

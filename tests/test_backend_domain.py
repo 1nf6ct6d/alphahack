@@ -45,6 +45,21 @@ class DomainTests(unittest.TestCase):
         )
         self.assertEqual(["B1"], [item["source_id"] for item in hits])
 
+    def test_bank_search_rejects_single_word_and_weak_overlap(self):
+        fragment = {
+            "source_id": "B1",
+            "page_number": 1,
+            "text": "Ключевая ставка остаётся без изменений в ближайшие месяцы.",
+            "verified": True,
+        }
+        self.assertEqual([], score_bank_fragments("ставка поставки металлургия", [fragment]))
+        weak_query = "ставка сталь металл реестр ключевая газ нефть уголь золото"
+        self.assertEqual([], score_bank_fragments(weak_query, [fragment]))
+        self.assertEqual(
+            ["B1"],
+            [item["source_id"] for item in score_bank_fragments("ключевая ставка", [fragment])],
+        )
+
     def test_deterministic_insight_keeps_conditions_and_evidence(self):
         ranking = {
             "event_id": "E1",

@@ -1,4 +1,4 @@
-
+"""Idempotent synthetic demo seed used by tests and Docker demo mode."""
 
 from __future__ import annotations
 
@@ -24,11 +24,11 @@ DEMO_USERS = (
 
 
 class SeedConflictError(ValueError):
-
+    """Demo initialization would overwrite data or misassign credentials."""
 
 
 class _SeedDatabase(Database):
-
+    """Reuse one writer transaction for all repository seed operations."""
 
     def __init__(self, connection: sqlite3.Connection):
         self._seed_connection = connection
@@ -164,6 +164,12 @@ def seed_demo(
     pepper: str,
     tokens: dict[str, str] | None = None,
 ) -> dict[str, str]:
+    """Atomically add absent demo fixtures without overwriting existing data.
+
+    A database containing real news or non-demo profiles is rejected with an
+    actionable error. Turn off ``ALFA_DEMO_SEED`` before importing real data.
+    Existing active tokens are reused only for their original owner.
+    """
 
     root = Path(root)
     issued = _configured_tokens(tokens)

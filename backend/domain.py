@@ -1,7 +1,4 @@
-"""Pure domain helpers shared by the API and command-line workflows."""
-
 from __future__ import annotations
-
 import hashlib
 import json
 import re

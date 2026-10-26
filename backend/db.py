@@ -1,4 +1,4 @@
-"""Small SQLite connection and migration layer."""
+
 
 from __future__ import annotations
 
@@ -12,20 +12,19 @@ from uuid import uuid4
 
 
 class MigrationError(RuntimeError):
-    """Raised when a migration is malformed or has changed after applying."""
 
 
 _MIGRATION_NAME = re.compile(r"(?P<version>[0-9]{3,})_[a-z0-9_]+\.sql\Z")
 
 
 def utc_now_sql() -> str:
-    """Return an SQLite UTC timestamp expression for SQL defaults/docs."""
+
 
     return "strftime('%Y-%m-%dT%H:%M:%fZ', 'now')"
 
 
 class Database:
-    """Owns SQLite connections and applies ordered SQL migrations."""
+
 
     def __init__(self, path: str | Path, *, timeout_seconds: float = 10.0):
         if timeout_seconds <= 0:

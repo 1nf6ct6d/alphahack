@@ -1,7 +1,4 @@
-"""Operational command line for migrations, imports, demo seed, and serving."""
-
 from __future__ import annotations
-
 import argparse
 import json
 import os

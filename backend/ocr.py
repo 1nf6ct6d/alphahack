@@ -1,5 +1,3 @@
-"""Bounded PDF text/OCR import using Poppler and Tesseract executables."""
-
 import csv
 import hashlib
 import io
@@ -46,11 +44,6 @@ def extract_bank_pdf(
     report_date: str | None = None, verified: bool = False,
     max_pages: int = 50, language: str = "rus+eng",
 ) -> dict:
-    """Extract native text per page and OCR scanned pages.
-
-    Verification is a separate operator decision, never inferred from OCR
-    confidence. Default imports remain unavailable as bank evidence until review.
-    """
     path = Path(path).resolve()
     if not path.is_file() or path.stat().st_size > 30 * 1024 * 1024:
         raise OCRError("PDF must exist and be at most 30 MiB")

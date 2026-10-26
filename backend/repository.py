@@ -1,7 +1,4 @@
-"""Persistence repository for immutable profiles, snapshots, and insights."""
-
 from __future__ import annotations
-
 import json
 import sqlite3
 import time
@@ -26,9 +23,6 @@ def _load(value: str | None, default: Any = None) -> Any:
 class Repository:
     def __init__(self, database: Database):
         self.database = database
-
-    # --- users and companies -------------------------------------------------
-
     def upsert_user(self, user_id: str, label: str) -> None:
         with self.database.transaction(immediate=True) as connection:
             connection.execute(
@@ -111,8 +105,6 @@ class Repository:
                 (user_id,),
             ).fetchall()
         return [str(row["company_id"]) for row in rows]
-
-    # --- profiles ------------------------------------------------------------
 
     def save_profile_bundle(
         self,
@@ -311,8 +303,6 @@ class Repository:
             "ui_view": views.get("UIView"),
         }
 
-    # --- normalized news -----------------------------------------------------
-
     def upsert_event(
         self, event: dict, *, extraction_status: str = "full_text"
     ) -> str:
@@ -486,8 +476,6 @@ class Repository:
             values.append(value)
         return values
 
-    # --- overviews -----------------------------------------------------------
-
     def snapshot_event(self, snapshot_id: str, event_id: str) -> dict | None:
         with self.database.connection() as connection:
             row = connection.execute(
@@ -626,8 +614,6 @@ class Repository:
         if row is None:
             return None
         return _load(row["candidate_json"]), str(row["overview_id"])
-
-    # --- insights, conversations, feedback ---------------------------------
 
     def existing_insight(self, context_id: str, event_id: str) -> dict | None:
         with self.database.connection() as connection:
@@ -943,8 +929,6 @@ class Repository:
             "state": row["state"],
         }
 
-    # --- bank report corpus --------------------------------------------------
-
     def import_bank_report(self, report: dict) -> str:
         source_id = str(report["source_id"])
         identity = sha256_json([source_id, report["content_hash"]])[:20]
@@ -1011,8 +995,6 @@ class Repository:
                     _dump(report),
                 ),
             )
-            # Replace the complete OCR revision atomically, including revoked
-            # verification and pages removed by an operator.
             connection.execute("DELETE FROM bank_report_fragments WHERE report_id = ?", (report_id,))
             connection.execute("DELETE FROM bank_report_pages WHERE report_id = ?", (report_id,))
             for fragment in report["fragments"]:
